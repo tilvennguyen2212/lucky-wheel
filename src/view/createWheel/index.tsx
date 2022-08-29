@@ -4,11 +4,18 @@ import AddMaterial, { Material } from './addMaterial'
 import { Button, Col, Row, Space } from 'antd'
 import Wheel from './wheel'
 
+import { useInitWheel } from 'hooks/action/useInitWheel'
+
 import './index.less'
 
 const CreateWheel = () => {
   const [material, setMaterial] = useState<Material[]>([])
   const [reward, setReward] = useState<Material[]>([])
+  const { createWheel } = useInitWheel()
+
+  const onCreate = () => {
+    createWheel()
+  }
 
   return (
     <Row gutter={[24, 24]}>
@@ -27,7 +34,7 @@ const CreateWheel = () => {
             >
               Clear
             </Button>
-            <Button onClick={() => setReward(material)} type="primary">
+            <Button onClick={onCreate} type="primary">
               Submit
             </Button>
           </Space>
