@@ -1,23 +1,30 @@
-import { Button, Col, Row, Space, Typography } from 'antd'
-import { useAppRouter } from 'hooks/useAppRouter'
+import { useState } from 'react'
+
+import { Col, Row, Segmented } from 'antd'
+import Container from './container'
+import Layout from 'components/layout'
+
+import { LUCKY_WHEEL_TABS, TabId } from 'constant'
 
 const Dashboard = () => {
-  const { pushHistory } = useAppRouter()
+  const [tabId, setTabId] = useState<string>(TabId.Spin)
+
   return (
-    <Row gutter={[24, 24]}>
-      <Col span={24}>
-        <Typography.Title level={2}>Welcome to Lucky Wheel</Typography.Title>
-      </Col>
-      <Col span={24}>
-        <Space>
-          <Typography.Title level={4}>Create new Wheel</Typography.Title>
-          <Button type="primary" onClick={() => pushHistory('/create-wheel')}>
-            Create Wheel
-          </Button>
-          <Button>Ghost</Button>
-        </Space>
-      </Col>
-    </Row>
+    <Layout>
+      <Row gutter={[64, 64]} style={{ paddingBottom: 24 }}>
+        <Col span={24}>
+          <Segmented
+            value={tabId}
+            onChange={(val) => setTabId(val.toString())}
+            options={LUCKY_WHEEL_TABS}
+            size="large"
+          />
+        </Col>
+        <Col span={24}>
+          <Container tabId={tabId} />
+        </Col>
+      </Row>
+    </Layout>
   )
 }
 

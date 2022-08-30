@@ -90,7 +90,7 @@ const Wheel = ({ rewards }: WheelProps) => {
   }
 
   return (
-    <Row gutter={[24, 24]}>
+    <Row gutter={[64, 64]}>
       <Col span={24}>
         <div className="container">
           <div className="container-body">
@@ -135,9 +135,25 @@ const Wheel = ({ rewards }: WheelProps) => {
         </div>
       </Col>
       <Col span={24}>
-        <Button disabled={spinning} onClick={onSpinning} type="primary">
-          SPIN
-        </Button>
+        <Row gutter={[16, 16]}>
+          <Col xs={24} lg={12}>
+            <Button
+              size="large"
+              block
+              disabled={spinning}
+              onClick={onSpinning}
+              type="primary"
+            >
+              SPIN X1
+            </Button>
+          </Col>
+          <Col xs={24} lg={12}>
+            <Button size="large" block disabled={spinning} onClick={onSpinning}>
+              SPIN X10
+            </Button>
+          </Col>
+          <Col span={24}></Col>
+        </Row>
       </Col>
       <Modal visible={visible} onCancel={() => setVisible(false)} footer={null}>
         <Row gutter={[24, 24]}>
