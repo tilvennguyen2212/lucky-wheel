@@ -23,9 +23,93 @@ button {
   }
 }
 
-// Temp to see
-#lucky_wheel .lucky_wheel-select-dropdown {
-  background-color: blueviolet !important;
+// // Temp to see
+// #lucky_wheel .lucky_wheel-select-dropdown {
+//   background-color: blueviolet !important;
+// }
+
+
+
+.lucky_wheel-segmented-lg {
+  border-radius: 100px !important;
+  width: 100% !important;
+  padding: 1px;
+  .lucky_wheel-segmented-item {
+    height: 48px !important;
+    width: 100%;
+    padding: 5px;
+    &-selected {
+      box-shadow: none !important;
+      border-radius: 50px !important;
+      background: linear-gradient(
+        84.24deg,
+        rgba(153, 69, 255, 0.15) 0%,
+        rgba(185, 248, 253, 0.15) 100%
+      ) !important;
+    }
+  }
 }
 
+.gradient-text {
+  background: linear-gradient(84.24deg, #9945ff 0%, #b9f8fd 100%);
+  background-clip: text !important;
+  color: transparent !important;
+}
 
+//Table
+.lucky_wheel-table {
+  background: transparent !important;
+  &-thead {
+    background: linear-gradient(
+      84.24deg,
+      rgba(153, 69, 255, 0.1) 0%,
+      rgba(185, 248, 253, 0.1) 100%
+    ) !important;
+    & > tr > th {
+      border-bottom: solid 1px #4e4f5c !important;
+      &::before {
+        display: none;
+      }
+      background: transparent !important;
+    }
+    & > tr:first-child > th:first-child {
+      border-radius: 24px 0 0 0 !important;
+    }
+    & > tr:last-child > th:last-child {
+      border-radius: 0 24px 0 0 !important;
+    }
+
+    th {
+      font-size: 12px;
+      line-height: 20px;
+      font-weight: 400 !important;
+      color: #a7adad !important;
+    }
+  }
+  &-tbody {
+    & > tr > td {
+      .action-icon {
+        font-size: 24px;
+      }
+      background-color: rgba(255, 255, 255, 0.1) !important;
+      border-color: #4f5b5c !important;
+
+      .lucky_wheel-table-row-indent + .lucky_wheel-table-row-expand-icon {
+        background-color: rgba(35, 51, 51, 0.6) !important;
+        border-radius: 4px !important;
+      }
+    }
+
+    & > tr:last-child {
+      & > td:first-child {
+        border-bottom-left-radius: 24px !important;
+      }
+      & > td:last-child {
+        border-bottom-right-radius: 24px !important;
+      }
+    }
+    & > tr.lucky_wheel-table-row-level-0:hover > td {
+      background-color: unset !important;
+    }
+  }
+}
