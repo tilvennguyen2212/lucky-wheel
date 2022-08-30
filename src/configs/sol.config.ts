@@ -14,7 +14,7 @@ const conf: Record<Net, Conf> = {
    */
   devnet: {
     node: 'https://api.devnet.solana.com',
-    programId: '9GgryaH2sF4yCAYAp6GQ8R5Lu48BQ1vQKtQQP5NsebUU',
+    programId: 'CmPmemCsdSH4CypNJEZRYEa29rhDPdQyadK71ArKmTGT',
   },
 
   /**
@@ -22,7 +22,7 @@ const conf: Record<Net, Conf> = {
    */
   testnet: {
     node: 'https://api.testnet.solana.com',
-    programId: '9GgryaH2sF4yCAYAp6GQ8R5Lu48BQ1vQKtQQP5NsebUU',
+    programId: 'CmPmemCsdSH4CypNJEZRYEa29rhDPdQyadK71ArKmTGT',
   },
 
   /**
@@ -30,7 +30,7 @@ const conf: Record<Net, Conf> = {
    */
   mainnet: {
     node: 'https://api.mainnet-beta.solana.com',
-    programId: '9GgryaH2sF4yCAYAp6GQ8R5Lu48BQ1vQKtQQP5NsebUU',
+    programId: 'CmPmemCsdSH4CypNJEZRYEa29rhDPdQyadK71ArKmTGT',
   },
 }
 

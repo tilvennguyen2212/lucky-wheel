@@ -1,12 +1,11 @@
 import { Col, Divider, Row, Space, Typography } from 'antd'
 import Layout from 'components/layout'
 import Icon from '@ant-design/icons'
-import Wheel from 'components/wheel'
+import Wheel, { Material } from 'components/wheel'
 import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
 
 import { ReactComponent as Ticket } from 'static/images/icons/ticket-icon.svg'
 import { Reward, SENTRE_CAMPAIGN } from 'constant'
-import { Material } from 'view/createWheel/addMaterial'
 
 import './index.less'
 

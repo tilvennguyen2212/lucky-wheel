@@ -64,16 +64,15 @@ export const useInitWheel = () => {
             dataItem.numberOfReward &&
             dataItem.frequencyWinning
           ) {
-            const { tx: txReward } = await window.luckyWheel.initializeReward({
-              campaign: CAMPAIGN.publicKey,
-              rewardMint: new PublicKey(dataItem.mint),
-              prizeAmount: new BN(dataItem.amount),
-              fromLuckyNumber: new BN(0),
-              toLuckyNumber: new BN(dataItem.frequencyWinning),
-              sendAndConfirm: false,
-            })
-            trans.add(txReward)
-
+            // const { tx: txReward } = await window.luckyWheel.initializeReward({
+            //   campaign: CAMPAIGN.publicKey,
+            //   rewardMint: new PublicKey(dataItem.mint),
+            //   prizeAmount: new BN(dataItem.amount),
+            //   fromLuckyNumber: new BN(0),
+            //   toLuckyNumber: new BN(dataItem.frequencyWinning),
+            //   sendAndConfirm: false,
+            // })
+            // trans.add(txReward)
             // console.log('chay xung toi day', dataItem.mint)
             // const rewardPDA = await window.luckyWheel.deriveRewardPDAs(
             //   CAMPAIGN.publicKey,
