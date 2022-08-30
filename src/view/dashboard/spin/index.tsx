@@ -1,8 +1,13 @@
-import { Col, Divider, Row, Typography } from 'antd'
+import { Col, Divider, Row, Space, Typography } from 'antd'
 import Layout from 'components/layout'
 import { Reward } from 'constant'
 import { Material } from 'view/createWheel/addMaterial'
+import Icon from '@ant-design/icons'
 import Wheel from 'view/createWheel/wheel'
+
+import { ReactComponent as Ticket } from 'static/images/icons/ticket-icon.svg'
+
+import './index.less'
 
 const DEFAULT_REWARD: Material[] = [
   {
@@ -41,13 +46,22 @@ const Spin = () => {
         <Layout>
           <Row justify="space-between" wrap={false}>
             <Col>
-              <Typography.Text>Remaining tickets: 2</Typography.Text>
+              <Space className="space-middle-icon">
+                <Typography.Text>Remaining tickets:</Typography.Text>
+                <Typography.Title level={5} className="gradient-text">
+                  2
+                </Typography.Title>
+                <Icon style={{ fontSize: 20 }} component={Ticket} />
+              </Space>
             </Col>
             <Col>
-              <Divider type="vertical" style={{ borderColor: '#4E4F5C' }} />
+              <Divider
+                type="vertical"
+                style={{ borderColor: '#4E4F5C', height: 24 }}
+              />
             </Col>
             <Col>
-              <Typography.Text>Remaining tickets: 2</Typography.Text>
+              <Typography.Text>Remaining tickets: 2 </Typography.Text>
             </Col>
           </Row>
         </Layout>

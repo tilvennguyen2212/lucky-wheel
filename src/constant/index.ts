@@ -16,9 +16,3 @@ export enum TabId {
   Reward = 'reward',
   Challenge = 'challenge',
 }
-
-export const LUCKY_WHEEL_TABS = [
-  { label: 'Spin', value: TabId.Spin },
-  { label: 'Your Reward', value: TabId.Reward },
-  { label: 'Challenge', value: TabId.Challenge },
-]

@@ -31,15 +31,36 @@ button {
     height: 48px !important;
     width: 100%;
     padding: 5px;
+    &-label {
+      filter: grayscale(1);
+      .lucky_wheel-typography {
+        color: #a6a7ad !important;
+      }
+    }
     &-selected {
       box-shadow: none !important;
       border-radius: 50px !important;
+      .lucky_wheel-segmented-item-label {
+        filter: grayscale(0) !important;
+        .lucky_wheel-typography {
+          color: #f4f4f5 !important;
+        }
+      }
+
       background: linear-gradient(
         84.24deg,
         rgba(153, 69, 255, 0.15) 0%,
         rgba(185, 248, 253, 0.15) 100%
       ) !important;
     }
+  }
+  .lucky_wheel-segmented-thumb {
+    border-radius: 50px !important;
+    background: linear-gradient(
+      84.24deg,
+      rgba(153, 69, 255, 0.15) 0%,
+      rgba(185, 248, 253, 0.15) 100%
+    ) !important;
   }
 }
 
@@ -104,5 +125,11 @@ button {
     & > tr.lucky_wheel-table-row-level-0:hover > td {
       background-color: unset !important;
     }
+  }
+}
+
+.space-middle-icon {
+  .lucky_wheel-space-item {
+    display: flex !important;
   }
 }
