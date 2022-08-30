@@ -15,8 +15,7 @@ const Reward = () => {
     const usedTicket: TicketData[] = []
     for (const ticket of Object.values(tickets)) {
       const state = ticket.state
-      if (state.initialized) continue
-      usedTicket.push(ticket)
+      if (state.claimed || state.won) usedTicket.push(ticket)
     }
     return usedTicket
   }, [tickets])

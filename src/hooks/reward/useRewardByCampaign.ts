@@ -2,19 +2,19 @@ import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 
 import { AppState } from 'model'
-import { RewardData } from 'lucky-wheel-core'
+import { RewardState } from 'model/rewards.controller'
 
 export const useRewardByCampaign = (campaignAddress: string) => {
   const allRewards = useSelector((state: AppState) => state.rewards)
 
   const filteredRewards = useMemo(() => {
-    const rewards: RewardData[] = []
-    for (const reward of Object.values(allRewards)) {
-      const { campaign } = reward
+    const bulk: RewardState = {}
+    for (const address in allRewards) {
+      const { campaign } = allRewards[address]
       if (campaign.toBase58() !== campaignAddress) continue
-      rewards.push(reward)
+      bulk[address] = allRewards[address]
     }
-    return rewards
+    return bulk
   }, [allRewards, campaignAddress])
 
   return filteredRewards

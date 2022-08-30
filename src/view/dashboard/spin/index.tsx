@@ -18,7 +18,7 @@ const Spin = () => {
 
   const formatReward = useMemo(() => {
     const material: Material[] = []
-    for (const { mint, prizeAmount } of rewards)
+    for (const { mint, prizeAmount } of Object.values(rewards))
       material.push({
         type: Reward.Token,
         value: mint.toBase58(),

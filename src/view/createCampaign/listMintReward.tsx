@@ -7,7 +7,7 @@ const ListMintReward = ({ campaign }: { campaign: string }) => {
 
   return (
     <Row gutter={[24, 24]} style={{ paddingTop: 32 }}>
-      {rewards.map((reward) => {
+      {Object.values(rewards).map((reward) => {
         if (!reward.rewardType.token) return null
         return (
           <Col span={24}>

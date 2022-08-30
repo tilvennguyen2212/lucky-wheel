@@ -1,8 +1,7 @@
 import { useMemo, useState } from 'react'
-import { util } from '@sentre/senhub'
 import { MintAmount, MintAvatar, MintSymbol } from '@sen-use/app'
 import { BN } from '@project-serum/anchor'
-import { Avatar, Button, Col, Image, Modal, Row, Space, Typography } from 'antd'
+import { Avatar, Button, Col, Image, Row, Space, Typography } from 'antd'
 
 import { LIST_BG_WHEEL, Reward } from 'constant'
 
@@ -11,6 +10,7 @@ import NFT from 'static/images/nft.png'
 import GoodLuck from 'static/images/image-test/1.png'
 import ARROW from 'static/images/arrow.png'
 import SOUND from 'static/images/sound.mp3'
+import Congrats from './congrats'
 
 let audio = new Audio(SOUND)
 
@@ -172,21 +172,7 @@ const Wheel = ({ rewards }: WheelProps) => {
           <Col span={24}></Col>
         </Row>
       </Col>
-      <Modal visible={visible} onCancel={() => setVisible(false)} footer={null}>
-        <Row gutter={[24, 24]}>
-          <Col span={24}>
-            <Typography.Title style={{ color: 'red' }} level={5}>
-              Congrats: {util.shortenAddress('23423423sdfsdfsdfssdf')}
-            </Typography.Title>
-          </Col>
-          <Col span={24}>
-            You have received the :
-            <span style={{ color: '#FFBE45', textTransform: 'uppercase' }}>
-              {prize}
-            </span>
-          </Col>
-        </Row>
-      </Modal>
+      <Congrats prize={prize} visible={visible} onClose={setVisible} />
     </Row>
   )
 }
