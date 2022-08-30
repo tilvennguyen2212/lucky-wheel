@@ -1,16 +1,14 @@
 import { useCallback, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { PublicKey, Transaction } from '@solana/web3.js'
 import BN from 'bn.js'
 import { getAnchorProvider } from '@sen-use/web3'
 import { rpc, useWalletAddress } from '@sentre/senhub'
 
-import { AppState } from 'model'
 import { notifyError, notifySuccess } from 'helper'
 
 type prizeStructures = {
   mint: string
-  numberOfReward: string
+  numberOfReward: number
 }
 
 type DepositDataProps = {
@@ -34,17 +32,15 @@ export const useDepositReward = () => {
             new PublicKey(campaignAddress),
             new PublicKey(prize.mint),
           )
-          console.log('go heeekee 1', rewardPDA.reward.toBase58())
           const { tx: txDeposit } = await window.luckyWheel.depositReward({
             reward: rewardPDA.reward,
             totalPrize: new BN(prize.numberOfReward),
             sendAndConfirm: false,
           })
-          console.log('go hereees')
           trans.add(txDeposit)
         }
         const txIds = await provider.sendAndConfirm(trans)
-        return notifySuccess('Approved', txIds)
+        return notifySuccess('Deposit reward', txIds)
       } catch (error: any) {
         notifyError(error)
       } finally {

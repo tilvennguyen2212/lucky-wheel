@@ -6,9 +6,9 @@ import { BN } from 'bn.js'
 import { publicKeyConvert } from 'secp256k1'
 import { rpc, useWalletAddress } from '@sentre/senhub'
 
-import configs from 'configs'
 import { notifyError, notifySuccess } from 'helper'
 import { Reward } from 'constant'
+import configs from 'configs'
 
 export type createWheelProps = {
   type: string
@@ -73,27 +73,12 @@ export const useInitWheel = () => {
               sendAndConfirm: false,
             })
             trans.add(txReward)
-
-            // console.log('chay xung toi day', dataItem.mint)
-            // const rewardPDA = await window.luckyWheel.deriveRewardPDAs(
-            //   CAMPAIGN.publicKey,
-            //   new PublicKey(dataItem.mint),
-            // )
-            // console.log('go heeekee 1', rewardPDA.reward.toBase58())
-            // const { tx: txDeposit } = await window.luckyWheel.depositReward({
-            //   reward: rewardPDA.reward,
-            //   totalPrize: new BN(2),
-            //   sendAndConfirm: false,
-            // })
-            // console.log('go hereees')
-            // trans.add(txDeposit)
           }
         }
-        console.log('Send transactions successfully')
+
         const txId = await provider.sendAndConfirm(trans, signers)
         return notifySuccess('Add new Campaign', txId)
       } catch (er) {
-        console.log(er)
         notifyError(er)
       }
     },
