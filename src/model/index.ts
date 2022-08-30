@@ -3,6 +3,7 @@ import { devTools, bigintSerializationMiddleware } from 'model/devTools'
 
 import main from 'model/main.controller'
 import campaigns from 'model/campaigns.controller'
+import rewards from 'model/rewards.controller'
 
 /**
  * Isolated store
@@ -14,6 +15,7 @@ const model = configureStore({
   reducer: {
     main,
     campaigns,
+    rewards,
   },
 })
 
