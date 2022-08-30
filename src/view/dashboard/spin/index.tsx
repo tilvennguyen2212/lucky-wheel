@@ -1,55 +1,46 @@
-import { Col, Divider, Row, Space, Typography } from 'antd'
+import { useMemo } from 'react'
+
+import { Button, Col, Divider, Row, Space, Typography } from 'antd'
 import Layout from 'components/layout'
 import Icon from '@ant-design/icons'
 import Wheel from 'components/wheel'
-import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
 
+import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
 import { ReactComponent as Ticket } from 'static/images/icons/ticket-icon.svg'
-import { Reward, SENTRE_CAMPAIGN } from 'constant'
 import { Material } from 'view/createWheel/addMaterial'
+import { useTicketByOwner } from 'hooks/ticket/useTicketByOwner'
+import { Reward, SENTRE_CAMPAIGN } from 'constant'
 
 import './index.less'
 
-const DEFAULT_REWARD: Material[] = [
-  {
-    type: Reward.GoodLuck,
-    value: 'good luck 1',
-  },
-  {
-    type: Reward.GoodLuck,
-    value: 'good luck 2',
-  },
-  {
-    type: Reward.GoodLuck,
-    value: 'good luck 3',
-  },
-  {
-    type: Reward.GoodLuck,
-    value: 'good luck 4',
-  },
-  {
-    type: Reward.GoodLuck,
-    value: 'good luck 5',
-  },
-]
-
 const Spin = () => {
   const rewards = useRewardByCampaign(SENTRE_CAMPAIGN)
-  console.log(rewards, 'rewards')
+  const tickets = useTicketByOwner(SENTRE_CAMPAIGN)
+
+  const formatReward = useMemo(() => {
+    const material: Material[] = []
+    for (const { mint, prizeAmount } of rewards)
+      material.push({
+        type: Reward.Token,
+        value: mint.toBase58(),
+        amount: prizeAmount.toString(),
+      })
+    return material
+  }, [rewards])
 
   return (
     <Row gutter={[16, 16]} justify="center">
       <Col span={24}>
-        <Wheel rewards={DEFAULT_REWARD} />
+        <Wheel rewards={formatReward} />
       </Col>
       <Col span={24} className="remaining-ticket">
         <Layout>
-          <Row justify="space-between" wrap={false}>
+          <Row justify="space-between" wrap={false} align="middle">
             <Col>
               <Space className="space-middle-icon">
                 <Typography.Text>Remaining tickets:</Typography.Text>
                 <Typography.Title level={5} className="gradient-text">
-                  2
+                  {tickets.length}
                 </Typography.Title>
                 <Icon style={{ fontSize: 20 }} component={Ticket} />
               </Space>
@@ -61,7 +52,9 @@ const Spin = () => {
               />
             </Col>
             <Col>
-              <Typography.Text>Remaining tickets: 2 </Typography.Text>
+              <Button style={{ marginLeft: -12 }} type="text">
+                Get more ticket
+              </Button>
             </Col>
           </Row>
         </Layout>

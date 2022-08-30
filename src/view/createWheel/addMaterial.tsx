@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { MintAvatar, MintSelection } from '@sen-use/app'
 
 import {
   Avatar,
@@ -12,7 +13,6 @@ import {
 } from 'antd'
 import SelectTypeReward from './selectTypeReward'
 import { Reward } from 'constant'
-import { MintAvatar, MintSelection } from 'shared/antd/mint'
 
 import TICKET from 'static/images/ticket.png'
 import NFT from 'static/images/nft.png'
@@ -21,6 +21,7 @@ import GoodLuck from 'static/images/image-test/1.png'
 export type Material = {
   type: string
   value: string
+  amount: string
 }
 
 type AddMaterialProps = {
@@ -34,7 +35,7 @@ const AddMaterial = ({ material, setMaterial }: AddMaterialProps) => {
   const onSetTotal = (total: number) => {
     const next: Material[] = []
     for (let i = 0; i < total; i++) {
-      next.push({ type: '', value: '' })
+      next.push({ type: '', value: '', amount: '' })
     }
     setMaterial(next)
     return setAmount(total)
@@ -46,7 +47,7 @@ const AddMaterial = ({ material, setMaterial }: AddMaterialProps) => {
       type === Reward.GoodLuck || type === Reward.Ticket
         ? nextMaterial[index].value
         : type + index
-    nextMaterial[index] = { value, type }
+    nextMaterial[index] = { value, type, amount: index.toString() }
     return setMaterial(nextMaterial)
   }
 

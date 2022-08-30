@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react'
 import { util } from '@sentre/senhub'
+import { MintAvatar, MintSymbol } from '@sen-use/app'
 
-import { Avatar, Button, Col, Image, Modal, Row, Typography } from 'antd'
+import { Avatar, Button, Col, Image, Modal, Row, Space, Typography } from 'antd'
 
 import { Material } from '../view/createWheel/addMaterial'
-import { MintAvatar } from 'shared/antd/mint'
 import { LIST_BG_WHEEL, Reward } from 'constant'
 
 import TICKET from 'static/images/ticket.png'
@@ -96,7 +96,7 @@ const Wheel = ({ rewards }: WheelProps) => {
           <div className="container-body">
             <Image src={ARROW} id="stopper" preview={false} />
             <ul className="circle" id="wheel">
-              {rewards.map(({ value, type }, index) => (
+              {rewards.map(({ value, type, amount }, index) => (
                 <li
                   key={value}
                   style={{
@@ -115,18 +115,30 @@ const Wheel = ({ rewards }: WheelProps) => {
                       className="bg"
                       style={{ background: `${listBG[index]}` }}
                     />
-                    {Reward.GoodLuck === type && (
-                      <Avatar size={64} shape="circle" src={GoodLuck} />
-                    )}
-                    {Reward.NFT === type && (
-                      <Avatar size={64} shape="circle" src={NFT} />
-                    )}
-                    {type === Reward.Token && (
-                      <MintAvatar size={48} mintAddress={value} />
-                    )}
-                    {type === Reward.Ticket && (
-                      <Image preview={false} src={TICKET} />
-                    )}
+                    <Space
+                      style={{ zIndex: 3, position: 'relative' }}
+                      direction="vertical"
+                      size={0}
+                    >
+                      {Reward.GoodLuck === type && (
+                        <Avatar size={64} shape="circle" src={GoodLuck} />
+                      )}
+                      {Reward.NFT === type && (
+                        <Avatar size={64} shape="circle" src={NFT} />
+                      )}
+                      {type === Reward.Token && (
+                        <MintAvatar size={64} mintAddress={value} />
+                      )}
+                      {type === Reward.Ticket && (
+                        <Image preview={false} src={TICKET} />
+                      )}
+                      <Typography.Title level={5} style={{ color: '#212433' }}>
+                        {amount}
+                      </Typography.Title>
+                      <Typography.Title level={5} style={{ color: '#212433' }}>
+                        <MintSymbol mintAddress={value} />
+                      </Typography.Title>
+                    </Space>
                   </div>
                 </li>
               ))}
