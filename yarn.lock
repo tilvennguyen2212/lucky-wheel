@@ -2026,10 +2026,39 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.1.4.tgz#0c8b74c50f29ee44f423f7416829c0bf8bb5eb27"
   integrity sha512-LwzQKA4vzIct1zNZzBmRKI9QuNpLgTQMEjsQLf3BXuGYb3QPTP4Yjf6mkdX+X1mYttZ808QpOwAzZjv28kq7DA==
 
+"@sen-use/app@^3.3.1":
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/@sen-use/app/-/app-3.3.1.tgz#497891d1a5c4f61d1e2f0ce194f6f63c0f5d0f4d"
+  integrity sha512-5yM4njjh6BeKkMgK/4zU0rnLTjOWr04Urqwx+pTTW2V5oy+moKmyd+KShnyPgGHgEKM8WELc/cvIcqxcuvegGw==
+  dependencies:
+    localforage "^1.10.0"
+    react-use "^17.4.0"
+    web3.storage "^4.2.0"
+
+"@sen-use/components@^3.3.1":
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/@sen-use/components/-/components-3.3.1.tgz#270bd4d20b2231c1b9856b3a8e0a9d4951e9d2e9"
+  integrity sha512-rQZ9YXQRPwxBM6/CoLfz2cBimS1Ta//bjjmACd9A6bwN7IvvzpwIkeVc98pwStLZg1IA5HnFy6scFGR/sWpdlg==
+  dependencies:
+    "@metaplex/js" "^4.12.0"
+    lunr "^2.3.9"
+    react-use "^17.4.0"
+
 "@sen-use/web3@^2.0.11":
   version "2.0.15"
   resolved "https://registry.yarnpkg.com/@sen-use/web3/-/web3-2.0.15.tgz#4876a6e80d8e3d8e5fe964deb83de67c40184819"
   integrity sha512-uSFVsqXW0s1ej1c1nGrQWLrjcA1tbdMf4Agvqc+AwIIiNEzEZJ3r78rnwtISU4Gn3SZn0IihuoEgO3UP2jhxew==
+  dependencies:
+    "@project-serum/anchor" "^0.24.2"
+    "@solana/web3.js" "^1.50.0"
+    bn.js "^5.2.1"
+    bs58 "^5.0.0"
+    web3.storage "^4.2.0"
+
+"@sen-use/web3@^3.3.1":
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/@sen-use/web3/-/web3-3.3.1.tgz#d2073a37c0267d56d337c5885116e47ceb603f7c"
+  integrity sha512-G8/3jFf9vfetNMGeVFlQOZnIuLMERUDP8LoU5WiJwyl3VB51BmhKTYELj1LbYZyfcDL2HJzXeOvX/C/tEpJTcg==
   dependencies:
     "@project-serum/anchor" "^0.24.2"
     "@solana/web3.js" "^1.50.0"
@@ -9573,10 +9602,10 @@ ltgt@^2.1.2:
   resolved "https://registry.yarnpkg.com/ltgt/-/ltgt-2.2.1.tgz#f35ca91c493f7b73da0e07495304f17b31f87ee5"
   integrity sha512-AI2r85+4MquTw9ZYqabu4nMwy9Oftlfa/e/52t9IjtfG+mGBbTNdAoZ3RQKLHR6r0wQnwZnPIEh/Ya6XTWAKNA==
 
-lucky-wheel-core@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/lucky-wheel-core/-/lucky-wheel-core-0.1.1.tgz#4906039e5174aa6ab14743f639db28be5397c050"
-  integrity sha512-BcbCVymhnzXRMwHD3szUnsT2yujWruzsaulrNFWs67VonP42wUftz2NvqPZZ3JXcN5r5tNBBpLo5bZMKSwjm0Q==
+lucky-wheel-core@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/lucky-wheel-core/-/lucky-wheel-core-0.2.2.tgz#1988e8edf684ebb767d4dd52a255a849b6187145"
+  integrity sha512-POs4JH8sRR1tQn8NnJvL92hdTbUs/Vs3rOaF+nIcbt41ZhV1DN/QQpyUz+8dwDUObSZE0tYOAjwuHsT0Gog+SQ==
   dependencies:
     "@metaplex/js" "^4.12.0"
     "@project-serum/anchor" "^0.24.2"
@@ -10037,21 +10066,14 @@ node-eval@^2.0.0:
   dependencies:
     path-is-absolute "1.0.1"
 
-node-fetch@2, node-fetch@2.6.7, node-fetch@^2.6.1:
+node-fetch@2, node-fetch@2.6.7, node-fetch@^2.6.1, "node-fetch@https://registry.npmjs.org/@achingbrain/node-fetch/-/node-fetch-2.6.7.tgz":
   version "2.6.7"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.7.tgz#24de9fba827e3b4ae44dc8b20256a379160052ad"
-  integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==
-  dependencies:
-    whatwg-url "^5.0.0"
+  resolved "https://registry.npmjs.org/@achingbrain/node-fetch/-/node-fetch-2.6.7.tgz#1b5d62978f2ed07b99444f64f0df39f960a6d34d"
 
 node-fetch@2.6.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
-
-"node-fetch@https://registry.npmjs.org/@achingbrain/node-fetch/-/node-fetch-2.6.7.tgz":
-  version "2.6.7"
-  resolved "https://registry.npmjs.org/@achingbrain/node-fetch/-/node-fetch-2.6.7.tgz#1b5d62978f2ed07b99444f64f0df39f960a6d34d"
 
 node-forge@^1, node-forge@^1.2.1:
   version "1.3.1"
@@ -11853,6 +11875,14 @@ react-base16-styling@^0.6.0:
     lodash.flow "^3.3.0"
     pure-color "^1.2.0"
 
+react-copy-to-clipboard@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/react-copy-to-clipboard/-/react-copy-to-clipboard-5.1.0.tgz#09aae5ec4c62750ccb2e6421a58725eabc41255c"
+  integrity sha512-k61RsNgAayIJNoy9yDsYzDe/yAZAzEbEgcz3DZMhF686LEyukcE1hzurxe85JandPUG+yTfGVFzuEw3xt8WP/A==
+  dependencies:
+    copy-to-clipboard "^3.3.1"
+    prop-types "^15.8.1"
+
 react-dev-utils@^12.0.1:
   version "12.0.1"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-12.0.1.tgz#ba92edb4a1f379bd46ccd6bcd4e7bc398df33e73"
@@ -13538,11 +13568,6 @@ tr46@^2.1.0:
   dependencies:
     punycode "^2.1.1"
 
-tr46@~0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
-  integrity sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==
-
 trim-newlines@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/trim-newlines/-/trim-newlines-3.0.1.tgz#260a5d962d8b752425b32f3a7db0dcacd176c144"
@@ -14049,11 +14074,6 @@ web3.storage@^4.2.0:
     uint8arrays "^3.0.0"
     w3name "^1.0.4"
 
-webidl-conversions@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-3.0.1.tgz#24534275e2a7bc6be7bc86611cc16ae0a5654871"
-  integrity sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==
-
 webidl-conversions@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-4.0.2.tgz#a855980b1f0b6b359ba1d5d9fb39ae941faa63ad"
@@ -14243,14 +14263,6 @@ whatwg-url-without-unicode@8.0.0-3:
     buffer "^5.4.3"
     punycode "^2.1.1"
     webidl-conversions "^5.0.0"
-
-whatwg-url@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/whatwg-url/-/whatwg-url-5.0.0.tgz#966454e8765462e37644d3626f6742ce8b70965d"
-  integrity sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==
-  dependencies:
-    tr46 "~0.0.3"
-    webidl-conversions "^3.0.0"
 
 whatwg-url@^7.0.0:
   version "7.1.0"

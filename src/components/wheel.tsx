@@ -4,7 +4,6 @@ import { MintAvatar, MintSymbol } from '@sen-use/app'
 
 import { Avatar, Button, Col, Image, Modal, Row, Space, Typography } from 'antd'
 
-import { Material } from '../view/createWheel/addMaterial'
 import { LIST_BG_WHEEL, Reward } from 'constant'
 
 import TICKET from 'static/images/ticket.png'
@@ -14,6 +13,12 @@ import ARROW from 'static/images/arrow.png'
 import SOUND from 'static/images/sound.mp3'
 
 let audio = new Audio(SOUND)
+
+export type Material = {
+  type: string
+  value: string
+  amount: string
+}
 
 type WheelProps = {
   rewards: Material[]
