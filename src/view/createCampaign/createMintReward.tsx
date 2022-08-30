@@ -8,10 +8,8 @@ import { Button, Col, InputNumber, Row, Space, Typography } from 'antd'
 import { MintSelection } from '@sen-use/app'
 
 import { notifyError, notifySuccess } from 'helper'
-import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
 
 const CreateMintReward = ({ campaign }: { campaign: string }) => {
-  const rewards = useRewardByCampaign(campaign)
   const [selectedMint, setSelectedMint] = useState('')
   const [totalPrize, setTotalPrize] = useState(0)
   const [prizeAmount, setPrizeAmount] = useState(0)
@@ -19,7 +17,6 @@ const CreateMintReward = ({ campaign }: { campaign: string }) => {
   const [loading, setLoading] = useState(false)
   const getMintDecimals = useGetMintDecimals()
 
-  console.log('rewards', rewards)
   async function onCreateMintReward() {
     setLoading(true)
     try {
