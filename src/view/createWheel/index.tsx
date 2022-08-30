@@ -7,6 +7,7 @@ import Wheel from './wheel'
 import { useInitWheel } from 'hooks/action/useInitWheel'
 
 import './index.less'
+import { Reward } from 'constant'
 
 const CreateWheel = () => {
   const [material, setMaterial] = useState<Material[]>([])
@@ -14,7 +15,25 @@ const CreateWheel = () => {
   const { createWheel } = useInitWheel()
 
   const onCreate = () => {
-    createWheel()
+    createWheel([
+      {
+        type: Reward.NFT,
+        mint: 'E4TjUsbKHLtpZqT6iFHnsCi8NYiAxHL32hpkFAvrQA3H',
+        amount: 1,
+        frequencyWinning: 0.1,
+        numberOfReward: 1,
+      },
+      {
+        type: Reward.Token,
+        mint: '5YwUkPdXLoujGkZuo9B4LsLKj3hdkDcfP4derpspifSJ',
+        amount: 3,
+        frequencyWinning: 0.2,
+        numberOfReward: 2,
+      },
+      {
+        type: Reward.Ticket,
+      },
+    ])
   }
 
   return (
