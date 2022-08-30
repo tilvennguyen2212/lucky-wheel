@@ -1,9 +1,9 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import AddMaterial, { Material } from './addMaterial'
 import { Button, Col, Row, Space } from 'antd'
-import Wheel from './wheel'
+import Wheel from 'components/wheel'
 
 import { useInitWheel } from 'hooks/action/useInitWheel'
 import { Reward } from 'constant'

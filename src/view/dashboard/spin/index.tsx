@@ -1,11 +1,12 @@
 import { Col, Divider, Row, Space, Typography } from 'antd'
 import Layout from 'components/layout'
-import { Reward } from 'constant'
-import { Material } from 'view/createWheel/addMaterial'
 import Icon from '@ant-design/icons'
-import Wheel from 'view/createWheel/wheel'
+import Wheel from 'components/wheel'
+import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
 
 import { ReactComponent as Ticket } from 'static/images/icons/ticket-icon.svg'
+import { Reward, SENTRE_CAMPAIGN } from 'constant'
+import { Material } from 'view/createWheel/addMaterial'
 
 import './index.less'
 
@@ -30,13 +31,12 @@ const DEFAULT_REWARD: Material[] = [
     type: Reward.GoodLuck,
     value: 'good luck 5',
   },
-  {
-    type: Reward.GoodLuck,
-    value: 'good luck 6',
-  },
 ]
 
 const Spin = () => {
+  const rewards = useRewardByCampaign(SENTRE_CAMPAIGN)
+  console.log(rewards, 'rewards')
+
   return (
     <Row gutter={[16, 16]} justify="center">
       <Col span={24}>

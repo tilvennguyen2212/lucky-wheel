@@ -16,3 +16,5 @@ export enum TabId {
   Reward = 'reward',
   Challenge = 'challenge',
 }
+
+export const SENTRE_CAMPAIGN = 'H9WvBEubXNqc6k85RzVyGCc8KCDgK6GFHmDFKXzYYLU6'

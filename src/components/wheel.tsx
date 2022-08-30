@@ -3,7 +3,7 @@ import { util } from '@sentre/senhub'
 
 import { Avatar, Button, Col, Image, Modal, Row, Typography } from 'antd'
 
-import { Material } from './addMaterial'
+import { Material } from '../view/createWheel/addMaterial'
 import { MintAvatar } from 'shared/antd/mint'
 import { LIST_BG_WHEEL, Reward } from 'constant'
 
