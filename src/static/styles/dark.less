@@ -32,12 +32,15 @@
 @card-shadow: @LIGHT_SHADOW2;
 
 // Modal
-@modal-header-bg: @NEUTRAL05;
-@modal-content-bg: @NEUTRAL05;
-@modal-footer-bg: @NEUTRAL05;
+@modal-header-bg: @BG_MODAL;
+@modal-content-bg: @BG_MODAL;
+@modal-footer-bg: @BG_MODAL;
 @modal-footer-padding-horizontal: 24px;
-
-// Drawer
+@modal-border-radius: 16px;
+//Segment
+@segmented-bg: @BG_SEGMENT;
+@segmented-hover-bg: @BG_SEGMENT;
+@segmented-label-color: #a6a7ad;
 @drawer-bg: @NEUTRAL05;
 
 // Button
@@ -45,23 +48,31 @@
 @btn-shadow: unset;
 @btn-primary-shadow: unset;
 @btn-text-shadow: unset;
-@btn-default-border: unset;
+@btn-default-border: none;
 @btn-default-ghost-color: @NEUTRAL100;
 @btn-default-ghost-color: @NEUTRAL100;
-@btn-primary-color: @NEUTRAL100;
-@btn-primary-bg:linear-gradient (84.24deg, #9945FF 0%, #B9F8FD 100%);
-
+@btn-primary-color: #000000;
+@btn-text-color: @PRIMARY;
+@btn-primary-bg: @BG_BTN;
+@btn-default-bg: @DEFAULT_BG_BTN;
+@btn-border-radius-base: 32px;
+@btn-primary-hover-bg: #f4f4f5;
+@btn-height-lg: 56px;
+@btn-font-size-lg: 14px;
 // Input
 @input-placeholder-color: @NEUTRAL60;
 @input-disabled-bg: @TRANSPARENT;
 @input-bg: @BACKGROUND_CARD;
 @input-border-color: @PRIMARY;
+
 // Divider
 @divider-color: @NEUTRAL10;
 @divider-orientation-margin: 0;
 
 // Checkbox
 @checkbox-border-radius: @border-radius-base - 4;
+
+@switch-bg: #434342;
 
 // Patch
 .@{ant-prefix}-layout {

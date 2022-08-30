@@ -1,18 +1,17 @@
-import { useSelector } from 'react-redux'
 import { MintAvatar, MintSymbol } from '@sen-use/app'
 
 import { Space } from 'antd'
 
-import { AppState } from 'model'
+import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
+import { SENTRE_CAMPAIGN } from 'constant'
 
 type ColumnRewardProps = {
   rewardAddress: string
 }
 
 const ColumnReward = ({ rewardAddress }: ColumnRewardProps) => {
-  const mint = useSelector(
-    (state: AppState) => state.rewards[rewardAddress].mint,
-  )
+  const rewards = useRewardByCampaign(SENTRE_CAMPAIGN)
+  const mint = rewards[rewardAddress].mint
 
   return (
     <Space>

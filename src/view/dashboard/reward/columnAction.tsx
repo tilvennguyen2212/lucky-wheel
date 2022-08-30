@@ -1,19 +1,30 @@
-import { useSelector } from 'react-redux'
+import { Button, Typography } from 'antd'
 
-import { Button } from 'antd'
-
-import { AppState } from 'model'
+import { useTicketByOwner } from 'hooks/ticket/useTicketByOwner'
+import { SENTRE_CAMPAIGN } from 'constant'
+import { useClaim } from 'hooks/lottery/useClaim'
 
 type ColumnActionProps = {
-  rewardAddress: string
+  ticketAddress: string
 }
 
-const ColumnAction = ({ rewardAddress }: ColumnActionProps) => {
-  const mint = useSelector(
-    (state: AppState) => state.rewards[rewardAddress].mint,
+const ColumnAction = ({ ticketAddress }: ColumnActionProps) => {
+  const tickets = useTicketByOwner(SENTRE_CAMPAIGN)
+  const { state } = tickets[ticketAddress]
+  const { onClaim, loading } = useClaim()
+
+  if (state.claimed)
+    return <Typography.Title level={5}>CLAIMED</Typography.Title>
+
+  return (
+    <Button
+      loading={loading}
+      type="primary"
+      onClick={() => onClaim(ticketAddress)}
+    >
+      CLAIM
+    </Button>
   )
-  console.log(mint)
-  return <Button>Claim</Button>
 }
 
 export default ColumnAction

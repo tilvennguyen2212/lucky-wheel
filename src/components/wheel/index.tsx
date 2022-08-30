@@ -1,23 +1,22 @@
 import { useMemo, useState } from 'react'
-import { MintAmount, MintAvatar, MintSymbol } from '@sen-use/app'
-import { BN } from '@project-serum/anchor'
-import { Avatar, Button, Col, Image, Row, Space, Typography } from 'antd'
 
-import { LIST_BG_WHEEL, Reward } from 'constant'
+import { Button, Col, Image, Row } from 'antd'
+import DisplayReward from './displayReward'
+import NotifyResult from 'components/notifyResult'
 
-import TICKET from 'static/images/ticket.png'
-import NFT from 'static/images/nft.png'
-import GoodLuck from 'static/images/image-test/1.png'
+import { LIST_BG_WHEEL, Reward, SENTRE_CAMPAIGN } from 'constant'
+import { useSpin } from 'hooks/lottery/useSpin'
+
 import ARROW from 'static/images/arrow.png'
 import SOUND from 'static/images/sound.mp3'
-import Congrats from './congrats'
+import WINNER from 'static/images/winner.mp3'
 
 let audio = new Audio(SOUND)
+let winner = new Audio(WINNER)
 
 export type Material = {
   type: string
-  value: string
-  amount: BN
+  rewardAddress: string
 }
 
 type WheelProps = {
@@ -27,7 +26,8 @@ type WheelProps = {
 const Wheel = ({ rewards }: WheelProps) => {
   const [spinning, setPinning] = useState(false)
   const [visible, setVisible] = useState(false)
-  const [prize, setPrize] = useState('')
+  const [resultReward, setResultReward] = useState('')
+  const onSpin = useSpin(SENTRE_CAMPAIGN)
 
   const singleDeg = Math.ceil(360 / rewards.length)
   const skewDeg = 90 - singleDeg
@@ -36,7 +36,7 @@ const Wheel = ({ rewards }: WheelProps) => {
   const value = useMemo(() => {
     const map = new Map<string, number>()
     for (let i = 0; i < rewards.length; i++) {
-      map.set(rewards[i].value, i * singleDeg)
+      map.set(rewards[i].rewardAddress, i * singleDeg)
     }
     return map
   }, [rewards, singleDeg])
@@ -53,9 +53,11 @@ const Wheel = ({ rewards }: WheelProps) => {
     return result
   }, [rewards.length])
 
-  const onSpinning = () => {
-    audio.play()
+  const onSpinning = async () => {
+    setPinning(true)
+    const rewardAddress = await onSpin()
 
+    audio.play()
     let wheel = document.getElementById('wheel')
 
     if (!wheel) return
@@ -66,14 +68,11 @@ const Wheel = ({ rewards }: WheelProps) => {
     wheel.style.transform = 'rotate(' + deg + 'deg)'
     wheel.style.transition = '3s all'
 
-    const res = Array.from(value.keys())
-
-    const valueSelected = res[Math.floor(Math.random() * res.length)]
-    setPrize(valueSelected)
+    setResultReward(rewardAddress || Reward.GoodLuck)
 
     setTimeout(() => {
       if (!wheel) return
-      deg = -(value.get(valueSelected) || 0) - contentDeg //Value selected
+      deg = -(value.get(rewardAddress || Reward.GoodLuck) || 0) - contentDeg //Value selected
       wheel.style.transform = 'rotate(' + deg + 'deg)'
     }, 2000)
 
@@ -82,16 +81,16 @@ const Wheel = ({ rewards }: WheelProps) => {
       audio.pause()
       audio.currentTime = 0
 
-      // winner.play()
+      winner.play()
 
       setPinning(false)
       setVisible(true)
     }, 5000)
 
     //Sound celebration
-    // setTimeout(() => {
-    //    winner.currentTime = 0
-    // }, 5000)
+    setTimeout(() => {
+      winner.currentTime = 0
+    }, 5000)
   }
 
   return (
@@ -101,9 +100,9 @@ const Wheel = ({ rewards }: WheelProps) => {
           <div className="container-body">
             <Image src={ARROW} id="stopper" preview={false} />
             <ul className="circle" id="wheel">
-              {rewards.map(({ value, type, amount }, index) => (
+              {rewards.map((reward, index) => (
                 <li
-                  key={value}
+                  key={reward.rewardAddress}
                   style={{
                     transform: `rotate(${
                       index * singleDeg
@@ -120,30 +119,7 @@ const Wheel = ({ rewards }: WheelProps) => {
                       className="bg"
                       style={{ background: `${listBG[index]}` }}
                     />
-                    <Space
-                      style={{ zIndex: 3, position: 'relative' }}
-                      direction="vertical"
-                      size={0}
-                    >
-                      {Reward.GoodLuck === type && (
-                        <Avatar size={64} shape="circle" src={GoodLuck} />
-                      )}
-                      {Reward.NFT === type && (
-                        <Avatar size={64} shape="circle" src={NFT} />
-                      )}
-                      {type === Reward.Token && (
-                        <MintAvatar size={64} mintAddress={value} />
-                      )}
-                      {type === Reward.Ticket && (
-                        <Image preview={false} src={TICKET} />
-                      )}
-                      <Typography.Title level={5} style={{ color: '#212433' }}>
-                        <MintAmount mintAddress={value} amount={amount} />
-                      </Typography.Title>
-                      <Typography.Title level={5} style={{ color: '#212433' }}>
-                        <MintSymbol mintAddress={value} />
-                      </Typography.Title>
-                    </Space>
+                    <DisplayReward material={reward} />
                   </div>
                 </li>
               ))}
@@ -159,6 +135,7 @@ const Wheel = ({ rewards }: WheelProps) => {
               block
               disabled={spinning}
               onClick={onSpinning}
+              loading={spinning}
               type="primary"
             >
               SPIN X1
@@ -169,10 +146,13 @@ const Wheel = ({ rewards }: WheelProps) => {
               SPIN X10
             </Button>
           </Col>
-          <Col span={24}></Col>
         </Row>
       </Col>
-      <Congrats prize={prize} visible={visible} onClose={setVisible} />
+      <NotifyResult
+        resultReward={resultReward}
+        visible={visible}
+        onClose={setVisible}
+      />
     </Row>
   )
 }
