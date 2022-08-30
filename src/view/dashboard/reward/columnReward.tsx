@@ -1,5 +1,4 @@
 import { useSelector } from 'react-redux'
-import { MintAvatar, MintSymbol } from '@sen-use/app'
 
 import { Space } from 'antd'
 
@@ -15,12 +14,7 @@ const ColumnReward = ({ rewardAddress }: ColumnRewardProps) => {
 
   console.log(mint)
 
-  return (
-    <Space>
-      {/* <MintAvatar mintAddress={mint.toBase58()} />
-      <MintSymbol mintAddress={mint.toBase58()} /> */}
-    </Space>
-  )
+  return <Space></Space>
 }
 
 export default ColumnReward
