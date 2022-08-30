@@ -1,12 +1,25 @@
+import { useMemo } from 'react'
+import { TicketData } from 'lucky-wheel-core'
 import { web3 } from '@project-serum/anchor'
+
 import { Table } from 'antd'
+import ColumnReward from './columnReward'
 
 import { SENTRE_CAMPAIGN } from 'constant'
 import { useTicketByOwner } from 'hooks/ticket/useTicketByOwner'
-import ColumnReward from './columnReward'
 
 const Reward = () => {
   const tickets = useTicketByOwner(SENTRE_CAMPAIGN)
+
+  const filterTickets = useMemo(() => {
+    const usedTicket: TicketData[] = []
+    for (const ticket of Object.values(tickets)) {
+      const state = ticket.state
+      if (state.initialized) continue
+      usedTicket.push(ticket)
+    }
+    return usedTicket
+  }, [tickets])
 
   const columns = [
     {
@@ -19,8 +32,8 @@ const Reward = () => {
     },
     {
       title: 'AMOUNT',
-      dataIndex: 'age',
-      key: 'age',
+      dataIndex: 'reward',
+      key: 'reward',
     },
     {
       title: 'ACTIONS',
@@ -30,11 +43,7 @@ const Reward = () => {
   ]
 
   return (
-    <Table
-      dataSource={Object.values(tickets)}
-      columns={columns}
-      pagination={false}
-    />
+    <Table dataSource={filterTickets} columns={columns} pagination={false} />
   )
 }
 
