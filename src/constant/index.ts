@@ -1,3 +1,5 @@
+import configs from 'configs'
+
 export enum Reward {
   Token = 'token',
   NFT = 'nft',
@@ -17,4 +19,4 @@ export enum TabId {
   Challenge = 'challenge',
 }
 
-export const SENTRE_CAMPAIGN = 'H9WvBEubXNqc6k85RzVyGCc8KCDgK6GFHmDFKXzYYLU6'
+export const SENTRE_CAMPAIGN = configs.sol.campaignId

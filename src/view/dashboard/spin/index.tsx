@@ -22,7 +22,7 @@ const Spin = () => {
       material.push({
         type: Reward.Token,
         value: mint.toBase58(),
-        amount: prizeAmount.toString(),
+        amount: prizeAmount,
       })
     return material
   }, [rewards])

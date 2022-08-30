@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { util } from '@sentre/senhub'
-import { MintAvatar, MintSymbol } from '@sen-use/app'
-
+import { MintAmount, MintAvatar, MintSymbol } from '@sen-use/app'
+import { BN } from '@project-serum/anchor'
 import { Avatar, Button, Col, Image, Modal, Row, Space, Typography } from 'antd'
 
 import { LIST_BG_WHEEL, Reward } from 'constant'
@@ -17,7 +17,7 @@ let audio = new Audio(SOUND)
 export type Material = {
   type: string
   value: string
-  amount: string
+  amount: BN
 }
 
 type WheelProps = {
@@ -138,7 +138,7 @@ const Wheel = ({ rewards }: WheelProps) => {
                         <Image preview={false} src={TICKET} />
                       )}
                       <Typography.Title level={5} style={{ color: '#212433' }}>
-                        {amount}
+                        <MintAmount mintAddress={value} amount={amount} />
                       </Typography.Title>
                       <Typography.Title level={5} style={{ color: '#212433' }}>
                         <MintSymbol mintAddress={value} />
