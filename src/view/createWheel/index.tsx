@@ -1,18 +1,23 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 import AddMaterial, { Material } from './addMaterial'
 import { Button, Col, Row, Space } from 'antd'
 import Wheel from './wheel'
 
 import { useInitWheel } from 'hooks/action/useInitWheel'
+import { Reward } from 'constant'
+import { useDepositReward } from 'hooks/action/useDepositReward'
+import { AppState } from 'model'
 
 import './index.less'
-import { Reward } from 'constant'
 
 const CreateWheel = () => {
+  const rewards = useSelector((state: AppState) => state.rewards)
   const [material, setMaterial] = useState<Material[]>([])
   const [reward, setReward] = useState<Material[]>([])
   const { createWheel } = useInitWheel()
+  const { depositReward } = useDepositReward()
 
   const onCreate = () => {
     createWheel([
@@ -35,6 +40,18 @@ const CreateWheel = () => {
       },
     ])
   }
+
+  const rewardsOfCampaign = Object.values(rewards).filter(
+    (reward) =>
+      reward.campaign.toBase58() ===
+      '2cXZ2ZEvT38Qz98yHF2GZJnegYCJ3ezUDJpviLXAF9KK',
+  )
+
+  console.log('reward of campaigns:', rewardsOfCampaign)
+
+  // const onDepositReward = () => {
+  //   // depositReward({campaignAddress: })
+  // }
 
   return (
     <Row gutter={[24, 24]}>
