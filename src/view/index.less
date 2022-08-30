@@ -133,3 +133,27 @@ button {
     display: flex !important;
   }
 }
+
+.congrats {
+  &_content {
+    text-align: center !important;
+  }
+
+  .lucky_wheel-modal-content {
+    border-radius: 8px !important;
+  }
+  .lucky_wheel-modal-body {
+    position: relative;
+    .lucky_wheel-image {
+      position: absolute !important;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      img {
+        height: 100% !important;
+        object-fit: cover;
+      }
+    }
+  }
+}
