@@ -1,42 +1,46 @@
+import { useGetTicketPickerData } from './useGetTicketPickerData'
 import { useCallback } from 'react'
-import axios from 'axios'
+
+import { useAvailableTickets } from './useAvailableTickets'
+import { useGetEstimateReward } from './useGetEstimateReward'
 import { web3 } from '@project-serum/anchor'
 
-import { notifyError, notifySuccess } from 'helper'
-import { useTicketByOwner } from 'hooks/ticket/useTicketByOwner'
-import configs from 'configs'
-
-const getTicketPickerData = async (ticketAddress: string) => {
-  const { data: pickerData } = await axios.get<{
-    pubKey: string
-    signature: string
-    recid: number
-  }>(configs.api.lottery.luckyNumber + ticketAddress, {
-    withCredentials: true,
-  })
-  return pickerData
-}
+export type SpinResult = {}
 
 export const useSpin = (campaign: string) => {
-  const tickets = useTicketByOwner(campaign)
+  const getEstimateReward = useGetEstimateReward(campaign)
+  const availableTickets = useAvailableTickets(campaign)
+  const getTicketPickerData = useGetTicketPickerData()
 
   const spin = useCallback(async () => {
-    try {
-      const ticket = Object.keys(tickets)[0]
-      console.log('ticket', tickets[ticket])
-      const pickerData = await getTicketPickerData(ticket)
+    const ticket = Object.keys(availableTickets)[0]
+    const pickerData = await getTicketPickerData(ticket)
+    const estimateReward = await getEstimateReward(pickerData.luckyNumber)
 
-      const { txId } = await window.luckyWheel.pickLuckyNumber({
-        ticket: new web3.PublicKey(ticket),
-        recoveryId: pickerData.recid,
-        signature: Array.from(Buffer.from(pickerData.signature, 'hex')),
+    if (!estimateReward) {
+      await window.luckyWheel.closeTicket({
+        ...pickerData,
       })
-      console.log('ticket', pickerData)
-      notifySuccess('Pick lucky number', txId)
-    } catch (error) {
-      notifyError(error)
+      return estimateReward
     }
-  }, [tickets])
+
+    const tx = new web3.Transaction()
+    // Pick lucky number
+    const { tx: txPick } = await window.luckyWheel.pickLuckyNumber({
+      ...pickerData,
+      sendAndConfirm: false,
+    })
+    tx.add(txPick)
+    // Reward
+    const { tx: checkPrize } = await window.luckyWheel.checkPrize({
+      ...pickerData,
+      reward: new web3.PublicKey(estimateReward),
+      sendAndConfirm: false,
+    })
+    tx.add(checkPrize)
+    await window.luckyWheel.provider.sendAndConfirm(tx)
+    return estimateReward
+  }, [availableTickets, getEstimateReward, getTicketPickerData])
 
   return spin
 }

@@ -10,12 +10,14 @@ import { useWalletAddress } from '@sentre/senhub/dist'
 import { notifyError, notifySuccess } from 'helper'
 import CampaignManagement from './management'
 import { useSpin } from 'hooks/lottery/useSpin'
+import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
 
 const CreateCampaign = () => {
   const [ownCampaign, setOwnLottery] = useState(configs.sol.campaignId)
   const [loading, setLoading] = useState(false)
   const wallet = useWalletAddress()
   const onSpin = useSpin(ownCampaign)
+  const availableTickets = useAvailableTickets(ownCampaign)
 
   async function onInitializeCampaign() {
     try {
@@ -82,7 +84,7 @@ const CreateCampaign = () => {
               Create Ticket
             </Button>
             <Button onClick={onSpin} type="primary" loading={loading}>
-              Spin
+              Spin ({Object.keys(availableTickets).length})
             </Button>
           </Space>
         </Space>
