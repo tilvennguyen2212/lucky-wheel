@@ -5,7 +5,7 @@ import { useWalletAddress } from '@sentre/senhub'
 import { AppState } from 'model'
 import { TicketState } from 'model/tickets.controller'
 
-export const useTicketByOwner = (campaignAddress: string) => {
+export const useTicketByCampaign = (campaignAddress: string, owner = true) => {
   const tickets = useSelector((state: AppState) => state.tickets)
   const walletAddress = useWalletAddress()
 
@@ -13,14 +13,11 @@ export const useTicketByOwner = (campaignAddress: string) => {
     const bulk: TicketState = {}
     for (const address in tickets) {
       const { authority, campaign } = tickets[address]
-      if (
-        authority.toBase58() !== walletAddress ||
-        campaign.toBase58() !== campaignAddress
-      )
-        continue
+      if (campaign.toBase58() !== campaignAddress) continue
+      if (authority.toBase58() !== walletAddress && owner) continue
       bulk[address] = tickets[address]
     }
     return bulk
-  }, [campaignAddress, tickets, walletAddress])
+  }, [campaignAddress, owner, tickets, walletAddress])
   return ticketsByOwner
 }

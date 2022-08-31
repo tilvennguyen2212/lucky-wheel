@@ -1,4 +1,5 @@
-import Challenge from './challenge'
+import { Fragment } from 'react'
+
 import Reward from './reward'
 import Spin from './spin'
 
@@ -9,10 +10,9 @@ type ContainerProps = {
 }
 
 const Container = ({ tabId }: ContainerProps) => {
-  if (tabId === TabId.Challenge) return <Challenge />
   if (tabId === TabId.Reward) return <Reward />
-
-  return <Spin />
+  if (tabId === TabId.Spin) return <Spin />
+  return <Fragment />
 }
 
 export default Container

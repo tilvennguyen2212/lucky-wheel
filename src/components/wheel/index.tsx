@@ -5,11 +5,14 @@ import DisplayReward from './displayReward'
 import NotifyResult from 'components/notifyResult'
 
 import { LIST_BG_WHEEL, Reward, SENTRE_CAMPAIGN } from 'constant'
-import { useSpin } from 'hooks/lottery/useSpin'
+import { useSpin } from 'hooks/actions/useSpin'
 
 import ARROW from 'static/images/arrow.png'
 import SOUND from 'static/images/sound.mp3'
 import WINNER from 'static/images/winner.mp3'
+
+import './index.less'
+import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
 
 let audio = new Audio(SOUND)
 let winner = new Audio(WINNER)
@@ -28,6 +31,7 @@ const Wheel = ({ rewards }: WheelProps) => {
   const [visible, setVisible] = useState(false)
   const [resultReward, setResultReward] = useState('')
   const onSpin = useSpin(SENTRE_CAMPAIGN)
+  const tickets = useAvailableTickets(SENTRE_CAMPAIGN)
 
   const singleDeg = Math.ceil(360 / rewards.length)
   const skewDeg = 90 - singleDeg
@@ -133,7 +137,7 @@ const Wheel = ({ rewards }: WheelProps) => {
             <Button
               size="large"
               block
-              disabled={spinning}
+              disabled={spinning || !Object.keys(tickets).length}
               onClick={onSpinning}
               loading={spinning}
               type="primary"
@@ -142,7 +146,12 @@ const Wheel = ({ rewards }: WheelProps) => {
             </Button>
           </Col>
           <Col xs={24} lg={12}>
-            <Button size="large" block disabled={spinning} onClick={onSpinning}>
+            <Button
+              size="large"
+              block
+              disabled={spinning || !Object.keys(tickets).length}
+              onClick={onSpinning}
+            >
               SPIN X10
             </Button>
           </Col>

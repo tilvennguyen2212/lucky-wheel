@@ -4,16 +4,15 @@ import { BN, web3 } from '@project-serum/anchor'
 
 import { Button, Col, Row, Space, Typography } from 'antd'
 
-import './index.less'
 import configs from 'configs'
 import { useWalletAddress } from '@sentre/senhub/dist'
 import { notifyError, notifySuccess } from 'helper'
 import CampaignManagement from './management'
-import { useSpin } from 'hooks/lottery/useSpin'
+import { useSpin } from 'hooks/actions/useSpin'
 import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
 
 const CreateCampaign = () => {
-  const [ownCampaign, setOwnLottery] = useState(configs.sol.campaignId)
+  const [ownCampaign, setOwnCampaign] = useState('')
   const [loading, setLoading] = useState(false)
   const wallet = useWalletAddress()
   const onSpin = useSpin(ownCampaign)
@@ -47,9 +46,10 @@ const CreateCampaign = () => {
     const campaigns = await window.luckyWheel.account.campaign.all()
     for (let campaign of campaigns) {
       if (campaign.account.authority.toBase58() === wallet)
-        return setOwnLottery(campaign.publicKey.toBase58())
+        return setOwnCampaign(campaign.publicKey.toBase58())
     }
   }, [ownCampaign, wallet])
+
   useEffect(() => {
     fetchOwnLottery()
   }, [fetchOwnLottery])
