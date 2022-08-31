@@ -15,12 +15,16 @@ const CardGift = ({
 }: CardGiftProps) => {
   const cardGiftCln = active ? 'card-gift active' : 'card-gift'
   const btnType = status === GiftStatus.Pending ? 'default' : 'primary'
+  const btnClnClaimed =
+    status === GiftStatus.Claimed
+      ? 'card-gift-btn claimed-btn'
+      : 'card-gift-btn'
 
   return (
     <div className={cardGiftCln}>
       <Image src={src} preview={false} />
       <div className="gift-step-icon">{amount}</div>
-      <div className="card-gift-btn">
+      <div className={btnClnClaimed}>
         <Button
           type={btnType}
           onClick={() => {}}
