@@ -1,26 +1,25 @@
-import { Fragment, useMemo } from 'react'
-import CampaignsWatcher from './campaign.watcher'
-import RewardsWatcher from './rewards.watcher'
-import { useWatcherLoading } from './watcher'
-import TicketsWatcher from './tickets.watcher'
+import { Fragment, useEffect, useState } from 'react'
 
 import Loading from 'components/loading'
 
-export const AppWatcher: React.FC = ({ children }) => {
-  const [loadingInfo] = useWatcherLoading()
+import CampaignsWatcher from './campaign.watcher'
+import RewardsWatcher from './rewards.watcher'
+import TicketsWatcher from './tickets.watcher'
+import LotteryInfoWatcher from './lotteryInfo.watcher'
 
-  const loading = useMemo(
-    () =>
-      !Object.values(loadingInfo).length ||
-      Object.values(loadingInfo).includes(true),
-    [loadingInfo],
-  )
+export const AppWatcher: React.FC = ({ children }) => {
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 3000)
+  }, [])
 
   return (
     <Fragment>
       <CampaignsWatcher />
       <RewardsWatcher />
       <TicketsWatcher />
+      <LotteryInfoWatcher />
       {loading ? <Loading /> : children}
     </Fragment>
   )

@@ -1,6 +1,5 @@
 import { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
 import { Program, web3 } from '@project-serum/anchor'
-import { createGlobalState } from 'react-use'
 import { encodeIxData, accountDiscriminator } from '@sen-use/web3'
 
 import { notifyError } from 'helper'
@@ -13,13 +12,9 @@ type UseWatcherProps = {
   init: (bulk: Record<string, any>) => void
 }
 
-const GLOBAL_WATCHER: Record<string, boolean> = {}
-export const useWatcherLoading = createGlobalState<Record<string, boolean>>({})
-
 const Watcher = (props: UseWatcherProps) => {
   const { program, name, filter, upset, init } = props
   const [watchId, setWatchId] = useState(0)
-  const [loadingInfo, setLoadingInfo] = useWatcherLoading()
 
   const { accountClient, connection } = useMemo(() => {
     const accountClient = program?.account?.[name]
@@ -28,10 +23,7 @@ const Watcher = (props: UseWatcherProps) => {
   }, [name, program?.account])
 
   const fetchData = useCallback(async () => {
-    if (GLOBAL_WATCHER[name] !== undefined) return
     try {
-      GLOBAL_WATCHER[name] = true
-      setLoadingInfo({ ...GLOBAL_WATCHER, [name]: true })
       const accountInfos = await accountClient.all()
       const bulk: any = {}
       for (const info of accountInfos) {
@@ -40,10 +32,8 @@ const Watcher = (props: UseWatcherProps) => {
       init(bulk)
     } catch (error) {
       notifyError(error)
-    } finally {
-      setLoadingInfo({ ...loadingInfo, [name]: false })
     }
-  }, [accountClient, init, loadingInfo, name, setLoadingInfo])
+  }, [accountClient, init])
 
   const watchData = useCallback(async () => {
     if (watchId) return
