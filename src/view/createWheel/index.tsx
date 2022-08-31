@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import AddMaterial, { Material } from './addMaterial'
@@ -7,7 +7,6 @@ import Wheel from './wheel'
 
 import { useInitWheel } from 'hooks/action/useInitWheel'
 import { Reward } from 'constant'
-import { useDepositReward } from 'hooks/action/useDepositReward'
 import { AppState } from 'model'
 
 import './index.less'
@@ -17,7 +16,6 @@ const CreateWheel = () => {
   const [material, setMaterial] = useState<Material[]>([])
   const [reward, setReward] = useState<Material[]>([])
   const { createWheel } = useInitWheel()
-  const { depositReward } = useDepositReward()
 
   const onCreate = () => {
     createWheel([

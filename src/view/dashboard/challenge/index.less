@@ -1,0 +1,75 @@
+.card-challenge {
+  backdrop-filter: blur(96px);
+  border-radius: 24px;
+  min-height: 644px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  .ant-card-body {
+    padding: 64px;
+    width: 100%;
+  }
+  .challenge-gifts {
+    top: -292px;
+    z-index: 9;
+  }
+  .inner-challenge-progress {
+    .challenge-progress {
+      width: 100%;
+    }
+    .card-challenge-gift {
+      position: absolute;
+      .card-gift {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        gap: 24px;
+        .gift-step-icon {
+          width: 48px;
+          height: 48px;
+          border-radius: 24px;
+          background: rgb(255, 255, 255);
+          margin: auto;
+          color: rgb(33, 36, 51);
+          line-height: 48px;
+          font-size: 16px;
+          font-weight: 700;
+          text-align: center;
+          &.active {
+            background: linear-gradient(84.24deg, #9945ff 0%, #b9f8fd 100%);
+          }
+        }
+      }
+    }
+  }
+
+  &.mobile-direction {
+    align-items: flex-start;
+    justify-content: flex-start;
+    .inner-challenge-progress {
+      flex-flow: row-reverse nowrap !important;
+      .challenge-gifts {
+        top: 0;
+        gap: 24px;
+        .card-challenge-gift {
+          position: unset;
+          .card-gift {
+            flex-flow: row nowrap;
+            .gift-step-icon {
+              order: 1;
+            }
+            .lucky_wheel-image {
+              order: 2;
+            }
+            button {
+              order: 3;
+            }
+          }
+        }
+      }
+      .challenge-progress {
+        width: auto;
+      }
+    }
+  }
+}

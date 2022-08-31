@@ -16,3 +16,9 @@ export enum TabId {
   Reward = 'reward',
   Challenge = 'challenge',
 }
+
+export enum GiftStatus {
+  Claimed,
+  Ready,
+  Pending,
+}

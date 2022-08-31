@@ -1,11 +1,9 @@
 import { useCallback, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { PublicKey, Transaction } from '@solana/web3.js'
 import BN from 'bn.js'
 import { getAnchorProvider } from '@sen-use/web3'
 import { rpc, useWalletAddress } from '@sentre/senhub'
 
-import { AppState } from 'model'
 import { notifyError, notifySuccess } from 'helper'
 
 type prizeStructures = {
