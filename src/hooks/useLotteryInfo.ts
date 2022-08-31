@@ -21,6 +21,7 @@ export const useLotteryInfo = (campaign: string) => {
       authority: new web3.PublicKey(walletAddress),
       campaign: new web3.PublicKey(campaign),
       totalPicked: new BN(0),
+      totalClaimed: new BN(0),
     }
   }, [campaign, walletAddress])
 

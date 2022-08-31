@@ -14,30 +14,33 @@ export const useClaim = () => {
   const onClaim = useCallback(
     async (ticketAddress: string) => {
       const rewardAddress = tickets[ticketAddress].reward.toBase58()
-      const state = rewards[rewardAddress].rewardType
+      const { rewardType, mint, prizeAmount } = rewards[rewardAddress]
 
       try {
         setLoading(true)
         const tx = new web3.Transaction()
-
+        const signer: web3.Keypair[] = []
         const { tx: txClaim } = await window.luckyWheel.claim({
           ticket: new web3.PublicKey(ticketAddress),
+          mint,
           sendAndConfirm: false,
         })
         tx.add(txClaim)
 
-        if (!state.ticket) {
-          const txId = await window.luckyWheel.provider.sendAndConfirm(tx)
-          return notifySuccess('Claimed', txId)
+        // Redeem ticket
+        if (rewardType.ticket) {
+          for (let i = 0; i < prizeAmount.toNumber(); i++) {
+            const newTicket = web3.Keypair.generate()
+            const { tx: txRedeem } = await window.luckyWheel.redeemTicket({
+              campaign: new web3.PublicKey(SENTRE_CAMPAIGN),
+              ticket: newTicket,
+              sendAndConfirm: false,
+            })
+            tx.add(txRedeem)
+            signer.push(newTicket)
+          }
         }
-
-        const { tx: txRedeem } = await window.luckyWheel.redeemTicket({
-          campaign: new web3.PublicKey(SENTRE_CAMPAIGN),
-          sendAndConfirm: false,
-        })
-        tx.add(txRedeem)
-
-        const txId = await window.luckyWheel.provider.sendAndConfirm(tx)
+        const txId = await window.luckyWheel.provider.sendAndConfirm(tx, signer)
         return notifySuccess('Claimed', txId)
       } catch (error) {
         return notifyError(error)
