@@ -47,7 +47,7 @@ const Dashboard = () => {
   return (
     <Fragment>
       <Layout>
-        <Row gutter={[64, 64]} style={{ paddingBottom: 24 }}>
+        <Row gutter={[32, 32]} style={{ paddingBottom: 24 }}>
           <Col span={24}>
             <Segmented
               value={tabId}

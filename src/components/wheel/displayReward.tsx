@@ -2,13 +2,14 @@ import { useMemo } from 'react'
 import { BN } from '@project-serum/anchor'
 import { MintAmount, MintAvatar, MintSymbol } from '@sen-use/app'
 
-import { Avatar, Space, Typography } from 'antd'
+import { Avatar, Space, Typography, Image } from 'antd'
 
 import { Reward, SENTRE_CAMPAIGN } from 'constant'
 import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
 import { Material } from './index'
 
 import GoodLuck from 'static/images/good-luck-icon.png'
+import Ticket from 'static/images/ticket-icon.png'
 
 const Container = ({ children }: { children: JSX.Element[] }) => (
   <Space
@@ -36,16 +37,24 @@ const TokenDisplay = ({ mintAddress, amount }: TokenDisplayProps) => (
   </Container>
 )
 
+const TicketDisplay = ({ prizeAmount }: { prizeAmount: BN }) => (
+  <Container>
+    <Image preview={false} style={{ height: 64, width: 64 }} src={Ticket} />
+    <Typography.Title level={4} style={{ color: '#212433' }}>
+      +{prizeAmount.toString()} Ticket
+    </Typography.Title>
+  </Container>
+)
+
 type DisplayRewardProps = {
   material: Material
 }
 const DisplayReward = ({ material }: DisplayRewardProps) => {
   const { type, rewardAddress } = material
   const rewards = useRewardByCampaign(SENTRE_CAMPAIGN)
-  // const { mint, prizeAmount } = rewards[rewardAddress]
 
   const { mintAddress, prizeAmount } = useMemo(() => {
-    if (type === Reward.GoodLuck || type === Reward.Ticket)
+    if (type === Reward.GoodLuck)
       return { mintAddress: '', prizeAmount: new BN(0) }
 
     const { mint, prizeAmount } = rewards[rewardAddress]
@@ -54,6 +63,8 @@ const DisplayReward = ({ material }: DisplayRewardProps) => {
 
   if (type === Reward.Token)
     return <TokenDisplay mintAddress={mintAddress} amount={prizeAmount} />
+
+  if (type === Reward.Ticket) return <TicketDisplay prizeAmount={prizeAmount} />
 
   return (
     <Container>
