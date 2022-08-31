@@ -1,18 +1,20 @@
 import { useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
 import { BN, web3 } from '@project-serum/anchor'
+import { useWalletAddress } from '@sentre/senhub'
 
 import { Button, Col, Row, Space, Typography } from 'antd'
 
 import configs from 'configs'
-import { useWalletAddress } from '@sentre/senhub/dist'
 import { notifyError, notifySuccess } from 'helper'
 import CampaignManagement from './management'
 import { useSpin } from 'hooks/actions/useSpin'
 import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
 
 const CreateCampaign = () => {
-  const [ownCampaign, setOwnCampaign] = useState('')
+  const [ownCampaign, setOwnCampaign] = useState(
+    'EaBqmk1GqYgWzpMK7Ae3xJVqWPGx6gdJG1tak3rEqfLa',
+  )
   const [loading, setLoading] = useState(false)
   const wallet = useWalletAddress()
   const onSpin = useSpin(ownCampaign)

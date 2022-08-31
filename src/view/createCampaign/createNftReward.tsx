@@ -26,13 +26,7 @@ const CreateNftReward = ({ campaign }: { campaign: string }) => {
         reward,
         sendAndConfirm: false,
       })
-      // const { tx: txDeposit } = await window.luckyWheel.depositReward({
-      //   campaign: new web3.PublicKey(campaign),
-      //   reward: reward.publicKey,
-      //   totalPrize: new BN(1),
-      //   mint: new web3.PublicKey(collection),
-      //   sendAndConfirm: false,
-      // })
+
       const toLuckyNumber = new BN('1' + '0'.repeat(18))
         .mul(new BN(ratio * 10 ** 9))
         .div(new BN(100 * 10 ** 9))
@@ -45,7 +39,6 @@ const CreateNftReward = ({ campaign }: { campaign: string }) => {
       })
       const tx = new web3.Transaction()
       tx.add(txReward)
-      // tx.add(txDeposit)
       tx.add(txLuckyRatio)
       const txId = await window.luckyWheel.provider.sendAndConfirm(tx, [reward])
       notifySuccess('Create NFT reward', txId)
