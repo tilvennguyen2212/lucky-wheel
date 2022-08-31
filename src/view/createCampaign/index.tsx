@@ -4,7 +4,6 @@ import { BN, web3 } from '@project-serum/anchor'
 
 import { Button, Col, Row, Space, Typography } from 'antd'
 
-import './index.less'
 import configs from 'configs'
 import { useWalletAddress } from '@sentre/senhub/dist'
 import { notifyError, notifySuccess } from 'helper'
@@ -50,6 +49,7 @@ const CreateCampaign = () => {
         return setOwnCampaign(campaign.publicKey.toBase58())
     }
   }, [ownCampaign, wallet])
+
   useEffect(() => {
     fetchOwnLottery()
   }, [fetchOwnLottery])

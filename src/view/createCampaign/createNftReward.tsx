@@ -4,12 +4,13 @@ import { web3, BN } from '@project-serum/anchor'
 import { REWARD_TYPE } from 'lucky-wheel-core'
 
 import { Button, Col, InputNumber, Row, Space, Typography } from 'antd'
-import { NFTSelection, AvatarNFT } from '@sen-use/components'
+import { AvatarNFT } from '@sen-use/components'
 
 import { notifyError, notifySuccess } from 'helper'
+import NftCollection from './nftCollection'
 
 const CreateNftReward = ({ campaign }: { campaign: string }) => {
-  const [selectedNft, setSelectedNft] = useState('')
+  const [collection, setCollection] = useState('')
   const [ratio, setRatio] = useState(0)
   const [loading, setLoading] = useState(false)
 
@@ -19,7 +20,7 @@ const CreateNftReward = ({ campaign }: { campaign: string }) => {
       const reward = web3.Keypair.generate()
       const { tx: txReward } = await window.luckyWheel.initializeReward({
         campaign: new web3.PublicKey(campaign),
-        rewardMint: new web3.PublicKey(selectedNft),
+        rewardMint: new web3.PublicKey(collection),
         prizeAmount: new BN(1),
         rewardType: REWARD_TYPE.nft,
         reward,
@@ -29,7 +30,7 @@ const CreateNftReward = ({ campaign }: { campaign: string }) => {
         campaign: new web3.PublicKey(campaign),
         reward: reward.publicKey,
         totalPrize: new BN(1),
-        mint: new web3.PublicKey(selectedNft),
+        mint: new web3.PublicKey(collection),
         sendAndConfirm: false,
       })
       const toLuckyNumber = new BN('1' + '0'.repeat(18))
@@ -61,14 +62,14 @@ const CreateNftReward = ({ campaign }: { campaign: string }) => {
         <Typography.Title> Create NFT Reward</Typography.Title>
       </Col>
       <Col>
-        {!selectedNft ? (
+        {!collection ? (
           <Space direction="vertical">
             <Typography.Text type="secondary"> Select Nft </Typography.Text>
-            <NFTSelection onSelect={setSelectedNft} />
+            <NftCollection setCollection={setCollection} />
           </Space>
         ) : (
           <Space>
-            <AvatarNFT mintAddress={selectedNft} size={60} />
+            <AvatarNFT mintAddress={collection} size={60} />
           </Space>
         )}
       </Col>
