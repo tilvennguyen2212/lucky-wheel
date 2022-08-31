@@ -10,11 +10,10 @@ import { notifyError, notifySuccess } from 'helper'
 import CampaignManagement from './management'
 import { useSpin } from 'hooks/actions/useSpin'
 import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
+import { SENTRE_CAMPAIGN } from 'constant'
 
 const CreateCampaign = () => {
-  const [ownCampaign, setOwnCampaign] = useState(
-    'EaBqmk1GqYgWzpMK7Ae3xJVqWPGx6gdJG1tak3rEqfLa',
-  )
+  const [ownCampaign, setOwnCampaign] = useState(SENTRE_CAMPAIGN)
   const [loading, setLoading] = useState(false)
   const wallet = useWalletAddress()
   const onSpin = useSpin(ownCampaign)
