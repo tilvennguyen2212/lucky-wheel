@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
 import { BN, web3 } from '@project-serum/anchor'
+import { useWalletAddress } from '@sentre/senhub'
 
 import { Button, Col, Row, Space, Typography } from 'antd'
 
 import configs from 'configs'
-import { useWalletAddress } from '@sentre/senhub/dist'
 import { notifyError, notifySuccess } from 'helper'
 import CampaignManagement from './management'
 import { useSpin } from 'hooks/actions/useSpin'

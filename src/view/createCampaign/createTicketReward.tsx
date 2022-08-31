@@ -1,14 +1,11 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { web3, BN } from '@project-serum/anchor'
-import { utilsBN } from '@sen-use/web3'
 import { REWARD_TYPE } from '@sentre/lucky-wheel-core'
-import { useGetMintDecimals } from '@sentre/senhub'
+import { util } from '@sentre/senhub'
 
 import { Button, Col, InputNumber, Row, Space, Typography } from 'antd'
-import { MintSelection } from '@sen-use/app'
 
 import { notifyError, notifySuccess } from 'helper'
-import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
 
 const CreateTicketReward = ({ campaign }: { campaign: string }) => {
   const [selectedMint, setSelectedMint] = useState('')
@@ -16,24 +13,28 @@ const CreateTicketReward = ({ campaign }: { campaign: string }) => {
   const [prizeAmount, setPrizeAmount] = useState(0)
   const [ratio, setRatio] = useState(0)
   const [loading, setLoading] = useState(false)
-  const getMintDecimals = useGetMintDecimals()
-  const tickets = useAvailableTickets(campaign)
 
-  console.log(tickets, 'tickets')
+  const fetchTicketMint = useCallback(async () => {
+    if (!!selectedMint || !campaign) return
+    const { ticketMint } = await window.luckyWheel.deriveCampaignPDAs(
+      new web3.PublicKey(campaign),
+    )
+    return setSelectedMint(ticketMint.toBase58())
+  }, [campaign, selectedMint])
 
   async function onCreateMintReward() {
     setLoading(true)
     try {
-      const decimals = await getMintDecimals({ mintAddress: selectedMint })
-      if (!decimals) throw new Error("Can't get mint decimals")
-
-      const prizeAmountBN = utilsBN.decimalize(prizeAmount, decimals)
       const reward = web3.Keypair.generate()
-
+      const { tx: txInitTicket } = await window.luckyWheel.printTicketMint({
+        campaign: new web3.PublicKey(campaign),
+        amount: new BN(totalPrize * prizeAmount),
+        sendAndConfirm: false,
+      })
       const { tx: txReward } = await window.luckyWheel.initializeReward({
         campaign: new web3.PublicKey(campaign),
         rewardMint: new web3.PublicKey(selectedMint),
-        prizeAmount: prizeAmountBN,
+        prizeAmount: new BN(prizeAmount),
         rewardType: REWARD_TYPE.ticket,
         reward,
         sendAndConfirm: false,
@@ -59,6 +60,7 @@ const CreateTicketReward = ({ campaign }: { campaign: string }) => {
       })
 
       const tx = new web3.Transaction()
+      tx.add(txInitTicket)
       tx.add(txReward)
       tx.add(txDeposit)
       tx.add(txLuckyRatio)
@@ -72,6 +74,10 @@ const CreateTicketReward = ({ campaign }: { campaign: string }) => {
     }
   }
 
+  useEffect(() => {
+    fetchTicketMint()
+  }, [fetchTicketMint])
+
   return (
     <Row justify="space-between" gutter={[24, 24]}>
       <Col span={24}>
@@ -79,8 +85,8 @@ const CreateTicketReward = ({ campaign }: { campaign: string }) => {
       </Col>
       <Col>
         <Space direction="vertical">
-          <Typography.Text type="secondary"> Select Mint </Typography.Text>
-          <MintSelection onChange={setSelectedMint} value={selectedMint} />
+          <Typography.Text type="secondary"> Ticket Mint </Typography.Text>
+          <Typography.Text>{util.shortenAddress(selectedMint)}</Typography.Text>
         </Space>
       </Col>
       <Col>
@@ -111,6 +117,7 @@ const CreateTicketReward = ({ campaign }: { campaign: string }) => {
           Create Reward
         </Button>
       </Col>
+      <Col span={24} />
     </Row>
   )
 }

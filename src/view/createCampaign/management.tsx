@@ -4,6 +4,7 @@ import CreateNftReward from './createNftReward'
 import CreateTicketReward from './createTicketReward'
 import ListMintReward from './listMintReward'
 import ListNftReward from './listNftReward'
+import ListTicketReward from './listTicketReward'
 
 const CampaignManagement = ({ campaign }: { campaign: string }) => {
   return (
@@ -18,6 +19,7 @@ const CampaignManagement = ({ campaign }: { campaign: string }) => {
       </Col>
       <Col span={12}>
         <CreateTicketReward campaign={campaign} />
+        <ListTicketReward campaign={campaign} />
       </Col>
     </Row>
   )
