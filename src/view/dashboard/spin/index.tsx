@@ -1,4 +1,5 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
+import { web3 } from '@project-serum/anchor'
 
 import { Button, Col, Divider, Row, Space, Typography } from 'antd'
 import Layout from 'components/layout'
@@ -11,10 +12,12 @@ import { ReactComponent as Ticket } from 'static/images/icons/ticket-icon.svg'
 import { Reward, SENTRE_CAMPAIGN } from 'constant'
 
 import './index.less'
+import { notifyError, notifySuccess } from 'helper'
 
 const Spin = () => {
   const rewards = useRewardByCampaign(SENTRE_CAMPAIGN)
   const tickets = useAvailableTickets(SENTRE_CAMPAIGN)
+  const [loading, setLoading] = useState(false)
 
   const formatReward = useMemo(() => {
     const material: Material[] = [
@@ -37,6 +40,30 @@ const Spin = () => {
 
     return material
   }, [rewards])
+
+  const onCreateTicket = async () => {
+    setLoading(true)
+    try {
+      const tx = new web3.Transaction()
+      let signer: web3.Keypair[] = []
+      for (let i = 0; i < 5; i++) {
+        const ticket = web3.Keypair.generate()
+        const { tx: txInit } = await window.luckyWheel.initializeTicket({
+          campaign: new web3.PublicKey(SENTRE_CAMPAIGN),
+          ticket,
+          sendAndConfirm: false,
+        })
+        tx.add(txInit)
+        signer.push(ticket)
+      }
+      const txId = await window.luckyWheel.provider.sendAndConfirm(tx, signer)
+      notifySuccess('Create 5 Ticket', txId)
+    } catch (error) {
+      notifyError(error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <Row gutter={[16, 16]} justify="center">
@@ -62,7 +89,12 @@ const Spin = () => {
               />
             </Col>
             <Col>
-              <Button style={{ marginLeft: -12 }} type="text">
+              <Button
+                style={{ marginLeft: -12 }}
+                type="text"
+                onClick={onCreateTicket}
+                loading={loading}
+              >
                 Get more ticket
               </Button>
             </Col>
