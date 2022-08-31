@@ -1,6 +1,7 @@
 import { Col, Row } from 'antd'
 import CreateMintReward from './createMintReward'
 import CreateNftReward from './createNftReward'
+import CreateTicketReward from './createTicketReward'
 import ListMintReward from './listMintReward'
 import ListNftReward from './listNftReward'
 
@@ -14,6 +15,9 @@ const CampaignManagement = ({ campaign }: { campaign: string }) => {
       <Col span={12}>
         <CreateNftReward campaign={campaign} />
         <ListNftReward campaign={campaign} />
+      </Col>
+      <Col span={12}>
+        <CreateTicketReward campaign={campaign} />
       </Col>
     </Row>
   )
