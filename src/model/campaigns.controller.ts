@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { account } from '@senswap/sen-js'
-import { CampaignData } from 'lucky-wheel-core'
+import { CampaignData } from '@sentre/lucky-wheel-core'
 
 /**
  * Interface & Utility

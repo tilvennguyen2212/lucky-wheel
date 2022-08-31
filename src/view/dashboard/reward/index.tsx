@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { TicketData } from 'lucky-wheel-core'
+import { TicketData } from '@sentre/lucky-wheel-core'
 import { web3 } from '@project-serum/anchor'
 
 import { Col, Row, Space, Table, Typography, Switch } from 'antd'

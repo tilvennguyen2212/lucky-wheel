@@ -15,8 +15,8 @@ const conf: Record<Net, Conf> = {
    */
   devnet: {
     node: 'https://api.devnet.solana.com',
-    programId: 'CmPmemCsdSH4CypNJEZRYEa29rhDPdQyadK71ArKmTGT',
-    campaignId: 'F6LdJ4NHPJgLzMF5wuspBkJjHqvcJZkrqGzuzBaGFA2q',
+    programId: 'Hq5UKe4i3Naug6vkr2RGscwec2NCMoeUtLkRyigpuuD4',
+    campaignId: '6wQuaRJ4neURVJfRwmhbH2BzBCx3cABxuSXdh1mDKFYs',
   },
 
   /**
@@ -24,8 +24,8 @@ const conf: Record<Net, Conf> = {
    */
   testnet: {
     node: 'https://api.testnet.solana.com',
-    programId: 'CmPmemCsdSH4CypNJEZRYEa29rhDPdQyadK71ArKmTGT',
-    campaignId: 'F6LdJ4NHPJgLzMF5wuspBkJjHqvcJZkrqGzuzBaGFA2q',
+    programId: 'Hq5UKe4i3Naug6vkr2RGscwec2NCMoeUtLkRyigpuuD4',
+    campaignId: '6wQuaRJ4neURVJfRwmhbH2BzBCx3cABxuSXdh1mDKFYs',
   },
 
   /**
@@ -33,8 +33,8 @@ const conf: Record<Net, Conf> = {
    */
   mainnet: {
     node: 'https://api.mainnet-beta.solana.com',
-    programId: 'CmPmemCsdSH4CypNJEZRYEa29rhDPdQyadK71ArKmTGT',
-    campaignId: 'F6LdJ4NHPJgLzMF5wuspBkJjHqvcJZkrqGzuzBaGFA2q',
+    programId: 'Hq5UKe4i3Naug6vkr2RGscwec2NCMoeUtLkRyigpuuD4',
+    campaignId: '6wQuaRJ4neURVJfRwmhbH2BzBCx3cABxuSXdh1mDKFYs',
   },
 }
 

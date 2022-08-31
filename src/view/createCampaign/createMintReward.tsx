@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { web3, BN } from '@project-serum/anchor'
 import { utilsBN } from '@sen-use/web3'
-import { REWARD_TYPE } from 'lucky-wheel-core'
+import { REWARD_TYPE } from '@sentre/lucky-wheel-core'
 import { useGetMintDecimals } from '@sentre/senhub'
 
 import { Button, Col, InputNumber, Row, Space, Typography } from 'antd'

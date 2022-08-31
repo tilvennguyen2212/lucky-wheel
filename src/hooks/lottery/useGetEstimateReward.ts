@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { BN } from '@project-serum/anchor'
+import { BN, web3 } from '@project-serum/anchor'
 
 import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
 
@@ -8,7 +8,7 @@ export const useGetEstimateReward = (campaign: string) => {
 
   const getEstimateReward = useCallback(
     async (luckyNumber: BN) => {
-      let selectedReward: null | string = null
+      let selectedReward: web3.PublicKey[] = []
       for (const rewardAddr in rewards) {
         const { fromLuckyNumber, toLuckyNumber, reservePrize } =
           rewards[rewardAddr]
@@ -17,12 +17,15 @@ export const useGetEstimateReward = (campaign: string) => {
           toLuckyNumber.gt(luckyNumber) &&
           !reservePrize.isZero()
         ) {
-          if (selectedReward === null) selectedReward = rewardAddr
-          // Check best reward
-          else if (toLuckyNumber.lt(rewards[selectedReward].toLuckyNumber))
-            selectedReward = rewardAddr
+          selectedReward.push(new web3.PublicKey(rewardAddr))
         }
       }
+      // Sort with ratio
+      selectedReward = selectedReward.sort((a, b) => {
+        const ratioA = rewards[a.toBase58()].toLuckyNumber
+        const ratioB = rewards[b.toBase58()].toLuckyNumber
+        return ratioA.gt(ratioB) ? 1 : -1
+      })
       return selectedReward
     },
     [rewards],
