@@ -43,12 +43,13 @@ const CreateCampaign = () => {
   }
 
   const fetchOwnLottery = useCallback(async () => {
+    if (!!ownCampaign) return
     const campaigns = await window.luckyWheel.account.campaign.all()
     for (let campaign of campaigns) {
       if (campaign.account.authority.toBase58() === wallet)
         return setOwnLottery(campaign.publicKey.toBase58())
     }
-  }, [wallet])
+  }, [ownCampaign, wallet])
   useEffect(() => {
     fetchOwnLottery()
   }, [fetchOwnLottery])

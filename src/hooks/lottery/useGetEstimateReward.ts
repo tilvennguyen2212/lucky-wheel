@@ -10,8 +10,13 @@ export const useGetEstimateReward = (campaign: string) => {
     async (luckyNumber: BN) => {
       let selectedReward: null | string = null
       for (const rewardAddr in rewards) {
-        const { fromLuckyNumber, toLuckyNumber } = rewards[rewardAddr]
-        if (fromLuckyNumber.lt(luckyNumber) && toLuckyNumber.gt(luckyNumber)) {
+        const { fromLuckyNumber, toLuckyNumber, reservePrize } =
+          rewards[rewardAddr]
+        if (
+          fromLuckyNumber.lt(luckyNumber) &&
+          toLuckyNumber.gt(luckyNumber) &&
+          !reservePrize.isZero()
+        ) {
           if (selectedReward === null) selectedReward = rewardAddr
           // Check best reward
           else if (toLuckyNumber.lt(rewards[selectedReward].toLuckyNumber))
