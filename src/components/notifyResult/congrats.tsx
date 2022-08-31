@@ -1,15 +1,18 @@
 import { useMemo } from 'react'
 
-import { Button, Col, Image, Modal, Row, Typography } from 'antd'
+import { Avatar, Button, Col, Image, Modal, Row, Typography } from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
-import { MintAmount, MintAvatar, MintSymbol } from '@sen-use/app'
+import { MintAvatar, MintSymbol } from '@sen-use/app'
 
 import { useClaim } from 'hooks/actions/useClaim'
 import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
 import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
 import { SENTRE_CAMPAIGN } from 'constant'
 
+import Ticket from 'static/images/ticket-icon.png'
 import BG from 'static/images/bg-popup.svg'
+import { useMintDecimals, util } from '@sentre/senhub/dist'
+import { utilsBN } from '@sen-use/web3/dist'
 
 type CongratsProps = {
   visible: boolean
@@ -20,6 +23,8 @@ type CongratsProps = {
 const Congrats = ({ onClose, visible, resultReward }: CongratsProps) => {
   const rewards = useRewardByCampaign(SENTRE_CAMPAIGN)
   const tickets = useTicketByCampaign(SENTRE_CAMPAIGN)
+  const { mint, prizeAmount, rewardType } = rewards[resultReward]
+  const decimals = useMintDecimals({ mintAddress: mint.toBase58() }) || 0
   const { loading, onClaim } = useClaim()
 
   const ticketAddress = useMemo(() => {
@@ -30,7 +35,6 @@ const Congrats = ({ onClose, visible, resultReward }: CongratsProps) => {
     return ''
   }, [resultReward, tickets])
 
-  const { mint, prizeAmount, rewardType } = rewards[resultReward]
   return (
     <Modal
       visible={visible}
@@ -51,15 +55,24 @@ const Congrats = ({ onClose, visible, resultReward }: CongratsProps) => {
         </Col>
         <Col span={24} /> {/** Safe place */}
         <Col span={24}>
-          <MintAvatar size={96} mintAddress={mint.toBase58()} />
+          {rewardType.token ? (
+            <MintAvatar size={96} mintAddress={mint.toBase58()} />
+          ) : (
+            <Avatar size={96} src={Ticket} shape="square" />
+          )}
         </Col>
         <Col span={24}>
           <Typography.Title level={3}>
-            {rewardType.token && (
-              <MintAmount mintAddress={mint.toBase58()} amount={prizeAmount} />
+            {rewardType.nftCollection
+              ? 1
+              : util
+                  .numeric(utilsBN.undecimalize(prizeAmount, decimals))
+                  .format('0,0.[0000]')}{' '}
+            {rewardType.nftCollection ? (
+              <MintSymbol mintAddress={mint.toBase58()} />
+            ) : (
+              'Ticket'
             )}
-            {rewardType.nftCollection && 1}
-            <MintSymbol mintAddress={mint.toBase58()} />
           </Typography.Title>
         </Col>
         <Col span={24} /> {/** Safe place */}

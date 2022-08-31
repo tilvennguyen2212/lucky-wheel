@@ -6,13 +6,13 @@ import NotifyResult from 'components/notifyResult'
 
 import { LIST_BG_WHEEL, Reward, SENTRE_CAMPAIGN } from 'constant'
 import { useSpin } from 'hooks/actions/useSpin'
+import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
 
 import ARROW from 'static/images/arrow.png'
 import SOUND from 'static/images/sound.mp3'
 import WINNER from 'static/images/winner.mp3'
 
 import './index.less'
-import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
 
 let audio = new Audio(SOUND)
 let winner = new Audio(WINNER)
@@ -104,7 +104,7 @@ const Wheel = ({ rewards }: WheelProps) => {
   }
 
   return (
-    <Row gutter={[0, 64]}>
+    <Row gutter={[0, 32]}>
       <Col span={24}>
         <div className="container">
           <div className="container-body">

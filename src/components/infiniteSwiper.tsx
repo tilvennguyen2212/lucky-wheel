@@ -47,7 +47,7 @@ const InfiniteSwiper = ({
           <SwiperSlide key={idx} style={{ height }}>
             <Space>
               <Typography.Text>
-                {util.shortenAddress(authority)}{' '}
+                {util.shortenAddress(authority)} won
               </Typography.Text>
               <Typography.Text style={{ color: '#B67AFF' }}>
                 <MintAmount
