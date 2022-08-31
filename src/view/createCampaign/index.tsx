@@ -12,9 +12,7 @@ import { useSpin } from 'hooks/actions/useSpin'
 import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
 
 const CreateCampaign = () => {
-  const [ownCampaign, setOwnLottery] = useState(
-    'WBKP7DASZbdhDrcgFPUSpd8uJ9qVUDe7L2HX9a3tPNe',
-  )
+  const [ownCampaign, setOwnCampaign] = useState('')
   const [loading, setLoading] = useState(false)
   const wallet = useWalletAddress()
   const onSpin = useSpin(ownCampaign)
@@ -48,7 +46,7 @@ const CreateCampaign = () => {
     const campaigns = await window.luckyWheel.account.campaign.all()
     for (let campaign of campaigns) {
       if (campaign.account.authority.toBase58() === wallet)
-        return setOwnLottery(campaign.publicKey.toBase58())
+        return setOwnCampaign(campaign.publicKey.toBase58())
     }
   }, [ownCampaign, wallet])
 
