@@ -50,8 +50,6 @@ const CreateCampaign = () => {
     }
   }, [ownCampaign, wallet])
 
-  console.log(ownCampaign, 'ownCampaign')
-
   useEffect(() => {
     fetchOwnLottery()
   }, [fetchOwnLottery])
