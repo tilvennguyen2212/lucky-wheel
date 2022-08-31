@@ -13,7 +13,7 @@ const Loading = () => {
               <Space direction="vertical" align="center" size={32}>
                 <Spin size="large" />
                 <Typography.Title level={5}>
-                  Welcome to Sen Booster. The application is loading...
+                  Welcome to Sen Lucky Wheel. The application is loading...
                 </Typography.Title>
               </Space>
             </Col>
