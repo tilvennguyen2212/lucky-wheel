@@ -20,8 +20,8 @@ export enum TabId {
 }
 
 export enum GiftStatus {
-  Claimed,
-  Ready,
-  Pending,
+  Claimed = 'CLAIMED',
+  Ready = 'CLAIM',
+  Pending = 'SPIN MORE',
 }
 export const SENTRE_CAMPAIGN = configs.sol.campaignId
