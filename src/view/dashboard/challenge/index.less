@@ -24,7 +24,11 @@
         flex-flow: column;
         align-items: center;
         gap: 24px;
+        .lucky_wheel-image {
+          min-width: 50px;
+        }
         .gift-step-icon {
+          min-width: 48px;
           width: 48px;
           height: 48px;
           border-radius: 24px;
@@ -46,23 +50,33 @@
   &.mobile-direction {
     align-items: flex-start;
     justify-content: flex-start;
+    .ant-card-body {
+      padding: 48px 20px 48px 48px;
+    }
     .inner-challenge-progress {
       flex-flow: row-reverse nowrap !important;
       .challenge-gifts {
+        display: flex;
+        flex-flow: column;
         top: 0;
         gap: 24px;
         .card-challenge-gift {
           position: unset;
           .card-gift {
             flex-flow: row nowrap;
+            gap: 32px;
             .gift-step-icon {
               order: 1;
+              margin-left: -30px;
             }
             .lucky_wheel-image {
               order: 2;
             }
-            button {
+            .card-gift-btn {
+              flex: auto;
               order: 3;
+              display: flex;
+              justify-content: flex-end;
             }
           }
         }

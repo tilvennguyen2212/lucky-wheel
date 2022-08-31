@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { useState, Fragment } from 'react'
 
 import { Col, Row, Segmented, Space, Typography } from 'antd'
 import Icon from '@ant-design/icons'
