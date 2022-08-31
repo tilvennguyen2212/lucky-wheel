@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { useState } from 'react'
 
 import { Col, Row, Segmented, Space, Typography } from 'antd'
 import Icon from '@ant-design/icons'
@@ -44,24 +44,21 @@ const Dashboard = () => {
   const [tabId, setTabId] = useState<string>(TabId.Spin)
 
   return (
-    <Fragment>
-      <Layout>
-        <Row gutter={[64, 64]} style={{ paddingBottom: 24 }}>
-          <Col span={24}>
-            <Segmented
-              value={tabId}
-              onChange={(val) => setTabId(val.toString())}
-              options={LUCKY_WHEEL_TABS}
-              size="large"
-            />
-          </Col>
-          <Col span={24}>
-            <Container tabId={tabId} />
-          </Col>
-        </Row>
-      </Layout>
-      {/* <Container tabId={tabId} /> */}
-    </Fragment>
+    <Layout>
+      <Row gutter={[0, 64]} style={{ paddingBottom: 24 }}>
+        <Col span={24}>
+          <Segmented
+            value={tabId}
+            onChange={(val) => setTabId(val.toString())}
+            options={LUCKY_WHEEL_TABS}
+            size="large"
+          />
+        </Col>
+        <Col span={24}>
+          <Container tabId={tabId} />
+        </Col>
+      </Row>
+    </Layout>
   )
 }
 

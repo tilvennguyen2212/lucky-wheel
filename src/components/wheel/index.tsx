@@ -94,7 +94,7 @@ const Wheel = ({ rewards }: WheelProps) => {
   }
 
   return (
-    <Row gutter={[64, 64]}>
+    <Row gutter={[0, 64]}>
       <Col span={24}>
         <div className="container">
           <div className="container-body">

@@ -19,9 +19,11 @@ const CardGift = ({
     <div className="card-gift">
       <Image src={src} preview={false} />
       <div className={circleCln}>{amount}</div>
-      <Button type="primary" onClick={() => {}} ghost>
-        CLAIM
-      </Button>
+      <div className="card-gift-btn">
+        <Button type="primary" onClick={() => {}} ghost>
+          CLAIM
+        </Button>
+      </div>
     </div>
   )
 }
