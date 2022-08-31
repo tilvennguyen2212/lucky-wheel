@@ -1,3 +1,3 @@
-# My App
+# Sen Lucky Wheel
 
-A sample project for Sentre developers
+Spin and win up to $10,000 NFTs. Earn FREE GIFTS from every spins.
