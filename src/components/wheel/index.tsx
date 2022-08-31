@@ -5,7 +5,7 @@ import DisplayReward from './displayReward'
 import NotifyResult from 'components/notifyResult'
 
 import { LIST_BG_WHEEL, Reward, SENTRE_CAMPAIGN } from 'constant'
-import { useSpin } from 'hooks/lottery/useSpin'
+import { useSpin } from 'hooks/actions/useSpin'
 
 import ARROW from 'static/images/arrow.png'
 import SOUND from 'static/images/sound.mp3'

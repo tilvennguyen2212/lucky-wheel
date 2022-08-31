@@ -1,15 +1,15 @@
 import { Button, Typography } from 'antd'
 
-import { useTicketByOwner } from 'hooks/ticket/useTicketByOwner'
+import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
 import { SENTRE_CAMPAIGN } from 'constant'
-import { useClaim } from 'hooks/lottery/useClaim'
+import { useClaim } from 'hooks/actions/useClaim'
 
 type ColumnActionProps = {
   ticketAddress: string
 }
 
 const ColumnAction = ({ ticketAddress }: ColumnActionProps) => {
-  const tickets = useTicketByOwner(SENTRE_CAMPAIGN)
+  const tickets = useTicketByCampaign(SENTRE_CAMPAIGN)
   const { state } = tickets[ticketAddress]
   const { onClaim, loading } = useClaim()
 

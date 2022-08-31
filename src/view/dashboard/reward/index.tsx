@@ -8,12 +8,12 @@ import ColumnAmount from './columnAmount'
 import ColumnAction from './columnAction'
 
 import { SENTRE_CAMPAIGN } from 'constant'
-import { useTicketByOwner } from 'hooks/ticket/useTicketByOwner'
+import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
 
 type History = TicketData & { ticketAddress: string }
 
 const Reward = () => {
-  const tickets = useTicketByOwner(SENTRE_CAMPAIGN)
+  const tickets = useTicketByCampaign(SENTRE_CAMPAIGN)
   const [claimOnly, setClaimOnly] = useState(false)
 
   const filterTickets = useMemo(() => {

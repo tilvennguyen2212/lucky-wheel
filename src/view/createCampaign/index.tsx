@@ -9,7 +9,7 @@ import configs from 'configs'
 import { useWalletAddress } from '@sentre/senhub/dist'
 import { notifyError, notifySuccess } from 'helper'
 import CampaignManagement from './management'
-import { useSpin } from 'hooks/lottery/useSpin'
+import { useSpin } from 'hooks/actions/useSpin'
 import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
 
 const CreateCampaign = () => {
