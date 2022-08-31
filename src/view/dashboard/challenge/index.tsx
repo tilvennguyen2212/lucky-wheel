@@ -1,7 +1,50 @@
-import React from 'react'
+import { useInfix, Infix } from '@sentre/senhub'
+
+import { Col, Row } from 'antd'
+import Card from 'antd/lib/card/Card'
+import TotalSpined from './totalSpined'
+import ListGift from './listGift'
+import ProgressBar from './progressBar'
+
+import './index.less'
+
+const TOTAL_SPIN = 200
+export const TOTAL_PERCENT = 100 / TOTAL_SPIN
 
 const Challenge = () => {
-  return <div>Challenge</div>
+  const infix = useInfix()
+  const isMobile = infix < Infix.lg
+  const direction = isMobile ? 'vertical' : 'horizontal'
+  const rowGap = isMobile ? 48 : 134
+  const wrapCln = isMobile
+    ? 'card-challenge mobile-direction'
+    : 'card-challenge'
+
+  return (
+    <Card className={wrapCln} bordered={false}>
+      <Row gutter={[24, rowGap]} justify="center">
+        <Col span={24}>
+          <Row className="inner-challenge-progress">
+            <Col className="challenge-gifts" span={24}>
+              <ListGift />
+            </Col>
+            <Col className="challenge-progress">
+              <ProgressBar
+                percent={80 * TOTAL_PERCENT}
+                strokeWitdh={12}
+                background="#212433"
+                successColor="linear-gradient(84.24deg, #9945FF 0%, #B9F8FD 100%)"
+                direction={direction}
+              />
+            </Col>
+          </Row>
+        </Col>
+        <Col className="challenge-action">
+          <TotalSpined />
+        </Col>
+      </Row>
+    </Card>
+  )
 }
 
 export default Challenge

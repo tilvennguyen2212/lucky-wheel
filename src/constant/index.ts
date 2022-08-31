@@ -19,4 +19,9 @@ export enum TabId {
   Challenge = 'challenge',
 }
 
+export enum GiftStatus {
+  Claimed,
+  Ready,
+  Pending,
+}
 export const SENTRE_CAMPAIGN = configs.sol.campaignId

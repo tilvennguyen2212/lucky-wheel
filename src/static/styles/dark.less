@@ -1,5 +1,6 @@
 @import '~antd/dist/antd.less';
 @import './common/vars.less';
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800&display=swap');
 
 // Colors
 @primary-color: @PRIMARY;
@@ -19,6 +20,7 @@
 @disabled-color: @NEUTRAL60;
 @typography-title-margin-top: 0px;
 @typography-title-margin-bottom: 0px;
+@font-family: 'Nunito Sans', sans-serif;
 
 // Border
 @border-color-base: @NEUTRAL20;
@@ -48,7 +50,6 @@
 @btn-shadow: unset;
 @btn-primary-shadow: unset;
 @btn-text-shadow: unset;
-@btn-default-border: none;
 @btn-default-ghost-color: @NEUTRAL100;
 @btn-default-ghost-color: @NEUTRAL100;
 @btn-primary-color: #000000;
@@ -72,16 +73,13 @@
 // Checkbox
 @checkbox-border-radius: @border-radius-base - 4;
 
+// Progress
+@progress-remaining-color: @NEUTRAL100;
+
+// Switch
 @switch-bg: #434342;
 
 // Patch
 .@{ant-prefix}-layout {
   background: unset;
-}
-.@{ant-prefix}-card {
-  box-shadow: @LIGHT_SHADOW1;
-  .glass {
-    background-color: color(~`('@{card-background}99') `);
-    backdrop-filter: blur(4px);
-  }
 }
