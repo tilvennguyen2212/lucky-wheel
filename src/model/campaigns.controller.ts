@@ -19,21 +19,9 @@ const initialState: CampaignState = {}
  * Actions
  */
 
-// export const intCampaign = createAsyncThunk(`${NAME}/intCampaign`, async () => {
-//   let bulk: CampaignState = {}
-//   const { account } = window.luckyWheel.program
-//   const campaigns = await account.campaign.all()
-//   for (const { publicKey, account: campaignData } of campaigns) {
-//     const address = publicKey.toBase58()
-//     bulk[address] = campaignData
-//   }
-//   return bulk
-// })
-
 export const intCampaign = createAsyncThunk(
   `${NAME}/intCampaign`,
   async (bulk: CampaignState) => {
-    console.log('bulkksksksksksks: ', bulk)
     return bulk
   },
 )

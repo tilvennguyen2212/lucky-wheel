@@ -17,6 +17,9 @@ const generator = (origin: string): Conf => ({
     get publicKey() {
       return this.index + '/util/lottery-pubkey'
     },
+    get luckyNumber() {
+      return this.index + '/lucky-number/'
+    },
   },
 })
 

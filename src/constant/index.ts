@@ -1,3 +1,5 @@
+import configs from 'configs'
+
 export enum Reward {
   Token = 'token',
   NFT = 'nft',
@@ -22,3 +24,4 @@ export enum GiftStatus {
   Ready,
   Pending,
 }
+export const SENTRE_CAMPAIGN = configs.sol.campaignId

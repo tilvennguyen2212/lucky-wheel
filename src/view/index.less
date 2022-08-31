@@ -23,11 +23,6 @@
   }
 }
 
-// // Temp to see
-// #lucky_wheel .lucky_wheel-select-dropdown {
-//   background-color: blueviolet !important;
-// }
-
 .lucky_wheel-segmented-lg {
   border-radius: 100px !important;
   width: 100% !important;
@@ -127,14 +122,38 @@
         border-bottom-right-radius: 24px !important;
       }
     }
-    & > tr.lucky_wheel-table-row-level-0:hover > td {
-      background-color: unset !important;
-    }
+    // & > tr.lucky_wheel-table-row-level-0:hover > td {
+    //   cursor: pointer !important;
+    // }
   }
 }
 
 .space-middle-icon {
   .lucky_wheel-space-item {
     display: flex !important;
+  }
+}
+
+.congrats {
+  &_content {
+    text-align: center !important;
+  }
+
+  .lucky_wheel-modal-content {
+    border-radius: 8px !important;
+  }
+  .lucky_wheel-modal-body {
+    position: relative;
+    .lucky_wheel-image {
+      position: absolute !important;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      img {
+        height: 100% !important;
+        object-fit: cover;
+      }
+    }
   }
 }
