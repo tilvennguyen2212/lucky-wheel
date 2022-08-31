@@ -1,6 +1,6 @@
 import { Redirect, Route, Switch } from 'react-router-dom'
 
-import { Affix, Col, Row } from 'antd'
+import { Col, Row } from 'antd'
 import CreateWheel from './createCampaign'
 import Dashboard from './dashboard'
 import Winners from 'components/winners'
@@ -20,9 +20,7 @@ const View = () => {
       <AppWatcher>
         <Row gutter={[24, 24]}>
           <Col span={24}>
-            <Affix>
-              <Winners />
-            </Affix>
+            <Winners />
           </Col>
           <Col span={24}>
             <Switch>

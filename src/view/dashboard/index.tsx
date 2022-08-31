@@ -4,17 +4,18 @@ import { Col, Row, Segmented, Space, Typography } from 'antd'
 import Icon from '@ant-design/icons'
 import Container from './container'
 import Layout from 'components/layout'
+import Challenge from './challenge'
 
 import { TabId } from 'constant'
-import { ReactComponent as Spin } from 'static/images/icons/spin-icon.svg'
-import { ReactComponent as Reward } from 'static/images/icons/reward-icon.svg'
-import { ReactComponent as Challenge } from 'static/images/icons/challenge-icon.svg'
+import { ReactComponent as SpinIcon } from 'static/images/icons/spin-icon.svg'
+import { ReactComponent as RewardIcon } from 'static/images/icons/reward-icon.svg'
+import { ReactComponent as ChallengeIcon } from 'static/images/icons/challenge-icon.svg'
 
 const LUCKY_WHEEL_TABS = [
   {
     label: (
       <Space className="space-middle-icon">
-        <Icon style={{ fontSize: 20 }} component={Spin} />
+        <Icon style={{ fontSize: 20 }} component={SpinIcon} />
         <Typography.Text>Spin</Typography.Text>
       </Space>
     ),
@@ -23,7 +24,7 @@ const LUCKY_WHEEL_TABS = [
   {
     label: (
       <Space className="space-middle-icon">
-        <Icon style={{ fontSize: 20 }} component={Reward} />
+        <Icon style={{ fontSize: 20 }} component={RewardIcon} />
         <Typography.Text>Reward</Typography.Text>
       </Space>
     ),
@@ -32,7 +33,7 @@ const LUCKY_WHEEL_TABS = [
   {
     label: (
       <Space className="space-middle-icon">
-        <Icon style={{ fontSize: 20 }} component={Challenge} />
+        <Icon style={{ fontSize: 20 }} component={ChallengeIcon} />
         <Typography.Text>Challenge</Typography.Text>
       </Space>
     ),
@@ -60,7 +61,7 @@ const Dashboard = () => {
           </Col>
         </Row>
       </Layout>
-      {/* <Container tabId={tabId} /> */}
+      {tabId === TabId.Challenge && <Challenge />}
     </Fragment>
   )
 }

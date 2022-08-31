@@ -40,7 +40,11 @@ const Winners = () => {
   }, [tickets])
 
   return (
-    <Card>
+    <Card
+      bordered={false}
+      style={{ borderRadius: 50 }}
+      bodyStyle={{ padding: 16 }}
+    >
       <InfiniteSwiper
         data={winnersLatestList}
         perViews={perView}

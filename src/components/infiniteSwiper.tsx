@@ -42,22 +42,25 @@ const InfiniteSwiper = ({
       loop
       className="apps-slide-infinite"
     >
-      {data.map(({ authority, rewardAddress }, idx) => (
-        <SwiperSlide key={idx} style={{ height }}>
-          <Space>
-            <Typography.Text>{util.shortenAddress(authority)} </Typography.Text>
-            <Typography.Text style={{ color: '#B67AFF' }}>
-              <MintAmount
-                mintAddress={rewards[rewardAddress].mint.toBase58()}
-                amount={rewards[rewardAddress].prizeAmount}
-              />
-              <MintSymbol
-                mintAddress={rewards[rewardAddress].mint.toBase58()}
-              />
-            </Typography.Text>
-          </Space>
-        </SwiperSlide>
-      ))}
+      {Object.keys(rewards).length &&
+        data.map(({ authority, rewardAddress }, idx) => (
+          <SwiperSlide key={idx} style={{ height }}>
+            <Space>
+              <Typography.Text>
+                {util.shortenAddress(authority)}{' '}
+              </Typography.Text>
+              <Typography.Text style={{ color: '#B67AFF' }}>
+                <MintAmount
+                  mintAddress={rewards[rewardAddress].mint.toBase58()}
+                  amount={rewards[rewardAddress].prizeAmount}
+                />
+                <MintSymbol
+                  mintAddress={rewards[rewardAddress].mint.toBase58()}
+                />
+              </Typography.Text>
+            </Space>
+          </SwiperSlide>
+        ))}
     </Swiper>
   )
 }
