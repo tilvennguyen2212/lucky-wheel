@@ -2,5 +2,5 @@
 declare module '*.mp3'
 
 interface Window {
-  luckyWheel: import('lucky-wheel-core').default
+  luckyWheel: import('@sentre/lucky-wheel-core').default
 }

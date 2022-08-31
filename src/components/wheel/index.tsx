@@ -59,7 +59,13 @@ const Wheel = ({ rewards }: WheelProps) => {
 
   const onSpinning = async () => {
     setPinning(true)
-    const rewardAddress = await onSpin()
+    // Spin
+    const ticket = await onSpin()
+    let rewardAddress: string | null = null
+    try {
+      const ticketData = await window.luckyWheel.account.ticket.fetch(ticket)
+      if (ticketData.state.won) rewardAddress = ticketData.reward.toBase58()
+    } catch (error) {}
 
     audio.play()
     let wheel = document.getElementById('wheel')

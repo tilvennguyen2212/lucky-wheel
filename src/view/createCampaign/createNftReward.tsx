@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { web3, BN } from '@project-serum/anchor'
 
-import { REWARD_TYPE } from 'lucky-wheel-core'
+import { REWARD_TYPE } from '@sentre/lucky-wheel-core'
 
 import { Button, Col, InputNumber, Row, Space, Typography } from 'antd'
 import { AvatarNFT } from '@sen-use/components'
