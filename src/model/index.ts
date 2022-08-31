@@ -2,6 +2,9 @@ import { configureStore } from '@reduxjs/toolkit'
 import { devTools, bigintSerializationMiddleware } from 'model/devTools'
 
 import main from 'model/main.controller'
+import campaigns from 'model/campaigns.controller'
+import rewards from 'model/rewards.controller'
+import tickets from 'model/tickets.controller'
 
 /**
  * Isolated store
@@ -12,6 +15,9 @@ const model = configureStore({
   devTools: devTools(process.env.REACT_APP_ID as string),
   reducer: {
     main,
+    campaigns,
+    rewards,
+    tickets,
   },
 })
 

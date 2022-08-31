@@ -5,6 +5,8 @@ import { Net } from '@sentre/senhub'
  */
 type Conf = {
   node: string
+  programId: string
+  campaignId: string
 }
 
 const conf: Record<Net, Conf> = {
@@ -13,6 +15,8 @@ const conf: Record<Net, Conf> = {
    */
   devnet: {
     node: 'https://api.devnet.solana.com',
+    programId: 'CmPmemCsdSH4CypNJEZRYEa29rhDPdQyadK71ArKmTGT',
+    campaignId: 'F6LdJ4NHPJgLzMF5wuspBkJjHqvcJZkrqGzuzBaGFA2q',
   },
 
   /**
@@ -20,6 +24,8 @@ const conf: Record<Net, Conf> = {
    */
   testnet: {
     node: 'https://api.testnet.solana.com',
+    programId: 'CmPmemCsdSH4CypNJEZRYEa29rhDPdQyadK71ArKmTGT',
+    campaignId: 'F6LdJ4NHPJgLzMF5wuspBkJjHqvcJZkrqGzuzBaGFA2q',
   },
 
   /**
@@ -27,6 +33,8 @@ const conf: Record<Net, Conf> = {
    */
   mainnet: {
     node: 'https://api.mainnet-beta.solana.com',
+    programId: 'CmPmemCsdSH4CypNJEZRYEa29rhDPdQyadK71ArKmTGT',
+    campaignId: 'F6LdJ4NHPJgLzMF5wuspBkJjHqvcJZkrqGzuzBaGFA2q',
   },
 }
 

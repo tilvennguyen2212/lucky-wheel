@@ -1,0 +1,100 @@
+.card-challenge {
+  backdrop-filter: blur(96px);
+  border-radius: 24px;
+  min-height: 644px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  .ant-card-body {
+    padding: 64px;
+    width: 100%;
+  }
+  .challenge-gifts {
+    top: -292px;
+    z-index: 9;
+  }
+  .inner-challenge-progress {
+    .challenge-progress {
+      width: 100%;
+    }
+    .card-challenge-gift {
+      position: absolute;
+      .card-gift {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        gap: 24px;
+        .lucky_wheel-image {
+          min-width: 50px;
+          opacity: 0.6;
+        }
+        .gift-step-icon {
+          min-width: 48px;
+          width: 48px;
+          height: 48px;
+          border-radius: 24px;
+          background: rgb(255, 255, 255);
+          margin: auto;
+          color: rgb(33, 36, 51);
+          line-height: 48px;
+          font-size: 16px;
+          font-weight: 700;
+          text-align: center;
+        }
+        .card-gift-btn {
+          &.claimed-btn {
+            pointer-events: none;
+          }
+        }
+        &.active {
+          .gift-step-icon {
+            background: linear-gradient(84.24deg, #9945ff 0%, #b9f8fd 100%);
+          }
+          .lucky_wheel-image {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+
+  &.mobile-direction {
+    align-items: flex-start;
+    justify-content: flex-start;
+    .ant-card-body {
+      padding: 48px 20px 48px 48px;
+    }
+    .inner-challenge-progress {
+      flex-flow: row-reverse nowrap !important;
+      .challenge-gifts {
+        display: flex !important;
+        flex-flow: column;
+        top: 0;
+        gap: 24px;
+        .card-challenge-gift {
+          position: unset;
+          .card-gift {
+            flex-flow: row nowrap;
+            gap: 32px;
+            .gift-step-icon {
+              order: 1;
+              margin-left: -30px;
+            }
+            .lucky_wheel-image {
+              order: 2;
+            }
+            .card-gift-btn {
+              flex: auto;
+              order: 3;
+              display: flex;
+              justify-content: flex-end;
+            }
+          }
+        }
+      }
+      .challenge-progress {
+        width: auto;
+      }
+    }
+  }
+}
