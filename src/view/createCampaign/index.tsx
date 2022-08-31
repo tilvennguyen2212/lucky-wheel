@@ -4,7 +4,6 @@ import { BN, web3 } from '@project-serum/anchor'
 
 import { Button, Col, Row, Space, Typography } from 'antd'
 
-import './index.less'
 import configs from 'configs'
 import { useWalletAddress } from '@sentre/senhub/dist'
 import { notifyError, notifySuccess } from 'helper'
@@ -13,7 +12,9 @@ import { useSpin } from 'hooks/actions/useSpin'
 import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
 
 const CreateCampaign = () => {
-  const [ownCampaign, setOwnLottery] = useState(configs.sol.campaignId)
+  const [ownCampaign, setOwnLottery] = useState(
+    'WBKP7DASZbdhDrcgFPUSpd8uJ9qVUDe7L2HX9a3tPNe',
+  )
   const [loading, setLoading] = useState(false)
   const wallet = useWalletAddress()
   const onSpin = useSpin(ownCampaign)
@@ -50,6 +51,7 @@ const CreateCampaign = () => {
         return setOwnLottery(campaign.publicKey.toBase58())
     }
   }, [ownCampaign, wallet])
+
   useEffect(() => {
     fetchOwnLottery()
   }, [fetchOwnLottery])
