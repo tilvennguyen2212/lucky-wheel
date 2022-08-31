@@ -1,9 +1,9 @@
 import { useCallback } from 'react'
 import { web3 } from '@project-serum/anchor'
 
-import { useAvailableTickets } from './useAvailableTickets'
-import { useGetEstimateReward } from './useGetEstimateReward'
-import { useGetTicketPickerData } from './useGetTicketPickerData'
+import { useAvailableTickets } from '../lottery/useAvailableTickets'
+import { useGetEstimateReward } from '../lottery/useGetEstimateReward'
+import { useGetTicketPickerData } from '../lottery/useGetTicketPickerData'
 
 export type SpinResult = {}
 
