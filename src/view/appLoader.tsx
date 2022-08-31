@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from 'react'
 import { getAnchorProvider } from '@sen-use/web3'
 import { rpc, useWalletAddress } from '@sentre/senhub'
-import LuckyWheel from 'lucky-wheel-core'
+import LuckyWheel from '@sentre/lucky-wheel-core'
 
 import configs from 'configs'
 

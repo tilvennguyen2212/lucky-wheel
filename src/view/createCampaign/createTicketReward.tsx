@@ -8,14 +8,18 @@ import { Button, Col, InputNumber, Row, Space, Typography } from 'antd'
 import { MintSelection } from '@sen-use/app'
 
 import { notifyError, notifySuccess } from 'helper'
+import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
 
-const CreateMintReward = ({ campaign }: { campaign: string }) => {
+const CreateTicketReward = ({ campaign }: { campaign: string }) => {
   const [selectedMint, setSelectedMint] = useState('')
   const [totalPrize, setTotalPrize] = useState(0)
   const [prizeAmount, setPrizeAmount] = useState(0)
   const [ratio, setRatio] = useState(0)
   const [loading, setLoading] = useState(false)
   const getMintDecimals = useGetMintDecimals()
+  const tickets = useAvailableTickets(campaign)
+
+  console.log(tickets, 'tickets')
 
   async function onCreateMintReward() {
     setLoading(true)
@@ -30,7 +34,7 @@ const CreateMintReward = ({ campaign }: { campaign: string }) => {
         campaign: new web3.PublicKey(campaign),
         rewardMint: new web3.PublicKey(selectedMint),
         prizeAmount: prizeAmountBN,
-        rewardType: REWARD_TYPE.token,
+        rewardType: REWARD_TYPE.ticket,
         reward,
         sendAndConfirm: false,
       })
@@ -111,4 +115,4 @@ const CreateMintReward = ({ campaign }: { campaign: string }) => {
   )
 }
 
-export default CreateMintReward
+export default CreateTicketReward
