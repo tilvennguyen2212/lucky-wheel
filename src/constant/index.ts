@@ -1,3 +1,5 @@
+import configs from 'configs'
+
 export enum Reward {
   Token = 'token',
   NFT = 'nft',
@@ -17,8 +19,4 @@ export enum TabId {
   Challenge = 'challenge',
 }
 
-export const LUCKY_WHEEL_TABS = [
-  { label: 'Spin', value: TabId.Spin },
-  { label: 'Your Reward', value: TabId.Reward },
-  { label: 'Challenge', value: TabId.Challenge },
-]
+export const SENTRE_CAMPAIGN = configs.sol.campaignId

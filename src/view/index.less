@@ -23,13 +23,6 @@ button {
   }
 }
 
-// // Temp to see
-// #lucky_wheel .lucky_wheel-select-dropdown {
-//   background-color: blueviolet !important;
-// }
-
-
-
 .lucky_wheel-segmented-lg {
   border-radius: 100px !important;
   width: 100% !important;
@@ -38,15 +31,36 @@ button {
     height: 48px !important;
     width: 100%;
     padding: 5px;
+    &-label {
+      filter: grayscale(1);
+      .lucky_wheel-typography {
+        color: #a6a7ad !important;
+      }
+    }
     &-selected {
       box-shadow: none !important;
       border-radius: 50px !important;
+      .lucky_wheel-segmented-item-label {
+        filter: grayscale(0) !important;
+        .lucky_wheel-typography {
+          color: #f4f4f5 !important;
+        }
+      }
+
       background: linear-gradient(
         84.24deg,
         rgba(153, 69, 255, 0.15) 0%,
         rgba(185, 248, 253, 0.15) 100%
       ) !important;
     }
+  }
+  .lucky_wheel-segmented-thumb {
+    border-radius: 50px !important;
+    background: linear-gradient(
+      84.24deg,
+      rgba(153, 69, 255, 0.15) 0%,
+      rgba(185, 248, 253, 0.15) 100%
+    ) !important;
   }
 }
 
@@ -108,8 +122,38 @@ button {
         border-bottom-right-radius: 24px !important;
       }
     }
-    & > tr.lucky_wheel-table-row-level-0:hover > td {
-      background-color: unset !important;
+    // & > tr.lucky_wheel-table-row-level-0:hover > td {
+    //   cursor: pointer !important;
+    // }
+  }
+}
+
+.space-middle-icon {
+  .lucky_wheel-space-item {
+    display: flex !important;
+  }
+}
+
+.congrats {
+  &_content {
+    text-align: center !important;
+  }
+
+  .lucky_wheel-modal-content {
+    border-radius: 8px !important;
+  }
+  .lucky_wheel-modal-body {
+    position: relative;
+    .lucky_wheel-image {
+      position: absolute !important;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      img {
+        height: 100% !important;
+        object-fit: cover;
+      }
     }
   }
 }

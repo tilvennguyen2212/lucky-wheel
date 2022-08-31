@@ -1,6 +1,6 @@
 import { Redirect, Route, Switch } from 'react-router-dom'
 
-import CreateWheel from './createWheel'
+import CreateWheel from './createCampaign'
 import Dashboard from './dashboard'
 
 import { useAppRouter } from 'hooks/useAppRouter'
