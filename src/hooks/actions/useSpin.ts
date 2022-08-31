@@ -4,12 +4,14 @@ import { web3 } from '@project-serum/anchor'
 import { useAvailableTickets } from '../lottery/useAvailableTickets'
 import { useGetEstimateReward } from '../lottery/useGetEstimateReward'
 import { useGetTicketPickerData } from '../lottery/useGetTicketPickerData'
+import { useLoseTicket } from 'hooks/lottery/useLoseTickets'
 
 export type SpinResult = {}
 
 export const useSpin = (campaign: string) => {
   const getEstimateReward = useGetEstimateReward(campaign)
   const availableTickets = useAvailableTickets(campaign)
+  const loseTicket = useLoseTicket(campaign)
   const getTicketPickerData = useGetTicketPickerData()
 
   const spin = useCallback(async (): Promise<string> => {
@@ -46,16 +48,22 @@ export const useSpin = (campaign: string) => {
     })
     tx.add(checkPrize)
     // Close if lose
-    if (!estimateRewards.length) {
+    for (const loseTicketAddr of Object.keys(loseTicket)) {
       const { tx: txClose } = await window.luckyWheel.closeTicket({
-        ...pickerData,
+        ticket: new web3.PublicKey(loseTicketAddr),
         sendAndConfirm: false,
       })
       tx.add(txClose)
     }
     await window.luckyWheel.provider.sendAndConfirm(tx)
     return ticket
-  }, [availableTickets, campaign, getEstimateReward, getTicketPickerData])
+  }, [
+    availableTickets,
+    campaign,
+    getEstimateReward,
+    getTicketPickerData,
+    loseTicket,
+  ])
 
   return spin
 }
