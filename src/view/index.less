@@ -71,6 +71,24 @@ button:not(.lucky_wheel-btn-background-ghost) {
 }
 
 //Table
+.reward {
+  .lucky_wheel-table-title {
+    background:rgba(255, 255, 255, 0.1) ;
+    border-radius: 24px 24px 0 0 !important;
+  }
+  .lucky_wheel-table {
+    background: transparent !important;
+    &-thead {
+      & > tr:first-child > th:first-child {
+        border-radius: 0px 0 0 0 !important;
+      }
+      & > tr:last-child > th:last-child {
+        border-radius: 0 0px 0 0 !important;
+      }
+    }
+  }
+}
+
 .lucky_wheel-table {
   background: transparent !important;
   &-thead {
