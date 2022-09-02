@@ -24,4 +24,6 @@ export enum GiftStatus {
   Ready = 'CLAIM',
   Pending = 'SPIN MORE',
 }
+
+export const EMPTY_ADDRESS = '11111111111111111111111111111111'
 export const SENTRE_CAMPAIGN = configs.sol.campaignId
