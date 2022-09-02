@@ -1,14 +1,15 @@
 import { CSSProperties } from 'react'
+import { util } from '@sentre/senhub'
+
 import { Autoplay, Lazy } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { util } from '@sentre/senhub'
-import { MintAmount, MintSymbol } from '@sen-use/app'
-
 import { Space, Typography } from 'antd'
+import { Winner } from './winners'
+import { RewardAmount } from './reward/rewardAmount'
+import { RewardName } from './reward/rewardName'
 
 import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
 import { SENTRE_CAMPAIGN } from 'constant'
-import { Winner } from './winners'
 
 type InfiniteSwiperProps = {
   perViews?: number
@@ -50,13 +51,8 @@ const InfiniteSwiper = ({
                 {util.shortenAddress(authority)} won
               </Typography.Text>
               <Typography.Text style={{ color: '#B67AFF' }}>
-                <MintAmount
-                  mintAddress={rewards[rewardAddress].mint.toBase58()}
-                  amount={rewards[rewardAddress].prizeAmount}
-                />
-                <MintSymbol
-                  mintAddress={rewards[rewardAddress].mint.toBase58()}
-                />
+                <RewardAmount rewardAddress={rewardAddress} />{' '}
+                <RewardName rewardAddress={rewardAddress} />
               </Typography.Text>
             </Space>
           </SwiperSlide>
