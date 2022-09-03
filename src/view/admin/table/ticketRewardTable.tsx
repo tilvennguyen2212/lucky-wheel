@@ -1,21 +1,22 @@
+import { useMemo } from 'react'
 import { BN } from '@project-serum/anchor'
 import { useSelector } from 'react-redux'
+import { AppState } from 'model'
 
-import { MintAmount } from '@sen-use/app'
 import RewardTable from './rewardTable'
 import { Row, Typography } from 'antd'
+import RewardRatio from 'components/reward/rewardRatio'
+import { RewardAmount } from 'components/reward/rewardAmount'
 
-import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
-import { AppState } from 'model'
+import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
 
 const columns = [
   {
     title: 'Prize Amount',
-    dataIndex: 'prizeAmount',
-    key: 'prizeAmount',
-    render: (prizeAmount: BN, data: any) => {
-      console.log('du lieu trong cot peirxx', data, prizeAmount)
-      return <MintAmount mintAddress={data.mint} amount={prizeAmount} />
+    dataIndex: 'address',
+    key: 'address',
+    render: (rewardAddress: string) => {
+      return <RewardAmount rewardAddress={rewardAddress} />
     },
   },
   {
@@ -29,19 +30,17 @@ const columns = [
 
   {
     title: 'Ratio',
-    dataIndex: 'ratio',
-    key: 'ratio',
-    render: (ratio: BN) => (
+    dataIndex: 'address',
+    key: 'address',
+    render: (address: string) => (
       <Typography.Text>
-        {(Number(ratio.toString()) / 10 ** 18) * 100}%
+        <RewardRatio rewardAddress={address} />
       </Typography.Text>
     ),
   },
   {
     title: 'Action',
-    dataIndex: 'campaign',
-    key: 'campaign',
-    render: (campaign: string) => <ColumnAction />,
+    render: () => <ColumnAction />,
   },
 ]
 
@@ -51,26 +50,16 @@ const ColumnAction = () => {
 
 const TicketRewardTable = () => {
   const campaign = useSelector((state: AppState) => state.main.campaign)
-  const tickets = useTicketByCampaign(campaign)
-  console.log('reward chua filter', tickets)
-  const data: [] = []
+  const rewards = useRewardByCampaign(campaign)
 
-  // TODO: pending
-  // useMemo(() => {
-  //   const ticketValues = Object.values(tickets)
-  //   const prizeAmount = ticketValues.length
-  //   const reservePrize = ticketValues.filter(
-  //     (val) => !!val.state.initialized,
-  //   ).length
-  //   const ratio = toLuckyNumber
+  const data = useMemo(() => {
+    return Object.keys(rewards)
+      .filter((address) => !!rewards[address].rewardType.ticket)
+      .map((address) => {
+        return { address, ...rewards[address] }
+      })
+  }, [rewards])
 
-  //   return Object.values(tickets).map((val) => {
-  //     return {
-  //       prizeAmount: tickets.l,
-  //     }
-  //   })
-  // }, [])
-  console.log('reward da filter: ', data)
   return <RewardTable title={'Ticket Rewards'} columns={columns} data={data} />
 }
 
