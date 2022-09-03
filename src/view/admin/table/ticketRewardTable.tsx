@@ -50,7 +50,7 @@ const ColumnAction = () => {
 }
 
 const TicketRewardTable = () => {
-  const { campaign } = useSelector((state: AppState) => state.manageCampaign)
+  const campaign = useSelector((state: AppState) => state.main.campaign)
   const tickets = useTicketByCampaign(campaign)
   console.log('reward chua filter', tickets)
   const data: [] = []

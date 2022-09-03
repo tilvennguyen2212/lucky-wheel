@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Button, Col, Row, Select, Space } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { setCampaign } from 'model/manageCampaign.controller'
+import { setCampaign } from 'model/main.controller'
 import { useOwnerCampaign } from 'hooks/campaign/useOwnerCampaign'
 import { useInitializeCampaign } from 'hooks/admin/useIntializeCampaign'
 import { AppState } from 'model'
@@ -10,7 +10,7 @@ import { AppState } from 'model'
 const { Option } = Select
 
 const Header = () => {
-  const { campaign } = useSelector((state: AppState) => state.manageCampaign)
+  const campaign = useSelector((state: AppState) => state.main.campaign)
   const dispatch = useDispatch()
   const ownerCampaigns = useOwnerCampaign()
   const { onInitializeCampaign } = useInitializeCampaign()

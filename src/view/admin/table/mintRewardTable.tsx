@@ -153,7 +153,7 @@ type MintRewardTableProps = {
 }
 
 const MintRewardTable = ({ rewardType }: MintRewardTableProps) => {
-  const { campaign } = useSelector((state: AppState) => state.manageCampaign)
+  const campaign = useSelector((state: AppState) => state.main.campaign)
   const rewards = useRewardByCampaign(campaign)
 
   const data = useMemo(() => {

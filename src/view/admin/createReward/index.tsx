@@ -25,7 +25,7 @@ import { AppState } from 'model'
 const { Option } = Select
 
 const CreateReward = () => {
-  const { campaign } = useSelector((state: AppState) => state.manageCampaign)
+  const campaign = useSelector((state: AppState) => state.main.campaign)
   const [type, setType] = useState(RewardType.Token)
   const [selectedMint, setSelectedMint] = useState('')
   const [nftCollection, setNftCollection] = useState('')
