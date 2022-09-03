@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { setCampaign } from 'model/manageCampaign.controller'
 import { useOwnerCampaign } from 'hooks/campaign/useOwnerCampaign'
-import { useInitializeCampaign } from 'hooks/actions/useIntializeCampaign'
+import { useInitializeCampaign } from 'hooks/admin/useIntializeCampaign'
 import { AppState } from 'model'
 
 const { Option } = Select

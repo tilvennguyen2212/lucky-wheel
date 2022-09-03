@@ -18,8 +18,8 @@ import {
 } from 'antd'
 
 import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
-import { useUpdateRatio } from 'hooks/actions/useUpdateRatio'
-import { useDepositReward } from 'hooks/actions/useDepositReward'
+import { useUpdateRatio } from 'hooks/admin/useUpdateRatio'
+import { useDepositReward } from 'hooks/admin/useDepositReward'
 import { AppState } from 'model'
 
 const { Panel } = Collapse

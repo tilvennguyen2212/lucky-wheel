@@ -1,4 +1,3 @@
-import React from 'react'
 import { Col, Row, Table, Typography } from 'antd'
 
 type RewardTableProps = {
@@ -17,7 +16,9 @@ const RewardTable = ({ title, columns, data }: RewardTableProps) => {
           title={() => (
             <Row justify="center">
               <Col>
-                <Typography.Text>{title}</Typography.Text>
+                <Typography.Title level={5} style={{ fontWeight: 'bold' }}>
+                  {title}
+                </Typography.Title>
               </Col>
             </Row>
           )}

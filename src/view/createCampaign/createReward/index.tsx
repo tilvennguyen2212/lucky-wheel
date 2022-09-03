@@ -17,9 +17,9 @@ import NftCollection from '../nftCollection'
 
 import { RewardType } from 'constant'
 
-import { useInitializeTokenReward } from 'hooks/actions/useInitalizeTokenReward'
-import { useInitializeTicket } from 'hooks/actions/useInitializeTicket'
-import { useInitializeNFTReward } from 'hooks/actions/useInitializeNFTReward'
+import { useInitializeTokenReward } from 'hooks/admin/useInitalizeTokenReward'
+import { useInitializeTicket } from 'hooks/admin/useInitializeTicket'
+import { useInitializeNFTReward } from 'hooks/admin/useInitializeNFTReward'
 import { AppState } from 'model'
 
 const { Option } = Select
@@ -138,7 +138,7 @@ const CreateReward = () => {
         </Row>
       </Col>
       <Col xs={24} lg={16}>
-        <Button block onClick={onCreateReward}>
+        <Button block onClick={onCreateReward} type="primary">
           Create {type} Reward
         </Button>
       </Col>
