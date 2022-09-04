@@ -1,24 +1,17 @@
-import { useEffect } from 'react'
 import { Button, Col, Row, Select, Space } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { setCampaign } from 'model/main.controller'
-import { useOwnerCampaign } from 'hooks/campaign/useOwnerCampaign'
 import { useInitializeCampaign } from 'hooks/admin/useIntializeCampaign'
+
+import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 import { AppState } from 'model'
 
-const { Option } = Select
-
 const Header = () => {
-  const campaign = useSelector((state: AppState) => state.main.campaign)
   const dispatch = useDispatch()
-  const ownerCampaigns = useOwnerCampaign()
+  const campaigns = useSelector((state: AppState) => state.campaigns)
+  const selectedCampaign = useSelectedCampaign()
   const { onInitializeCampaign } = useInitializeCampaign()
-  const campaignAddresses = Object.keys(ownerCampaigns)
-
-  useEffect(() => {
-    dispatch(setCampaign({ campaign: Object.keys(ownerCampaigns)[0] }))
-  }, [dispatch, ownerCampaigns])
 
   return (
     <Row justify="end">
@@ -28,13 +21,13 @@ const Header = () => {
           <Col>
             <Select
               style={{ width: 120 }}
-              onChange={(val) => dispatch(setCampaign({ campaign: val }))}
-              value={campaign}
+              onChange={(campaign) => dispatch(setCampaign({ campaign }))}
+              value={selectedCampaign}
             >
-              {campaignAddresses.map((address) => (
-                <Option key={address} value={address}>
+              {Object.keys(campaigns).map((address) => (
+                <Select.Option key={address} value={address}>
                   {address}
-                </Option>
+                </Select.Option>
               ))}
             </Select>
           </Col>

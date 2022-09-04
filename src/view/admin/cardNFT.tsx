@@ -1,11 +1,12 @@
+import { useState } from 'react'
 import { web3, BN } from '@project-serum/anchor'
 
 import { Button, Col, Row, Space, Typography } from 'antd'
 import { AvatarNFT, NFTSelection } from '@sen-use/components'
 
-import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
-import { useState } from 'react'
-import { notifyError, notifySuccess } from '@sen-use/app/dist'
+import { notifyError, notifySuccess } from 'helper'
+import { useReward } from 'hooks/reward/useReward'
+
 const CardNFT = ({
   campaign,
   rewardAddress,
@@ -14,9 +15,8 @@ const CardNFT = ({
   rewardAddress: string
 }) => {
   const [mintNft, setMintNft] = useState('')
-  const rewards = useRewardByCampaign(campaign)
-  const { mint, prizeAmount, reservePrize, toLuckyNumber } =
-    rewards[rewardAddress]
+  const reward = useReward(rewardAddress)
+  const { mint, prizeAmount, reservePrize, toLuckyNumber } = reward
 
   const onDeposit = async () => {
     try {
