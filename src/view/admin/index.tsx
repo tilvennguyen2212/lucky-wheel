@@ -1,12 +1,32 @@
-import { REWARD_TYPE } from '@sentre/lucky-wheel-core'
-
 import { Col, Row } from 'antd'
 import Header from './header'
 import CreateReward from './createReward'
-import MintRewardTable from './table/mintRewardTable'
-import TicketRewardTable from './table/ticketRewardTable'
+import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
+import ListReward from './listRewards'
+import configs from 'configs'
 
-const CreateCampaign = () => {
+const Admin = () => {
+  const rewards = useRewardByCampaign(configs.sol.campaignId)
+
+  const wrapListRewardData = (rewardAddrs: string[]) => {
+    return rewardAddrs.map((address) => {
+      return { address, ...rewards[address] }
+    })
+  }
+
+  const tokenRewards = Object.keys(rewards).filter(
+    (addr) => !!rewards[addr].rewardType.token,
+  )
+
+  const collectionRewards = Object.keys(rewards).filter(
+    (addr) => !!rewards[addr].rewardType.nft,
+  )
+
+  const ticketRewards = Object.keys(rewards).filter(
+    (addr) => !!rewards[addr].rewardType.ticket,
+  )
+
+  console.log('tokenRewards', tokenRewards)
   return (
     <Row gutter={[24, 24]}>
       <Col span={24}>
@@ -16,16 +36,25 @@ const CreateCampaign = () => {
         <CreateReward />
       </Col>
       <Col span={24}>
-        <MintRewardTable rewardType={REWARD_TYPE.token} />
+        <ListReward
+          data={wrapListRewardData(tokenRewards)}
+          title="Token rewards"
+        />
       </Col>
       <Col span={24}>
-        <MintRewardTable rewardType={REWARD_TYPE.nft} />
+        <ListReward
+          data={wrapListRewardData(collectionRewards)}
+          title="Collection rewards"
+        />
       </Col>
       <Col span={24}>
-        <TicketRewardTable />
+        <ListReward
+          data={wrapListRewardData(ticketRewards)}
+          title="Ticket rewards"
+        />
       </Col>
     </Row>
   )
 }
 
-export default CreateCampaign
+export default Admin
