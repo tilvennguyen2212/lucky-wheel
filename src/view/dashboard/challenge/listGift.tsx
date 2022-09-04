@@ -1,10 +1,11 @@
 import { Fragment } from 'react'
 
-import { GiftStatus } from 'constant'
+import { GiftStatus, SENTRE_CAMPAIGN } from 'constant'
 
 import imgGift from 'static/images/gifts/gift01.png'
 import CardGift from './cardGift'
 import { TOTAL_PERCENT } from './index'
+import { useLotteryInfo } from 'hooks/useLotteryInfo'
 
 const MINT_WIDTH = 150
 
@@ -16,7 +17,10 @@ const STEP_REWARDS: SepRewardState = {
   120: { src: imgGift, status: GiftStatus.Pending },
   180: { src: imgGift, status: GiftStatus.Pending },
 }
+
 const ListGift = () => {
+  const lotteryInfo = useLotteryInfo(SENTRE_CAMPAIGN)
+
   return (
     <Fragment>
       {Object.keys(STEP_REWARDS).map((key) => {
@@ -36,7 +40,7 @@ const ListGift = () => {
                 src={src}
                 status={status}
                 amount={key}
-                active={Number(key) <= 50}
+                active={Number(key) <= lotteryInfo.totalClaimed.toNumber()}
               />
             </div>
           </div>

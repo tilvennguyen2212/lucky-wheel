@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { TicketData } from '@sentre/lucky-wheel-core'
-import { web3 } from '@project-serum/anchor'
+import { web3, BN } from '@project-serum/anchor'
 
 import { Col, Row, Space, Table, Typography, Switch } from 'antd'
 import ColumnReward from './columnReward'
@@ -9,6 +9,7 @@ import ColumnAction from './columnAction'
 
 import { SENTRE_CAMPAIGN } from 'constant'
 import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
+import moment from 'moment'
 
 type History = TicketData & { ticketAddress: string }
 
@@ -28,6 +29,16 @@ const Reward = () => {
   }, [claimOnly, tickets])
 
   const columns = [
+    {
+      title: 'TIME',
+      dataIndex: 'pickAt',
+      key: 'pickAt',
+      render: (pickAt: BN) => (
+        <Typography.Text>
+          {moment(pickAt.toNumber() * 1000).format("'MMM DD, YYYY HH:mm")}
+        </Typography.Text>
+      ),
+    },
     {
       title: 'REWARD',
       dataIndex: 'reward',
@@ -53,6 +64,8 @@ const Reward = () => {
       ),
     },
   ]
+
+  console.log(filterTickets, 'filterTickets')
 
   return (
     <Row gutter={[12, 12]}>

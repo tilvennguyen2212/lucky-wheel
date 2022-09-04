@@ -20,7 +20,6 @@ export const useAvailableTickets = (campaignAddress: string) => {
     const bulk: TicketState = {}
     for (const address in tickets) {
       const ticketData = tickets[address]
-      console.log('ticketData', ticketData.reward.toBase58())
       const { authority, campaign } = ticketData
       if (
         authority.toBase58() !== walletAddress ||

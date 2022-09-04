@@ -30,7 +30,6 @@ export const useGetTicketPickerData = () => {
       }>(configs.api.lottery.luckyNumber + ticketAddress, {
         withCredentials: true,
       })
-      console.log('pickerData', pickerData)
       const signature = Array.from(Buffer.from(pickerData.signature, 'hex'))
       return {
         ticket: new web3.PublicKey(ticketAddress),
