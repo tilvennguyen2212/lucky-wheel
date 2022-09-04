@@ -1,8 +1,5 @@
 import { useCallback } from 'react'
 import { web3, BN } from '@project-serum/anchor'
-import axios from 'axios'
-
-import configs from 'configs'
 
 export type PickerData = {
   ticket: web3.PublicKey
@@ -33,7 +30,6 @@ export const useGetTicketPickerData = () => {
       const pickerData = window.luckyWheel.picker.sign(
         new web3.PublicKey(ticketAddress).toBuffer(),
       )
-      console.log('pickerData', pickerData)
       // const signature = Array.from(Buffer.from(pickerData.signature, 'hex'))
       const signature = Array.from(pickerData.signature)
       return {
