@@ -13,6 +13,7 @@ import SOUND from 'static/images/sound.mp3'
 import WINNER from 'static/images/winner.mp3'
 
 import './index.less'
+import { notifyError } from 'helper'
 
 let audio = new Audio(SOUND)
 let winner = new Audio(WINNER)
@@ -58,49 +59,54 @@ const Wheel = ({ rewards }: WheelProps) => {
   }, [rewards.length])
 
   const onSpinning = async () => {
-    setPinning(true)
-    // Spin
-    const ticket = await onSpin()
-    let rewardAddress: string | null = null
     try {
+      setPinning(true)
+      // Spin
+      const ticket = await onSpin()
+      let rewardAddress: string | null = null
+
       const ticketData = await window.luckyWheel.account.ticket.fetch(ticket)
       if (ticketData.state.won) rewardAddress = ticketData.reward.toBase58()
-    } catch (error) {}
 
-    audio.play()
-    let wheel = document.getElementById('wheel')
+      audio.play()
+      let wheel = document.getElementById('wheel')
 
-    if (!wheel) return
-
-    const max = -20000
-    const min = -10000
-    let deg = Math.floor(Math.random() * (max - min + 1)) + min
-    wheel.style.transform = 'rotate(' + deg + 'deg)'
-    wheel.style.transition = '3s all'
-
-    setResultReward(rewardAddress || Reward.GoodLuck)
-
-    setTimeout(() => {
       if (!wheel) return
-      deg = -(value.get(rewardAddress || Reward.GoodLuck) || 0) - contentDeg //Value selected
+
+      const max = -20000
+      const min = -10000
+      let deg = Math.floor(Math.random() * (max - min + 1)) + min
       wheel.style.transform = 'rotate(' + deg + 'deg)'
-    }, 2000)
+      wheel.style.transition = '3s all'
 
-    //Sound wheel
-    setTimeout(() => {
-      audio.pause()
-      audio.currentTime = 0
+      setResultReward(rewardAddress || Reward.GoodLuck)
 
-      winner.play()
+      setTimeout(() => {
+        if (!wheel) return
+        deg = -(value.get(rewardAddress || Reward.GoodLuck) || 0) - contentDeg //Value selected
+        wheel.style.transform = 'rotate(' + deg + 'deg)'
+      }, 2000)
 
+      //Sound wheel
+      setTimeout(() => {
+        audio.pause()
+        audio.currentTime = 0
+
+        winner.play()
+
+        setPinning(false)
+        setVisible(true)
+      }, 5000)
+
+      //Sound celebration
+      setTimeout(() => {
+        winner.currentTime = 0
+      }, 5000)
+    } catch (error) {
+      notifyError(error)
       setPinning(false)
-      setVisible(true)
-    }, 5000)
-
-    //Sound celebration
-    setTimeout(() => {
-      winner.currentTime = 0
-    }, 5000)
+    } finally {
+    }
   }
 
   return (

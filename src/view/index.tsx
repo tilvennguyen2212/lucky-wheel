@@ -1,7 +1,7 @@
 import { Redirect, Route, Switch } from 'react-router-dom'
 
 import { Col, Row } from 'antd'
-import CreateWheel from './createCampaign'
+import CreateWheel from './admin'
 import Dashboard from './dashboard'
 import Winners from 'components/winners'
 
@@ -24,11 +24,7 @@ const View = () => {
           </Col>
           <Col span={24}>
             <Switch>
-              <Route
-                exact
-                path={`${appRoute}/create-wheel`}
-                component={CreateWheel}
-              />
+              <Route exact path={`${appRoute}/admin`} component={CreateWheel} />
               <Route
                 exact
                 path={`${appRoute}/dashboard`}

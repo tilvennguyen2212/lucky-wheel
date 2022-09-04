@@ -24,4 +24,13 @@ export enum GiftStatus {
   Ready = 'CLAIM',
   Pending = 'SPIN MORE',
 }
+
+export const EMPTY_ADDRESS = '11111111111111111111111111111111'
+
+export enum RewardType {
+  Token = 'Token',
+  NFT = 'NFT',
+  Ticket = 'Ticket',
+}
+
 export const SENTRE_CAMPAIGN = configs.sol.campaignId
