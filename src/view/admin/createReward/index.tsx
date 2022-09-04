@@ -16,14 +16,14 @@ import NftCollection from '../deposit/nftCollection'
 import { RewardType } from 'constant'
 
 import { useInitializeTokenReward } from 'hooks/admin/useInitalizeTokenReward'
-import { useInitializeTicket } from 'hooks/admin/useInitializeTicket'
 import { useInitializeNFTReward } from 'hooks/admin/useInitializeNFTReward'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
+import { useCreateTicketReward } from 'hooks/admin/useCreateTicketReward'
 
 const { Option } = Select
 
 const CreateReward = () => {
-  //const campaign = useSelector((state: AppState) => state.main.campaign)
+  const campaign = useSelectedCampaign()
   const [type, setType] = useState(RewardType.Token)
   const [selectedMint, setSelectedMint] = useState('')
   const [nftCollection, setNftCollection] = useState('')
@@ -31,14 +31,12 @@ const CreateReward = () => {
   const [ratio, setRatio] = useState(0)
   const { onInitializeTokenReward } = useInitializeTokenReward()
   const { onInitializeNFTReward } = useInitializeNFTReward()
-  const { onInitializeTicket } = useInitializeTicket()
-
-  const campaign = useSelectedCampaign()
+  const { createTicketReward } = useCreateTicketReward()
 
   const onCreateReward = async () => {
     switch (type) {
       case RewardType.Ticket:
-        await onInitializeTicket(campaign)
+        await createTicketReward({ prizeAmount, campaign, ratio })
         break
       case RewardType.NFT:
         await onInitializeNFTReward({ mint: nftCollection, campaign, ratio })
