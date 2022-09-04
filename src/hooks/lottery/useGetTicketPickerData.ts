@@ -1,8 +1,5 @@
 import { useCallback } from 'react'
 import { web3, BN } from '@project-serum/anchor'
-import axios from 'axios'
-
-import configs from 'configs'
 
 export type PickerData = {
   ticket: web3.PublicKey
@@ -22,15 +19,20 @@ const generate_lucky_number = (signature: number[]) => {
 
 export const useGetTicketPickerData = () => {
   const getTicketPickerData = useCallback(
-    async (ticketAddress): Promise<PickerData> => {
-      const { data: pickerData } = await axios.get<{
-        pubKey: string
-        signature: string
-        recid: number
-      }>(configs.api.lottery.luckyNumber + ticketAddress, {
-        withCredentials: true,
-      })
-      const signature = Array.from(Buffer.from(pickerData.signature, 'hex'))
+    async (ticketAddress: string): Promise<PickerData> => {
+      // const { data: pickerData } = await axios.get<{
+      //   pubKey: string
+      //   signature: string
+      //   recid: number
+      // }>(configs.api.lottery.luckyNumber + ticketAddress, {
+      //   withCredentials: true,
+      // })
+      const pickerData = window.luckyWheel.picker.sign(
+        new web3.PublicKey(ticketAddress).toBuffer(),
+      )
+      console.log('pickerData', pickerData)
+      // const signature = Array.from(Buffer.from(pickerData.signature, 'hex'))
+      const signature = Array.from(pickerData.signature)
       return {
         ticket: new web3.PublicKey(ticketAddress),
         recoveryId: pickerData.recid,

@@ -1,9 +1,7 @@
 import { useCallback, useState } from 'react'
-import axios from 'axios'
 import BN from 'bn.js'
 
 import { notifyError, notifySuccess } from 'helper'
-import configs from 'configs'
 
 export const useInitializeCampaign = () => {
   const [loading, setLoading] = useState(false)
@@ -11,13 +9,16 @@ export const useInitializeCampaign = () => {
   const onInitializeCampaign = useCallback(async () => {
     setLoading(true)
     try {
-      const { data: picker } = await axios.get(configs.api.lottery.publicKey, {
-        withCredentials: true,
-      })
-      const pickerPublickey = await window.luckyWheel.decodePickerPublickey(
-        picker,
+      // const { data: picker } = await axios.get(configs.api.lottery.publicKey, {
+      //   withCredentials: true,
+      // })
+      // const pickerPublickey = await window.luckyWheel.decodePickerPublickey(
+      //   picker,
+      // )
+      const pickerPublickey = Array.from(window.luckyWheel.picker.pubKey).slice(
+        1,
+        65,
       )
-
       const { txId } = await window.luckyWheel.initializeCampaign({
         picker: pickerPublickey,
         startDate: new BN(0),

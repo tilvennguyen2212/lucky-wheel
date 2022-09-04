@@ -10,7 +10,6 @@ type OnInitializeTokenRewardParams = {
   mint: string
   prizeAmount: string
   campaign: string
-  totalPrize: string
   ratio: number
 }
 
@@ -23,7 +22,6 @@ export const useInitializeTokenReward = () => {
       mint,
       prizeAmount,
       campaign,
-      totalPrize,
       ratio,
     }: OnInitializeTokenRewardParams) => {
       setLoading(true)
@@ -43,14 +41,6 @@ export const useInitializeTokenReward = () => {
           sendAndConfirm: false,
         })
 
-        const { tx: txDeposit } = await window.luckyWheel.depositReward({
-          campaign: new web3.PublicKey(campaign),
-          reward: reward.publicKey,
-          totalPrize: new BN(totalPrize),
-          mint: new web3.PublicKey(mint),
-          sendAndConfirm: false,
-        })
-
         const toLuckyNumber = new BN('1' + '0'.repeat(18))
           .mul(new BN(ratio * 10 ** 9))
           .div(new BN(100 * 10 ** 9))
@@ -64,7 +54,6 @@ export const useInitializeTokenReward = () => {
 
         const tx = new web3.Transaction()
         tx.add(txReward)
-        tx.add(txDeposit)
         tx.add(txLuckyRatio)
 
         const txId = await window.luckyWheel.provider.sendAndConfirm(tx, [

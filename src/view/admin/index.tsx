@@ -1,12 +1,14 @@
 import { Col, Row } from 'antd'
 import Header from './header'
 import CreateReward from './createReward'
-import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
 import ListReward from './listRewards'
-import configs from 'configs'
+
+import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
+import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
 
 const Admin = () => {
-  const rewards = useRewardByCampaign(configs.sol.campaignId)
+  const campaignId = useSelectedCampaign()
+  const rewards = useRewardByCampaign(campaignId)
 
   const wrapListRewardData = (rewardAddrs: string[]) => {
     return rewardAddrs.map((address) => {

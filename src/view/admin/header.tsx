@@ -32,6 +32,9 @@ const Header = () => {
             </Select>
           </Col>
         </Row>
+        <Row justify="center">
+          <Col>{selectedCampaign}</Col>
+        </Row>
       </Col>
       <Col span={4}>
         <Space direction="vertical" align="end" style={{ width: '100%' }}>
