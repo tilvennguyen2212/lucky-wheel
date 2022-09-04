@@ -37,29 +37,29 @@ export const useClaim = () => {
 
   const onClaim = useCallback(
     async (ticketAddress: string) => {
-      const rewardAddress = tickets[ticketAddress].reward.toBase58()
-      const {
-        rewardType,
-        mint: mintReward,
-        prizeAmount,
-      } = rewards[rewardAddress]
-
-      let mint = mintReward
-
-      //Get mint NFT
-      if (rewardType.nftCollection) {
-        const accounts = await getAccounts(rewardAddress)
-        let index = 0
-
-        for (const address in accounts) {
-          const { amount } = accounts[address]
-          if (amount.toString() === '0') index++
-        }
-        mint = new web3.PublicKey(Object.values(accounts)[index].mint)
-      }
-
       try {
         setLoading(true)
+        const rewardAddress = tickets[ticketAddress].reward.toBase58()
+        const {
+          rewardType,
+          mint: mintReward,
+          prizeAmount,
+        } = rewards[rewardAddress]
+
+        let mint = mintReward
+
+        //Get mint NFT
+        if (rewardType.nftCollection) {
+          const accounts = await getAccounts(rewardAddress)
+          let index = 0
+
+          for (const address in accounts) {
+            const { amount } = accounts[address]
+            if (amount.toString() === '0') index++
+          }
+          mint = new web3.PublicKey(Object.values(accounts)[index].mint)
+        }
+
         const tx = new web3.Transaction()
         const signer: web3.Keypair[] = []
         const { tx: txClaim } = await window.luckyWheel.claim({
