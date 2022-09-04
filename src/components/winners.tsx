@@ -39,6 +39,8 @@ const Winners = () => {
     return data
   }, [tickets])
 
+  if (!winnersLatestList.length) return null
+
   return (
     <Card
       bordered={false}

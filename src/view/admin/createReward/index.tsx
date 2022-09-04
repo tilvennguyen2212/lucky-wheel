@@ -1,5 +1,4 @@
 import { Fragment, useState } from 'react'
-import { useSelector } from 'react-redux'
 
 import { MintSelection } from '@sen-use/app'
 import {
@@ -19,12 +18,12 @@ import { RewardType } from 'constant'
 import { useInitializeTokenReward } from 'hooks/admin/useInitalizeTokenReward'
 import { useInitializeTicket } from 'hooks/admin/useInitializeTicket'
 import { useInitializeNFTReward } from 'hooks/admin/useInitializeNFTReward'
-import { AppState } from 'model'
+import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 
 const { Option } = Select
 
 const CreateReward = () => {
-  const campaign = useSelector((state: AppState) => state.main.campaign)
+  //const campaign = useSelector((state: AppState) => state.main.campaign)
   const [type, setType] = useState(RewardType.Token)
   const [selectedMint, setSelectedMint] = useState('')
   const [nftCollection, setNftCollection] = useState('')
@@ -33,6 +32,8 @@ const CreateReward = () => {
   const { onInitializeTokenReward } = useInitializeTokenReward()
   const { onInitializeNFTReward } = useInitializeNFTReward()
   const { onInitializeTicket } = useInitializeTicket()
+
+  const campaign = useSelectedCampaign()
 
   const onCreateReward = async () => {
     switch (type) {

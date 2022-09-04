@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Button, Collapse, InputNumber, Popover, Typography, Space } from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
@@ -16,6 +16,12 @@ const ColumnAction = ({ rewardAddress }: { rewardAddress: string }) => {
   const { onUpdateRatio, loading: ratioLoading } = useUpdateRatio()
   const { onDepositReward, loading: depositLoading } = useDepositReward()
   const [mintAddress, setMintAddress] = useState(reward.mint.toBase58())
+
+  useEffect(() => {
+    if (!reward.rewardType.nftCollection) return
+    setTotalPrize(1)
+  }, [reward.rewardType.nftCollection])
+
   return (
     <Popover
       content={
@@ -40,7 +46,7 @@ const ColumnAction = ({ rewardAddress }: { rewardAddress: string }) => {
           </Collapse.Panel>
           <Collapse.Panel header="Deposit" key="2">
             <Space>
-              {reward.rewardType.nft ? (
+              {reward.rewardType.nftCollection ? (
                 <Space>
                   <NFTSelection
                     collectionAddress={[reward.mint.toBase58()]}

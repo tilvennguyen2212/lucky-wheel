@@ -5,16 +5,58 @@ import { notifyError, notifySuccess } from 'helper'
 import { SENTRE_CAMPAIGN } from 'constant'
 import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
 import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
+import { AccountsState } from '@sentre/senhub/dist/store/accounts.reducer'
 
 export const useClaim = () => {
   const [loading, setLoading] = useState(false)
   const rewards = useRewardByCampaign(SENTRE_CAMPAIGN)
   const tickets = useTicketByCampaign(SENTRE_CAMPAIGN)
 
+  const getAccounts = useCallback(
+    async (rewardAddress: string) => {
+      const splt = window.sentre.splt
+      const { mint } = rewards[rewardAddress]
+      const { rewardTreasurer } = await window.luckyWheel.deriveRewardPDAs(
+        new web3.PublicKey(rewardAddress),
+        mint,
+      )
+      const { value } = await splt.connection.getTokenAccountsByOwner(
+        rewardTreasurer,
+        { programId: splt.spltProgramId },
+      )
+      const bulk: AccountsState = {}
+      value.forEach(({ pubkey, account: { data: buf } }) => {
+        const address = pubkey.toBase58()
+        const data = splt.parseAccountData(buf)
+        return (bulk[address] = data)
+      })
+      return bulk
+    },
+    [rewards],
+  )
+
   const onClaim = useCallback(
     async (ticketAddress: string) => {
       const rewardAddress = tickets[ticketAddress].reward.toBase58()
-      const { rewardType, mint, prizeAmount } = rewards[rewardAddress]
+      const {
+        rewardType,
+        mint: mintReward,
+        prizeAmount,
+      } = rewards[rewardAddress]
+
+      let mint = mintReward
+
+      //Get mint NFT
+      if (rewardType.nftCollection) {
+        const accounts = await getAccounts(rewardAddress)
+        let index = 0
+
+        for (const address in accounts) {
+          const { amount } = accounts[address]
+          if (amount.toString() === '0') index++
+        }
+        mint = new web3.PublicKey(Object.values(accounts)[index].mint)
+      }
 
       try {
         setLoading(true)
@@ -48,7 +90,7 @@ export const useClaim = () => {
         setLoading(false)
       }
     },
-    [rewards, tickets],
+    [getAccounts, rewards, tickets],
   )
   return { onClaim, loading }
 }

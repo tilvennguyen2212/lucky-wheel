@@ -20,7 +20,7 @@ export const RewardName = ({ rewardAddress }: { rewardAddress: string }) => {
 
   if (reward.rewardType.ticket) return <span>Ticket</span>
 
-  if (reward.rewardType.nft)
+  if (reward.rewardType.nftCollection)
     return <span>{metadata?.data.data.name || nftInfo?.name}</span>
 
   return <MintSymbol mintAddress={reward.mint} />

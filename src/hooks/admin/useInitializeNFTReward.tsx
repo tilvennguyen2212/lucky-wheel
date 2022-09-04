@@ -23,7 +23,7 @@ export const useInitializeNFTReward = () => {
           campaign: new web3.PublicKey(campaign),
           rewardMint: new web3.PublicKey(mint),
           prizeAmount: new BN(1),
-          rewardType: REWARD_TYPE.nft,
+          rewardType: REWARD_TYPE.nftCollection,
           reward,
           sendAndConfirm: false,
         })

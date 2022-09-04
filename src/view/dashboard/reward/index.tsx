@@ -1,15 +1,16 @@
 import { useMemo, useState } from 'react'
 import { TicketData } from '@sentre/lucky-wheel-core'
 import { web3, BN } from '@project-serum/anchor'
+import moment from 'moment'
 
 import { Col, Row, Space, Table, Typography, Switch } from 'antd'
-import ColumnReward from './columnReward'
-import ColumnAmount from './columnAmount'
 import ColumnAction from './columnAction'
+import { RewardAmount } from 'components/reward/rewardAmount'
+import { RewardAvatar } from 'components/reward/rewardAvatar'
+import { RewardName } from 'components/reward/rewardName'
 
 import { SENTRE_CAMPAIGN } from 'constant'
 import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
-import moment from 'moment'
 
 type History = TicketData & { ticketAddress: string }
 
@@ -35,7 +36,7 @@ const Reward = () => {
       key: 'pickAt',
       render: (pickAt: BN) => (
         <Typography.Text>
-          {moment(pickAt.toNumber() * 1000).format("'MMM DD, YYYY HH:mm")}
+          {moment(pickAt.toNumber() * 1000).format('MMM DD, YYYY HH:mm')}
         </Typography.Text>
       ),
     },
@@ -44,7 +45,10 @@ const Reward = () => {
       dataIndex: 'reward',
       key: 'reward',
       render: (reward: web3.PublicKey) => (
-        <ColumnReward rewardAddress={reward.toBase58()} />
+        <Space>
+          <RewardAvatar size={24} rewardAddress={reward.toBase58()} />
+          <RewardName rewardAddress={reward.toBase58()} />
+        </Space>
       ),
     },
     {
@@ -52,7 +56,7 @@ const Reward = () => {
       dataIndex: 'reward',
       key: 'reward',
       render: (reward: web3.PublicKey) => (
-        <ColumnAmount rewardAddress={reward.toBase58()} />
+        <RewardAmount rewardAddress={reward.toBase58()} />
       ),
     },
     {
@@ -64,8 +68,6 @@ const Reward = () => {
       ),
     },
   ]
-
-  console.log(filterTickets, 'filterTickets')
 
   return (
     <Row gutter={[12, 12]}>
