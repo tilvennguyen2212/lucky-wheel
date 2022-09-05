@@ -8,7 +8,7 @@ import {
 } from '@sentre/senhub'
 import { BN, web3 } from '@project-serum/anchor'
 
-import { Button, Col, Row, Select, Statistic } from 'antd'
+import { Button, Col, Row, Select, Statistic, Typography } from 'antd'
 import { Descriptions, PageHeader, Tag, Space } from 'antd'
 
 import { useInitializeCampaign } from 'hooks/admin/useIntializeCampaign'
@@ -30,7 +30,10 @@ const Header = () => {
   const dispatch = useDispatch()
 
   const campaignData = campaigns[selectedCampaign]
-  const ownCampaign = walletAddress === campaignData?.authority.toBase58()
+
+  const isOwn = (campaignAddr: string) => {
+    return walletAddress === campaigns[campaignAddr]?.authority.toBase58()
+  }
 
   const getTicketMint = useCallback(async () => {
     const PDAs = await window.luckyWheel.deriveCampaignPDAs(
@@ -70,7 +73,7 @@ const Header = () => {
       subTitle={
         <Space>
           {selectedCampaign}
-          {ownCampaign ? (
+          {isOwn(selectedCampaign) ? (
             <Tag color="success">Your Campaign</Tag>
           ) : (
             <Tag color="error">Not Have Permission</Tag>
@@ -87,7 +90,11 @@ const Header = () => {
         >
           {Object.keys(campaigns).map((address) => (
             <Select.Option key={address} value={address}>
-              {address}
+              <Typography.Text
+                style={{ color: isOwn(address) ? undefined : 'red' }}
+              >
+                {address}
+              </Typography.Text>
             </Select.Option>
           ))}
         </Select>,
@@ -127,7 +134,7 @@ const Header = () => {
             />
             <Statistic
               title="Total Picked"
-              value={campaignData?.totalTicket.toNumber()}
+              value={campaignData?.totalPicked.toNumber()}
             />
             <Statistic title="Total Ticket Mint" value={totalMintTicket} />
           </Space>
