@@ -7,6 +7,7 @@ import { useDepositReward } from 'hooks/admin/useDepositReward'
 import { useUpdateRatio } from 'hooks/admin/useUpdateRatio'
 import { useReward } from 'hooks/reward/useReward'
 import { AvatarNFT, NFTSelection } from '@sen-use/components/dist'
+import { WithdrawReward } from '../withdraw'
 
 const ColumnAction = ({ rewardAddress }: { rewardAddress: string }) => {
   const [visible, setVisible] = useState(false)
@@ -80,6 +81,9 @@ const ColumnAction = ({ rewardAddress }: { rewardAddress: string }) => {
                 Deposit
               </Button>
             </Space>
+          </Collapse.Panel>
+          <Collapse.Panel header="Withdraw" key="Withdraw">
+            <WithdrawReward rewardAddress={rewardAddress} />
           </Collapse.Panel>
         </Collapse>
       }
