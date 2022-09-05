@@ -2,24 +2,29 @@ import { useMemo, useState } from 'react'
 import { web3 } from '@project-serum/anchor'
 
 import { Button, Col, Divider, Row, Space, Typography } from 'antd'
-import Layout from 'components/layout'
 import Icon from '@ant-design/icons'
 import Wheel, { Material } from 'components/wheel'
 
 import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
 import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
+import { useTotalUnclaimedTicket } from 'hooks/ticket/useTotalUnclaimedTicket'
+import { useClaimTicket } from 'hooks/actions/useClaimTicket'
+
 import { notifyError, notifySuccess } from 'helper'
 import { Reward } from 'constant'
 
-import './index.less'
 import { ReactComponent as Ticket } from 'static/images/icons/ticket-icon.svg'
 
+import './index.less'
+
 const Spin = () => {
+  const [loading, setLoading] = useState(false)
   const selectedCampaign = useSelectedCampaign()
   const rewards = useRewardByCampaign(selectedCampaign)
   const tickets = useAvailableTickets(selectedCampaign)
-  const [loading, setLoading] = useState(false)
+  const { totalTicket } = useTotalUnclaimedTicket()
+  const { loading: loadingRedeem, redeemTicket } = useClaimTicket()
 
   const formatReward = useMemo(() => {
     const material: Material[] = [
@@ -74,35 +79,53 @@ const Spin = () => {
         <Wheel rewards={formatReward} />
       </Col>
       <Col span={24} className="remaining-ticket">
-        <Layout>
-          <Row justify="space-between" wrap={false} align="middle">
-            <Col>
-              <Space className="space-middle-icon">
-                <Typography.Text>Remaining tickets:</Typography.Text>
-                <Typography.Title level={5} className="gradient-text">
-                  {Object.keys(tickets).length}
-                </Typography.Title>
-                <Icon style={{ fontSize: 20 }} component={Ticket} />
-              </Space>
-            </Col>
-            <Col>
-              <Divider
-                type="vertical"
-                style={{ borderColor: '#4E4F5C', height: 24 }}
-              />
-            </Col>
-            <Col>
-              <Button
-                style={{ marginLeft: -12 }}
-                type="text"
-                onClick={onCreateTicket}
-                loading={loading}
-              >
-                Get more ticket
-              </Button>
-            </Col>
-          </Row>
-        </Layout>
+        <Row justify="center">
+          <Col xs={24} sm={20} md={18} lg={16}>
+            <Row justify="space-between" wrap={false} align="middle">
+              <Col>
+                <Space size={4} direction="vertical">
+                  <Space className="space-middle-icon">
+                    <Typography.Text>Remaining tickets:</Typography.Text>
+                    <Typography.Title level={5} className="gradient-text">
+                      {Object.keys(tickets).length}
+                    </Typography.Title>
+                    <Icon style={{ fontSize: 20 }} component={Ticket} />
+                  </Space>
+                  {!!totalTicket && (
+                    <Space size={0}>
+                      <Typography.Text>
+                        You have {totalTicket} bonus tickets
+                      </Typography.Text>
+                      <Button
+                        type="text"
+                        onClick={redeemTicket}
+                        loading={loadingRedeem}
+                      >
+                        Claim
+                      </Button>
+                    </Space>
+                  )}
+                </Space>
+              </Col>
+              <Col>
+                <Divider
+                  type="vertical"
+                  style={{ borderColor: '#4E4F5C', height: 24 }}
+                />
+              </Col>
+              <Col>
+                <Button
+                  style={{ marginLeft: -12 }}
+                  type="text"
+                  onClick={onCreateTicket}
+                  loading={loading}
+                >
+                  Get more ticket
+                </Button>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
       </Col>
     </Row>
   )

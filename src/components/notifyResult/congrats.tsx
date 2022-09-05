@@ -1,3 +1,6 @@
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+
 import { Button, Col, Image, Modal, Row, Typography } from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
 import { RewardAvatar } from 'components/reward/rewardAvatar'
@@ -5,6 +8,7 @@ import { RewardName } from 'components/reward/rewardName'
 
 import { useClaim } from 'hooks/actions/useClaim'
 import { useTicket } from 'hooks/ticket/useTicket'
+import { setCongratulate } from 'model/main.controller'
 
 import BG from 'static/images/bg-popup.svg'
 
@@ -17,6 +21,14 @@ type CongratsProps = {
 const Congrats = ({ onClose, visible, ticket }: CongratsProps) => {
   const ticketData = useTicket(ticket)
   const { loading, onClaim } = useClaim()
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(setCongratulate({ congratulate: true }))
+    setTimeout(() => {
+      dispatch(setCongratulate({ congratulate: false }))
+    }, 5000)
+  }, [dispatch])
 
   return (
     <Modal
@@ -26,7 +38,7 @@ const Congrats = ({ onClose, visible, ticket }: CongratsProps) => {
       closeIcon={<IonIcon name="close-outline" />}
       className="congrats"
     >
-      <Image preview={false} src={BG} />
+      <Image preview={false} src={BG} style={{ borderRadius: 16 }} />
       <Row gutter={[16, 16]} className="congrats_content">
         <Col span={24}>
           <Typography.Title level={4} className="gradient-text">

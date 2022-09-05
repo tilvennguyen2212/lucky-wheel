@@ -7,14 +7,14 @@ import NotifyResult from 'components/notifyResult'
 import { LIST_BG_WHEEL, Reward } from 'constant'
 import { useSpin } from 'hooks/actions/useSpin'
 import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
+import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
+import { notifyError } from 'helper'
 
 import ARROW from 'static/images/arrow.png'
 import SOUND from 'static/images/sound.mp3'
 import WINNER from 'static/images/winner.mp3'
 
 import './index.less'
-import { notifyError } from 'helper'
-import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 
 let audio = new Audio(SOUND)
 let winner = new Audio(WINNER)
@@ -51,8 +51,15 @@ const Wheel = ({ rewards }: WheelProps) => {
   const listBG = useMemo(() => {
     let index = 0
     const result = []
-    for (let i = 0; i < rewards.length; i++) {
-      if (!LIST_BG_WHEEL[index]) index = 0
+    for (let i = 1; i <= rewards.length; i++) {
+      if (!LIST_BG_WHEEL[index]) {
+        index = 0
+        if (
+          i === rewards.length &&
+          [result[0], result[i - 1]].includes(LIST_BG_WHEEL[index])
+        )
+          index++
+      }
 
       result.push(LIST_BG_WHEEL[index])
       index++
