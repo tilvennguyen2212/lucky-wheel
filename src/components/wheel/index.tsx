@@ -61,11 +61,10 @@ const Wheel = ({ rewards }: WheelProps) => {
   }, [rewards.length])
 
   const onSpinning = async (amount: number) => {
+    let tickets: string[] = []
     try {
       setPinning(true)
-      // Spin
-      const tickets = await onSpin(amount)
-      setPickedTickets(tickets)
+      tickets = await onSpin(amount)
 
       audio.play()
       let wheel = document.getElementById('wheel')
@@ -79,37 +78,28 @@ const Wheel = ({ rewards }: WheelProps) => {
       wheel.style.transition = '3s all'
 
       let rewardAddress: string = Reward.GoodLuck
-      if (tickets.length === 1) {
-        const ticketData = await window.luckyWheel.account.ticket.fetch(
-          tickets[0],
-        )
-        if (ticketData.state.won) rewardAddress = ticketData.reward.toBase58()
-      }
+      const ticketData = await window.luckyWheel.account.ticket.fetch(
+        tickets[0],
+      )
+      if (ticketData.state.won) rewardAddress = ticketData.reward.toBase58()
 
       setTimeout(() => {
         if (!wheel) return
         deg = -(value.get(rewardAddress || Reward.GoodLuck) || 0) - contentDeg //Value selected
         wheel.style.transform = 'rotate(' + deg + 'deg)'
       }, 2000)
-
-      //Sound wheel
-      setTimeout(() => {
-        audio.pause()
-        audio.currentTime = 0
-
-        winner.play()
-
-        setPinning(false)
-      }, 5000)
-
-      //Sound celebration
-      setTimeout(() => {
-        winner.currentTime = 0
-      }, 5000)
     } catch (error) {
       notifyError(error)
       setPinning(false)
     } finally {
+      setTimeout(() => {
+        audio.pause()
+        audio.currentTime = 0
+        winner.currentTime = 0
+        winner.play()
+        setPinning(false)
+        setPickedTickets(tickets)
+      }, 5000)
     }
   }
 
@@ -175,7 +165,7 @@ const Wheel = ({ rewards }: WheelProps) => {
         </Row>
       </Col>
       {pickedTickets.map((ticket) => (
-        <NotifyResult ticket={ticket} />
+        <NotifyResult ticket={ticket} key={ticket} />
       ))}
     </Row>
   )
