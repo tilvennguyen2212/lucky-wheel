@@ -4,12 +4,13 @@ import { RewardAmount } from 'components/reward/rewardAmount'
 import { RewardName } from 'components/reward/rewardName'
 
 import { Material } from './index'
+import { Reward } from 'constant'
 
 type DisplayRewardProps = {
   material: Material
 }
 const DisplayReward = ({ material }: DisplayRewardProps) => {
-  const { rewardAddress } = material
+  const { rewardAddress, type } = material
 
   return (
     <Space
@@ -24,12 +25,14 @@ const DisplayReward = ({ material }: DisplayRewardProps) => {
       >
         <RewardAmount rewardAddress={rewardAddress} />
       </Typography.Title>
-      <Typography.Title
-        level={4}
-        style={{ color: '#212433', fontFamily: 'Nunito' }}
-      >
-        <RewardName rewardAddress={rewardAddress} />
-      </Typography.Title>
+      {type !== Reward.NFT && (
+        <Typography.Title
+          level={4}
+          style={{ color: '#212433', fontFamily: 'Nunito' }}
+        >
+          <RewardName rewardAddress={rewardAddress} />
+        </Typography.Title>
+      )}
     </Space>
   )
 }
