@@ -6,6 +6,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 export type MainState = {
   campaign: string
+  congratulate: boolean
 }
 
 /**
@@ -15,6 +16,7 @@ export type MainState = {
 const NAME = 'main'
 const initialState: MainState = {
   campaign: '',
+  congratulate: false,
 }
 
 /**
@@ -28,6 +30,13 @@ export const setCampaign = createAsyncThunk<
   return { campaign }
 })
 
+export const setCongratulate = createAsyncThunk<
+  Partial<MainState>,
+  { congratulate: boolean }
+>(`${NAME}/setCongratulate`, async ({ congratulate }) => {
+  return { congratulate }
+})
+
 /**
  * Usual procedure
  */
@@ -37,10 +46,15 @@ const slice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) =>
-    void builder.addCase(
-      setCampaign.fulfilled,
-      (state, { payload }) => void Object.assign(state, payload),
-    ),
+    void builder
+      .addCase(
+        setCampaign.fulfilled,
+        (state, { payload }) => void Object.assign(state, payload),
+      )
+      .addCase(
+        setCongratulate.fulfilled,
+        (state, { payload }) => void Object.assign(state, payload),
+      ),
 })
 
 export default slice.reducer

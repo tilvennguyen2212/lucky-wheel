@@ -1,5 +1,7 @@
 import { Redirect, Route, Switch } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
+import Confetti from 'react-confetti'
 import { Col, Row } from 'antd'
 import Admin from './admin'
 import Dashboard from './dashboard'
@@ -8,17 +10,29 @@ import Winners from 'components/winners'
 import { useAppRouter } from 'hooks/useAppRouter'
 import { AppLoader } from './appLoader'
 import { AppWatcher } from 'watcher'
+import { AppState } from 'model'
 
 import './index.less'
 import 'swiper/css/bundle'
 
 const View = () => {
+  const congratulate = useSelector((state: AppState) => state.main.congratulate)
   const { appRoute } = useAppRouter()
 
   return (
     <AppLoader>
       <AppWatcher>
         <Row gutter={[24, 24]}>
+          {congratulate && (
+            <Confetti
+              style={{ zIndex: 9999 }}
+              width={window.innerWidth}
+              height={window.innerHeight}
+              recycle={false}
+              gravity={0.5}
+              tweenDuration={10000}
+            />
+          )}
           <Col span={24}>
             <Winners />
           </Col>
