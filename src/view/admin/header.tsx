@@ -8,16 +8,16 @@ import {
 } from '@sentre/senhub'
 import { web3 } from '@project-serum/anchor'
 
-import { Button, Col, Row, Select, Statistic, Typography } from 'antd'
+import { Col, Row, Select, Statistic, Typography } from 'antd'
 import { Descriptions, PageHeader, Tag, Space } from 'antd'
 import PrintTicket from './printTicket'
 
-import { useInitializeCampaign } from 'hooks/admin/useIntializeCampaign'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 import { setCampaign } from 'model/main.controller'
 import { AppState } from 'model'
 
 import configs from 'configs'
+import CreateCampaign from './createCampaign'
 
 const Header = () => {
   const campaigns = useSelector((state: AppState) => state.campaigns)
@@ -26,7 +26,6 @@ const Header = () => {
   const walletAddress = useWalletAddress()
   const selectedCampaign = useSelectedCampaign()
   const { to } = useAppRoute(configs.manifest.appId)
-  const { onInitializeCampaign } = useInitializeCampaign()
   const getMintData = useGetMintData()
   const dispatch = useDispatch()
 
@@ -88,9 +87,7 @@ const Header = () => {
           ))}
         </Select>,
         <PrintTicket key="2" campaignAddress={selectedCampaign} />,
-        <Button key="1" type="primary" onClick={onInitializeCampaign}>
-          New Campaign
-        </Button>,
+        <CreateCampaign key="1" />,
       ]}
     >
       <Row gutter={[24, 24]} style={{ paddingLeft: 32 }}>

@@ -1,5 +1,6 @@
 import { Fragment, useState } from 'react'
-import { BN } from '@project-serum/anchor'
+import { useGetMintDecimals } from '@sentre/senhub'
+import { utilsBN } from '@sen-use/web3'
 import { REWARD_TYPE } from '@sentre/lucky-wheel-core'
 
 import { Button, Col, Input, InputNumber, Modal, Row, Typography } from 'antd'
@@ -17,10 +18,15 @@ const CreateTokenReward = ({
   const [ratio, setRatio] = useState('0')
   const [mint, setMint] = useState('')
   const { createReward, loading } = useCreateReward()
+  const getMintDecimals = useGetMintDecimals()
 
   const onCreate = async () => {
+    const decimals = await getMintDecimals({ mintAddress: mint })
+    if (!decimals) throw new Error('Cant not find decimals')
+
+    const amountBN = utilsBN.decimalize(prizeAmount, decimals)
     await createReward({
-      prizeAmount: new BN(prizeAmount),
+      prizeAmount: amountBN,
       campaign: campaignAddress,
       rewardMint: mint,
       ratio: Number(ratio),

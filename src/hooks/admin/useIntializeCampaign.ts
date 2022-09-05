@@ -6,7 +6,7 @@ import { notifyError, notifySuccess } from 'helper'
 export const useInitializeCampaign = () => {
   const [loading, setLoading] = useState(false)
 
-  const onInitializeCampaign = useCallback(async () => {
+  const onInitializeCampaign = useCallback(async (picker: number[]) => {
     setLoading(true)
     try {
       // const { data: picker } = await axios.get(configs.api.lottery.publicKey, {

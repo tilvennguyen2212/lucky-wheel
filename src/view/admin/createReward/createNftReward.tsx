@@ -30,7 +30,7 @@ const CreateNFTReward = ({ campaignAddress }: { campaignAddress: string }) => {
         Add New
       </Button>
       <Modal
-        title="Create Token Reward"
+        title="Create NFT Reward"
         visible={visible}
         onCancel={() => setVisible(false)}
         onOk={onCreate}
