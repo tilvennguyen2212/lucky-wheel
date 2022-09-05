@@ -18,7 +18,10 @@ const NftCollection = ({
       <Button onClick={() => setVisible(true)}>Select NFT</Button>
       <Modal visible={visible} onCancel={() => setVisible(false)} footer={null}>
         <ModalContentListNFTs
-          onSelect={(mintAddress) => setCollection(mintAddress)}
+          onSelect={(mintAddress) => {
+            setCollection(mintAddress)
+            setVisible(false)
+          }}
           searchNFTby={searchNFTType.collections}
         />
       </Modal>
