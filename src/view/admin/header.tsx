@@ -30,8 +30,7 @@ const Header = () => {
   const dispatch = useDispatch()
 
   const campaignData = campaigns[selectedCampaign]
-
-  const ownCampaign = walletAddress === campaignData.authority.toBase58()
+  const ownCampaign = walletAddress === campaignData?.authority.toBase58()
 
   const getTicketMint = useCallback(async () => {
     const PDAs = await window.luckyWheel.deriveCampaignPDAs(
@@ -110,11 +109,11 @@ const Header = () => {
               {ticketMint}
             </Descriptions.Item>
             <Descriptions.Item label="Authority">
-              {util.shortenAddress(campaignData.authority.toBase58(), 8)}
+              {util.shortenAddress(campaignData?.authority.toBase58() || '', 8)}
             </Descriptions.Item>
             <Descriptions.Item label="Picker">
               {util.shortenAddress(
-                Buffer.from(campaignData.picker).toString('hex'),
+                Buffer.from(campaignData?.picker || []).toString('hex'),
                 8,
               )}
             </Descriptions.Item>
@@ -124,11 +123,11 @@ const Header = () => {
           <Space size={32}>
             <Statistic
               title="Total Ticket"
-              value={campaignData.totalTicket.toNumber()}
+              value={campaignData?.totalTicket.toNumber()}
             />
             <Statistic
               title="Total Picked"
-              value={campaignData.totalTicket.toNumber()}
+              value={campaignData?.totalTicket.toNumber()}
             />
             <Statistic title="Total Ticket Mint" value={totalMintTicket} />
           </Space>
