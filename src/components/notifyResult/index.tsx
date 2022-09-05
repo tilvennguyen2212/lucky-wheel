@@ -1,28 +1,27 @@
 import NotifyGoodLuck from './goodLuck'
 import Congrats from './congrats'
 
-import { Reward } from 'constant'
+import { useTicket } from 'hooks/ticket/useTicket'
+import { useState } from 'react'
 
 type NotifyResultProps = {
-  resultReward: string
-  visible: boolean
-  onClose: (value: false) => void
+  ticket: string
 }
 
-const NotifyResult = ({
-  resultReward,
-  visible,
-  onClose,
-}: NotifyResultProps) => {
-  if (resultReward !== Reward.GoodLuck && resultReward)
-    return (
-      <Congrats
-        resultReward={resultReward}
-        visible={visible}
-        onClose={onClose}
-      />
-    )
-  return <NotifyGoodLuck visible={visible} onClose={onClose} />
+const NotifyResult = ({ ticket }: NotifyResultProps) => {
+  const [visible, setVisible] = useState(true)
+  const ticketData = useTicket(ticket)
+
+  if (!ticketData.state.won)
+    <NotifyGoodLuck visible={visible} onClose={() => setVisible(false)} />
+
+  return (
+    <Congrats
+      ticket={ticket}
+      visible={visible}
+      onClose={() => setVisible(false)}
+    />
+  )
 }
 
 export default NotifyResult

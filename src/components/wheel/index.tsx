@@ -30,11 +30,11 @@ type WheelProps = {
 
 const Wheel = ({ rewards }: WheelProps) => {
   const [spinning, setPinning] = useState(false)
-  const [visible, setVisible] = useState(false)
-  const [resultReward, setResultReward] = useState('')
+
+  const [pickedTickets, setPickedTickets] = useState<string[]>([])
   const selectedCampaign = useSelectedCampaign()
-  const onSpin = useSpin(selectedCampaign)
   const tickets = useAvailableTickets(selectedCampaign)
+  const onSpin = useSpin(selectedCampaign)
 
   const singleDeg = Math.ceil(360 / rewards.length)
   const skewDeg = 90 - singleDeg
@@ -60,15 +60,12 @@ const Wheel = ({ rewards }: WheelProps) => {
     return result
   }, [rewards.length])
 
-  const onSpinning = async () => {
+  const onSpinning = async (amount: number) => {
     try {
       setPinning(true)
       // Spin
-      const ticket = await onSpin()
-      let rewardAddress: string | null = null
-
-      const ticketData = await window.luckyWheel.account.ticket.fetch(ticket)
-      if (ticketData.state.won) rewardAddress = ticketData.reward.toBase58()
+      const tickets = await onSpin(amount)
+      setPickedTickets(tickets)
 
       audio.play()
       let wheel = document.getElementById('wheel')
@@ -81,7 +78,13 @@ const Wheel = ({ rewards }: WheelProps) => {
       wheel.style.transform = 'rotate(' + deg + 'deg)'
       wheel.style.transition = '3s all'
 
-      setResultReward(rewardAddress || Reward.GoodLuck)
+      let rewardAddress: string = Reward.GoodLuck
+      if (tickets.length === 1) {
+        const ticketData = await window.luckyWheel.account.ticket.fetch(
+          tickets[0],
+        )
+        if (ticketData.state.won) rewardAddress = ticketData.reward.toBase58()
+      }
 
       setTimeout(() => {
         if (!wheel) return
@@ -97,7 +100,6 @@ const Wheel = ({ rewards }: WheelProps) => {
         winner.play()
 
         setPinning(false)
-        setVisible(true)
       }, 5000)
 
       //Sound celebration
@@ -152,7 +154,7 @@ const Wheel = ({ rewards }: WheelProps) => {
               size="large"
               block
               disabled={spinning || !Object.keys(tickets).length}
-              onClick={onSpinning}
+              onClick={() => onSpinning(1)}
               loading={spinning}
               type="primary"
             >
@@ -164,18 +166,17 @@ const Wheel = ({ rewards }: WheelProps) => {
               size="large"
               block
               disabled={spinning || !Object.keys(tickets).length}
-              onClick={onSpinning}
+              loading={spinning}
+              onClick={() => onSpinning(5)}
             >
-              SPIN X10
+              SPIN X5
             </Button>
           </Col>
         </Row>
       </Col>
-      <NotifyResult
-        resultReward={resultReward}
-        visible={visible}
-        onClose={setVisible}
-      />
+      {pickedTickets.map((ticket) => (
+        <NotifyResult ticket={ticket} />
+      ))}
     </Row>
   )
 }

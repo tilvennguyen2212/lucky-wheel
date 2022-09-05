@@ -32,6 +32,14 @@ const columns = [
     },
   },
   {
+    title: 'Total Prize',
+    dataIndex: 'totalPrize',
+    key: 'totalPrize',
+    render: (totalPrize: BN) => (
+      <Typography>{totalPrize.toNumber()}</Typography>
+    ),
+  },
+  {
     title: 'Reserve Prize',
     dataIndex: 'reservePrize',
     key: 'reservePrize',
