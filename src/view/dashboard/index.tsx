@@ -61,7 +61,7 @@ const Dashboard = () => {
           </Col>
         </Row>
       </Layout>
-      {tabId === TabId.Challenge && <Challenge />}
+      {tabId === TabId.Challenge && <Challenge setTabId={setTabId} />}
     </Fragment>
   )
 }

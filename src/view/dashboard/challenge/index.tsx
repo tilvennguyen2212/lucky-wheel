@@ -14,7 +14,11 @@ import './index.less'
 const TOTAL_SPIN = 200
 export const TOTAL_PERCENT = 100 / TOTAL_SPIN
 
-const Challenge = () => {
+type ChallengeProps = {
+  setTabId: (val: string) => void
+}
+
+const Challenge = ({ setTabId }: ChallengeProps) => {
   const selectedCampaign = useSelectedCampaign()
   const lotteryInfo = useLotteryInfo(selectedCampaign)
   const infix = useInfix()
@@ -26,29 +30,33 @@ const Challenge = () => {
     : 'card-challenge'
 
   return (
-    <Card className={wrapCln} bordered={false}>
-      <Row gutter={[24, rowGap]} justify="center">
-        <Col span={24}>
-          <Row className="inner-challenge-progress">
-            <Col className="challenge-gifts" span={24}>
-              <ListGift />
+    <Row style={{ padding: '0px 32px 32px 32px' }}>
+      <Col span={24}>
+        <Card className={wrapCln}>
+          <Row gutter={[24, rowGap]} justify="center">
+            <Col span={24}>
+              <Row className="inner-challenge-progress">
+                <Col className="challenge-gifts" span={24}>
+                  <ListGift setTabId={setTabId} />
+                </Col>
+                <Col className="challenge-progress">
+                  <ProgressBar
+                    percent={lotteryInfo.totalPicked.toNumber() * TOTAL_PERCENT}
+                    strokeWitdh={12}
+                    background="#212433"
+                    successColor="linear-gradient(84.24deg, #9945FF 0%, #B9F8FD 100%)"
+                    direction={direction}
+                  />
+                </Col>
+              </Row>
             </Col>
-            <Col className="challenge-progress">
-              <ProgressBar
-                percent={lotteryInfo.totalPicked.toNumber() * TOTAL_PERCENT}
-                strokeWitdh={12}
-                background="#212433"
-                successColor="linear-gradient(84.24deg, #9945FF 0%, #B9F8FD 100%)"
-                direction={direction}
-              />
+            <Col className="challenge-action">
+              <TotalSpined />
             </Col>
           </Row>
-        </Col>
-        <Col className="challenge-action">
-          <TotalSpined />
-        </Col>
-      </Row>
-    </Card>
+        </Card>
+      </Col>
+    </Row>
   )
 }
 

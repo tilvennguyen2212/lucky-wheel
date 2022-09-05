@@ -6,9 +6,10 @@ import GoodLuckIcon from 'static/images/good-luck-icon.png'
 type GoodLuckProps = {
   visible: boolean
   onClose: (value: false) => void
+  onSpinning: (amount: number, isMul: boolean) => void
 }
 
-const NotifyGoodLuck = ({ onClose, visible }: GoodLuckProps) => {
+const NotifyGoodLuck = ({ onClose, visible, onSpinning }: GoodLuckProps) => {
   return (
     <Modal
       visible={visible}
@@ -38,7 +39,10 @@ const NotifyGoodLuck = ({ onClose, visible }: GoodLuckProps) => {
             type="primary"
             size="large"
             block
-            onClick={() => onClose(false)}
+            onClick={() => {
+              onClose(false)
+              onSpinning(1, false)
+            }}
           >
             SPIN AGAIN
           </Button>

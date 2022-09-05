@@ -11,7 +11,11 @@ import { GiftStatus } from 'constant'
 const MINT_WIDTH = 150
 const PROCESSES = [20, 50, 80, 120, 180]
 
-const ListGift = () => {
+type ListGiftProps = {
+  setTabId: (val: string) => void
+}
+
+const ListGift = ({ setTabId }: ListGiftProps) => {
   const selectedCampaign = useSelectedCampaign()
   const lotteryInfo = useLotteryInfo(selectedCampaign)
 
@@ -41,10 +45,11 @@ const ListGift = () => {
           >
             <div style={{ minWidth: MINT_WIDTH }}>
               <CardGift
+                setTabId={setTabId}
                 src={src}
                 status={status}
                 amount={value}
-                active={Number(value) <= lotteryInfo.totalClaimed.toNumber()}
+                active={Number(value) <= lotteryInfo.totalPicked.toNumber()}
               />
             </div>
           </div>

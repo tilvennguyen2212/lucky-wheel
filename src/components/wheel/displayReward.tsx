@@ -1,3 +1,6 @@
+import { useMemo } from 'react'
+import { useWidth } from '@sentre/senhub'
+
 import { Space, Typography } from 'antd'
 import { RewardAvatar } from 'components/reward/rewardAvatar'
 import { RewardAmount } from 'components/reward/rewardAmount'
@@ -10,6 +13,13 @@ type DisplayRewardProps = {
 }
 const DisplayReward = ({ material }: DisplayRewardProps) => {
   const { rewardAddress } = material
+  const width = useWidth()
+
+  const avatarSize = useMemo(() => {
+    if (width < 590) return 32
+    if (width < 427) return 16
+    return 64
+  }, [width])
 
   return (
     <Space
@@ -17,7 +27,7 @@ const DisplayReward = ({ material }: DisplayRewardProps) => {
       direction="vertical"
       size={0}
     >
-      <RewardAvatar rewardAddress={rewardAddress} size={64} />
+      <RewardAvatar rewardAddress={rewardAddress} size={avatarSize} />
       <Typography.Title
         level={4}
         style={{ color: '#212433', fontFamily: 'Nunito', fontWeight: 'bold' }}

@@ -1,5 +1,5 @@
 import { MintAvatar } from '@sen-use/app'
-import { Avatar, Image } from 'antd'
+import { Avatar } from 'antd'
 
 import { EMPTY_ADDRESS } from 'constant'
 import { useReward } from 'hooks/reward/useReward'
@@ -22,13 +22,7 @@ export const RewardAvatar = ({
 
   // Ticket
   if (reward.rewardType.ticket)
-    return (
-      <Image
-        preview={false}
-        style={{ height: size, width: size }}
-        src={Ticket}
-      />
-    )
+    return <Avatar size={size} src={Ticket} shape="square" />
 
   // Mint
   return <MintAvatar mintAddress={reward.mint} size={size} />

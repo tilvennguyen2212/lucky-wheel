@@ -28,9 +28,11 @@ type WheelProps = {
   rewards: Material[]
 }
 
-const Wheel = ({ rewards }: WheelProps) => {
-  const [spinning, setPinning] = useState(false)
+const MAX_SPIN = 5
 
+const Wheel = ({ rewards }: WheelProps) => {
+  const [spinning, setSpinning] = useState(false)
+  const [spinMul, setSpinMul] = useState(false)
   const [pickedTickets, setPickedTickets] = useState<string[]>([])
   const selectedCampaign = useSelectedCampaign()
   const tickets = useAvailableTickets(selectedCampaign)
@@ -67,10 +69,10 @@ const Wheel = ({ rewards }: WheelProps) => {
     return result
   }, [rewards.length])
 
-  const onSpinning = async (amount: number) => {
+  const onSpinning = async (amount: number, isMul: boolean) => {
     let tickets: string[] = []
     try {
-      setPinning(true)
+      isMul ? setSpinMul(true) : setSpinning(true)
       tickets = await onSpin(amount)
 
       audio.play()
@@ -97,18 +99,26 @@ const Wheel = ({ rewards }: WheelProps) => {
       }, 2000)
     } catch (error) {
       notifyError(error)
-      setPinning(false)
     } finally {
       setTimeout(() => {
         audio.pause()
         audio.currentTime = 0
         winner.currentTime = 0
         winner.play()
-        setPinning(false)
+        setSpinning(false)
+        setSpinMul(false)
         setPickedTickets(tickets)
       }, 5000)
     }
   }
+
+  const maxTotalSpin = useMemo(() => {
+    const totalTicket = Object.keys(tickets).length
+    if (totalTicket > MAX_SPIN) return MAX_SPIN
+    return totalTicket
+  }, [tickets])
+
+  const disabled = spinning || spinMul || !Object.keys(tickets).length
 
   return (
     <Row gutter={[0, 32]}>
@@ -150,8 +160,8 @@ const Wheel = ({ rewards }: WheelProps) => {
             <Button
               size="large"
               block
-              disabled={spinning || !Object.keys(tickets).length}
-              onClick={() => onSpinning(1)}
+              disabled={disabled}
+              onClick={() => onSpinning(1, false)}
               loading={spinning}
               type="primary"
             >
@@ -162,17 +172,18 @@ const Wheel = ({ rewards }: WheelProps) => {
             <Button
               size="large"
               block
-              disabled={spinning || !Object.keys(tickets).length}
-              loading={spinning}
-              onClick={() => onSpinning(5)}
+              disabled={disabled}
+              loading={spinMul}
+              onClick={() => onSpinning(maxTotalSpin, true)}
             >
-              SPIN X5
+              SPIN X{maxTotalSpin}
             </Button>
           </Col>
         </Row>
       </Col>
+
       {pickedTickets.map((ticket) => (
-        <NotifyResult ticket={ticket} key={ticket} />
+        <NotifyResult onSpinning={onSpinning} ticket={ticket} key={ticket} />
       ))}
     </Row>
   )

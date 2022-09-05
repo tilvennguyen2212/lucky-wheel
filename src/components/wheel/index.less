@@ -82,10 +82,6 @@ li {
   left: 50%;
   z-index: 50;
   transform: translate(-50%, -50%);
-  .sentre-image-img {
-    height: 115px !important;
-    width: 95px !important;
-  }
 }
 
 .bg {
@@ -95,4 +91,30 @@ li {
   border-radius: 50%;
   left: 0;
   top: 0;
+}
+
+@media (max-width: 590px) {
+  .container {
+    width: 400px !important;
+    height: 400px !important;
+  }
+  #stopper {
+    .lucky_wheel-image-img {
+      height: 80px !important;
+      width: 70px !important;
+    }
+  }
+}
+
+@media (max-width: 427px) {
+  .container {
+    width: 320px !important;
+    height: 320px !important;
+  }
+  #stopper {
+    .lucky_wheel-image-img {
+      height: 50px !important;
+      width: 40px !important;
+    }
+  }
 }
