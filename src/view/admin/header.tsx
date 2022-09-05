@@ -6,16 +6,17 @@ import {
   useWalletAddress,
   util,
 } from '@sentre/senhub'
-import { BN, web3 } from '@project-serum/anchor'
+import { web3 } from '@project-serum/anchor'
 
 import { Button, Col, Row, Select, Statistic, Typography } from 'antd'
 import { Descriptions, PageHeader, Tag, Space } from 'antd'
+import PrintTicket from './printTicket'
 
 import { useInitializeCampaign } from 'hooks/admin/useIntializeCampaign'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 import { setCampaign } from 'model/main.controller'
 import { AppState } from 'model'
-import { notifyError, notifySuccess } from 'helper'
+
 import configs from 'configs'
 
 const Header = () => {
@@ -53,18 +54,6 @@ const Header = () => {
     getTicketMint()
   }, [getTicketMint])
 
-  const onPrintTicket = async () => {
-    try {
-      const { txId } = await window.luckyWheel.printTicketMint({
-        campaign: new web3.PublicKey(selectedCampaign),
-        amount: new BN(10),
-      })
-      notifySuccess('Print ticket', txId)
-    } catch (error) {
-      notifyError(error)
-    }
-  }
-
   return (
     <PageHeader
       ghost={false}
@@ -98,9 +87,7 @@ const Header = () => {
             </Select.Option>
           ))}
         </Select>,
-        <Button key="2" onClick={onPrintTicket}>
-          Print Ticket
-        </Button>,
+        <PrintTicket key="2" campaignAddress={selectedCampaign} />,
         <Button key="1" type="primary" onClick={onInitializeCampaign}>
           New Campaign
         </Button>,
