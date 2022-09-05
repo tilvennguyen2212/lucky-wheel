@@ -8,15 +8,17 @@ import Wheel, { Material } from 'components/wheel'
 
 import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
 import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
-import { ReactComponent as Ticket } from 'static/images/icons/ticket-icon.svg'
-import { Reward, SENTRE_CAMPAIGN } from 'constant'
+import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
+import { notifyError, notifySuccess } from 'helper'
+import { Reward } from 'constant'
 
 import './index.less'
-import { notifyError, notifySuccess } from 'helper'
+import { ReactComponent as Ticket } from 'static/images/icons/ticket-icon.svg'
 
 const Spin = () => {
-  const rewards = useRewardByCampaign(SENTRE_CAMPAIGN)
-  const tickets = useAvailableTickets(SENTRE_CAMPAIGN)
+  const selectedCampaign = useSelectedCampaign()
+  const rewards = useRewardByCampaign(selectedCampaign)
+  const tickets = useAvailableTickets(selectedCampaign)
   const [loading, setLoading] = useState(false)
 
   const formatReward = useMemo(() => {
@@ -49,7 +51,7 @@ const Spin = () => {
       for (let i = 0; i < 5; i++) {
         const ticket = web3.Keypair.generate()
         const { tx: txInit } = await window.luckyWheel.initializeTicket({
-          campaign: new web3.PublicKey(SENTRE_CAMPAIGN),
+          campaign: new web3.PublicKey(selectedCampaign),
           ticket,
           sendAndConfirm: false,
         })

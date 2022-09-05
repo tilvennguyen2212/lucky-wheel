@@ -1,19 +1,22 @@
 import { useMemo, useState } from 'react'
 import { TicketData } from '@sentre/lucky-wheel-core'
-import { web3 } from '@project-serum/anchor'
+import { web3, BN } from '@project-serum/anchor'
+import moment from 'moment'
 
 import { Col, Row, Space, Table, Typography, Switch } from 'antd'
-import ColumnReward from './columnReward'
-import ColumnAmount from './columnAmount'
 import ColumnAction from './columnAction'
+import { RewardAmount } from 'components/reward/rewardAmount'
+import { RewardAvatar } from 'components/reward/rewardAvatar'
+import { RewardName } from 'components/reward/rewardName'
 
-import { SENTRE_CAMPAIGN } from 'constant'
 import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
+import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 
 type History = TicketData & { ticketAddress: string }
 
 const Reward = () => {
-  const tickets = useTicketByCampaign(SENTRE_CAMPAIGN)
+  const selectedCampaign = useSelectedCampaign()
+  const tickets = useTicketByCampaign(selectedCampaign)
   const [claimOnly, setClaimOnly] = useState(false)
 
   const filterTickets = useMemo(() => {
@@ -29,11 +32,24 @@ const Reward = () => {
 
   const columns = [
     {
+      title: 'TIME',
+      dataIndex: 'pickAt',
+      key: 'pickAt',
+      render: (pickAt: BN) => (
+        <Typography.Text>
+          {moment(pickAt.toNumber() * 1000).format('MMM DD, YYYY HH:mm')}
+        </Typography.Text>
+      ),
+    },
+    {
       title: 'REWARD',
       dataIndex: 'reward',
       key: 'reward',
       render: (reward: web3.PublicKey) => (
-        <ColumnReward rewardAddress={reward.toBase58()} />
+        <Space>
+          <RewardAvatar size={24} rewardAddress={reward.toBase58()} />
+          <RewardName rewardAddress={reward.toBase58()} />
+        </Space>
       ),
     },
     {
@@ -41,7 +57,7 @@ const Reward = () => {
       dataIndex: 'reward',
       key: 'reward',
       render: (reward: web3.PublicKey) => (
-        <ColumnAmount rewardAddress={reward.toBase58()} />
+        <RewardAmount rewardAddress={reward.toBase58()} />
       ),
     },
     {

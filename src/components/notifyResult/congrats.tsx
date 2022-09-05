@@ -1,18 +1,15 @@
 import { useMemo } from 'react'
 
-import { Avatar, Button, Col, Image, Modal, Row, Typography } from 'antd'
+import { Button, Col, Image, Modal, Row, Typography } from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
-import { MintAvatar, MintSymbol } from '@sen-use/app'
+import { RewardAvatar } from 'components/reward/rewardAvatar'
+import { RewardName } from 'components/reward/rewardName'
 
 import { useClaim } from 'hooks/actions/useClaim'
-import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
 import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
-import { SENTRE_CAMPAIGN } from 'constant'
+import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 
-import Ticket from 'static/images/ticket-icon.png'
 import BG from 'static/images/bg-popup.svg'
-import { useMintDecimals, util } from '@sentre/senhub/dist'
-import { utilsBN } from '@sen-use/web3/dist'
 
 type CongratsProps = {
   visible: boolean
@@ -21,10 +18,8 @@ type CongratsProps = {
 }
 
 const Congrats = ({ onClose, visible, resultReward }: CongratsProps) => {
-  const rewards = useRewardByCampaign(SENTRE_CAMPAIGN)
-  const tickets = useTicketByCampaign(SENTRE_CAMPAIGN)
-  const { mint, prizeAmount, rewardType } = rewards[resultReward]
-  const decimals = useMintDecimals({ mintAddress: mint.toBase58() }) || 0
+  const selectedCampaign = useSelectedCampaign()
+  const tickets = useTicketByCampaign(selectedCampaign)
   const { loading, onClaim } = useClaim()
 
   const ticketAddress = useMemo(() => {
@@ -55,24 +50,11 @@ const Congrats = ({ onClose, visible, resultReward }: CongratsProps) => {
         </Col>
         <Col span={24} /> {/** Safe place */}
         <Col span={24}>
-          {rewardType.token ? (
-            <MintAvatar size={96} mintAddress={mint.toBase58()} />
-          ) : (
-            <Avatar size={96} src={Ticket} shape="square" />
-          )}
+          <RewardAvatar size={96} rewardAddress={resultReward} />
         </Col>
         <Col span={24}>
           <Typography.Title level={3}>
-            {rewardType.nftCollection
-              ? 1
-              : util
-                  .numeric(utilsBN.undecimalize(prizeAmount, decimals))
-                  .format('0,0.[0000]')}{' '}
-            {rewardType.nftCollection ? (
-              <MintSymbol mintAddress={mint.toBase58()} />
-            ) : (
-              'Ticket'
-            )}
+            <RewardName rewardAddress={resultReward} />
           </Typography.Title>
         </Col>
         <Col span={24} /> {/** Safe place */}

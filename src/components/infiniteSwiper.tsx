@@ -9,7 +9,7 @@ import { RewardAmount } from './reward/rewardAmount'
 import { RewardName } from './reward/rewardName'
 
 import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
-import { SENTRE_CAMPAIGN } from 'constant'
+import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 
 type InfiniteSwiperProps = {
   perViews?: number
@@ -25,7 +25,8 @@ const InfiniteSwiper = ({
   data = [],
   height = 240,
 }: InfiniteSwiperProps) => {
-  const rewards = useRewardByCampaign(SENTRE_CAMPAIGN)
+  const selectedCampaign = useSelectedCampaign()
+  const rewards = useRewardByCampaign(selectedCampaign)
 
   const configAutoplay = {
     delay: 0,

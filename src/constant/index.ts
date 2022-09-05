@@ -1,5 +1,3 @@
-import configs from 'configs'
-
 export enum Reward {
   Token = 'token',
   NFT = 'nft',
@@ -32,5 +30,3 @@ export enum RewardType {
   NFT = 'NFT',
   Ticket = 'Ticket',
 }
-
-export const SENTRE_CAMPAIGN = configs.sol.campaignId

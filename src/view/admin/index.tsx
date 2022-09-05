@@ -21,7 +21,7 @@ const Admin = () => {
   )
 
   const collectionRewards = Object.keys(rewards).filter(
-    (addr) => !!rewards[addr].rewardType.nft,
+    (addr) => !!rewards[addr].rewardType.nftCollection,
   )
 
   const ticketRewards = Object.keys(rewards).filter(
