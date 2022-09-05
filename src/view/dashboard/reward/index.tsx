@@ -9,13 +9,14 @@ import { RewardAmount } from 'components/reward/rewardAmount'
 import { RewardAvatar } from 'components/reward/rewardAvatar'
 import { RewardName } from 'components/reward/rewardName'
 
-import { SENTRE_CAMPAIGN } from 'constant'
 import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
+import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 
 type History = TicketData & { ticketAddress: string }
 
 const Reward = () => {
-  const tickets = useTicketByCampaign(SENTRE_CAMPAIGN)
+  const selectedCampaign = useSelectedCampaign()
+  const tickets = useTicketByCampaign(selectedCampaign)
   const [claimOnly, setClaimOnly] = useState(false)
 
   const filterTickets = useMemo(() => {

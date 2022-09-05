@@ -1,11 +1,12 @@
 import { Fragment } from 'react'
 
-import { GiftStatus, SENTRE_CAMPAIGN } from 'constant'
+import { GiftStatus } from 'constant'
 
 import imgGift from 'static/images/gifts/gift01.png'
 import CardGift from './cardGift'
 import { TOTAL_PERCENT } from './index'
 import { useLotteryInfo } from 'hooks/useLotteryInfo'
+import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 
 const MINT_WIDTH = 150
 
@@ -19,7 +20,8 @@ const STEP_REWARDS: SepRewardState = {
 }
 
 const ListGift = () => {
-  const lotteryInfo = useLotteryInfo(SENTRE_CAMPAIGN)
+  const selectedCampaign = useSelectedCampaign()
+  const lotteryInfo = useLotteryInfo(selectedCampaign)
 
   return (
     <Fragment>

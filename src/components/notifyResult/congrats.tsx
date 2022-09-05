@@ -7,7 +7,7 @@ import { RewardName } from 'components/reward/rewardName'
 
 import { useClaim } from 'hooks/actions/useClaim'
 import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
-import { SENTRE_CAMPAIGN } from 'constant'
+import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 
 import BG from 'static/images/bg-popup.svg'
 
@@ -18,7 +18,8 @@ type CongratsProps = {
 }
 
 const Congrats = ({ onClose, visible, resultReward }: CongratsProps) => {
-  const tickets = useTicketByCampaign(SENTRE_CAMPAIGN)
+  const selectedCampaign = useSelectedCampaign()
+  const tickets = useTicketByCampaign(selectedCampaign)
   const { loading, onClaim } = useClaim()
 
   const ticketAddress = useMemo(() => {

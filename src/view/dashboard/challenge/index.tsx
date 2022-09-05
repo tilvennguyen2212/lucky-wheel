@@ -7,7 +7,7 @@ import ListGift from './listGift'
 import ProgressBar from './progressBar'
 
 import { useLotteryInfo } from 'hooks/useLotteryInfo'
-import { SENTRE_CAMPAIGN } from 'constant'
+import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 
 import './index.less'
 
@@ -15,7 +15,8 @@ const TOTAL_SPIN = 200
 export const TOTAL_PERCENT = 100 / TOTAL_SPIN
 
 const Challenge = () => {
-  const lotteryInfo = useLotteryInfo(SENTRE_CAMPAIGN)
+  const selectedCampaign = useSelectedCampaign()
+  const lotteryInfo = useLotteryInfo(selectedCampaign)
   const infix = useInfix()
   const isMobile = infix < Infix.lg
   const direction = isMobile ? 'vertical' : 'horizontal'

@@ -4,7 +4,7 @@ import { Button, Col, Image, Row } from 'antd'
 import DisplayReward from './displayReward'
 import NotifyResult from 'components/notifyResult'
 
-import { LIST_BG_WHEEL, Reward, SENTRE_CAMPAIGN } from 'constant'
+import { LIST_BG_WHEEL, Reward } from 'constant'
 import { useSpin } from 'hooks/actions/useSpin'
 import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
 
@@ -14,6 +14,7 @@ import WINNER from 'static/images/winner.mp3'
 
 import './index.less'
 import { notifyError } from 'helper'
+import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 
 let audio = new Audio(SOUND)
 let winner = new Audio(WINNER)
@@ -31,8 +32,9 @@ const Wheel = ({ rewards }: WheelProps) => {
   const [spinning, setPinning] = useState(false)
   const [visible, setVisible] = useState(false)
   const [resultReward, setResultReward] = useState('')
-  const onSpin = useSpin(SENTRE_CAMPAIGN)
-  const tickets = useAvailableTickets(SENTRE_CAMPAIGN)
+  const selectedCampaign = useSelectedCampaign()
+  const onSpin = useSpin(selectedCampaign)
+  const tickets = useAvailableTickets(selectedCampaign)
 
   const singleDeg = Math.ceil(360 / rewards.length)
   const skewDeg = 90 - singleDeg

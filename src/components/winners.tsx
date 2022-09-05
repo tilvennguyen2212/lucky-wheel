@@ -2,10 +2,10 @@ import { useMemo } from 'react'
 import { useWidth } from '@sentre/senhub'
 
 import InfiniteSwiper from './infiniteSwiper'
+import { Card } from 'antd'
 
 import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
-import { SENTRE_CAMPAIGN } from 'constant'
-import { Card } from 'antd'
+import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 
 export type Winner = {
   authority: string
@@ -13,7 +13,8 @@ export type Winner = {
 }
 
 const Winners = () => {
-  const tickets = useTicketByCampaign(SENTRE_CAMPAIGN, false)
+  const selectedCampaign = useSelectedCampaign()
+  const tickets = useTicketByCampaign(selectedCampaign, false)
 
   const width = useWidth()
 

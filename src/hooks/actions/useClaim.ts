@@ -2,17 +2,17 @@ import { useCallback, useState } from 'react'
 import { web3 } from '@project-serum/anchor'
 
 import { notifyError, notifySuccess } from 'helper'
-import { SENTRE_CAMPAIGN } from 'constant'
 import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
 import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
-import { AccountsState } from '@sentre/senhub/dist/store/accounts.reducer'
+import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 
 export const useClaim = () => {
   const [loading, setLoading] = useState(false)
-  const rewards = useRewardByCampaign(SENTRE_CAMPAIGN)
-  const tickets = useTicketByCampaign(SENTRE_CAMPAIGN)
+  const selectedCampaign = useSelectedCampaign()
+  const rewards = useRewardByCampaign(selectedCampaign)
+  const tickets = useTicketByCampaign(selectedCampaign)
 
-  const getAccounts = useCallback(
+  const getMintReward = useCallback(
     async (rewardAddress: string) => {
       const splt = window.sentre.splt
       const { mint } = rewards[rewardAddress]
@@ -24,13 +24,13 @@ export const useClaim = () => {
         rewardTreasurer,
         { programId: splt.spltProgramId },
       )
-      const bulk: AccountsState = {}
-      value.forEach(({ pubkey, account: { data: buf } }) => {
-        const address = pubkey.toBase58()
-        const data = splt.parseAccountData(buf)
-        return (bulk[address] = data)
-      })
-      return bulk
+
+      for (const valData of value) {
+        const accountData = splt.parseAccountData(valData.account.data)
+        if (Number(accountData.amount.toString()) > 0)
+          return new web3.PublicKey(accountData.mint)
+      }
+      throw new Error("Can't find account")
     },
     [rewards],
   )
@@ -50,14 +50,7 @@ export const useClaim = () => {
 
         //Get mint NFT
         if (rewardType.nftCollection) {
-          const accounts = await getAccounts(rewardAddress)
-          let index = 0
-
-          for (const address in accounts) {
-            const { amount } = accounts[address]
-            if (amount.toString() === '0') index++
-          }
-          mint = new web3.PublicKey(Object.values(accounts)[index].mint)
+          mint = await getMintReward(rewardAddress)
         }
 
         const tx = new web3.Transaction()
@@ -74,7 +67,7 @@ export const useClaim = () => {
           for (let i = 0; i < prizeAmount.toNumber(); i++) {
             const newTicket = web3.Keypair.generate()
             const { tx: txRedeem } = await window.luckyWheel.redeemTicket({
-              campaign: new web3.PublicKey(SENTRE_CAMPAIGN),
+              campaign: new web3.PublicKey(selectedCampaign),
               ticket: newTicket,
               sendAndConfirm: false,
             })
@@ -90,7 +83,7 @@ export const useClaim = () => {
         setLoading(false)
       }
     },
-    [getAccounts, rewards, tickets],
+    [getMintReward, rewards, selectedCampaign, tickets],
   )
   return { onClaim, loading }
 }
