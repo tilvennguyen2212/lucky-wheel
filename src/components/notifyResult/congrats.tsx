@@ -38,7 +38,7 @@ const Congrats = ({ onClose, visible, resultReward }: CongratsProps) => {
       closeIcon={<IonIcon name="close-outline" />}
       className="congrats"
     >
-      <Image preview={false} src={BG} />
+      <Image preview={false} src={BG} style={{ borderRadius: 16 }} />
       <Row gutter={[16, 16]} className="congrats_content">
         <Col span={24}>
           <Typography.Title level={4} className="gradient-text">

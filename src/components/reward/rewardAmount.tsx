@@ -9,10 +9,10 @@ export const RewardAmount = ({ rewardAddress }: { rewardAddress: string }) => {
   if (!reward?.rewardType || rewardAddress === EMPTY_ADDRESS) return null
 
   if (reward.rewardType.nft || reward.rewardType.nftCollection)
-    return <span>x1</span>
+    return <span>1</span>
 
   if (reward.rewardType.ticket)
-    return <span>+{reward.prizeAmount.toNumber()}</span>
+    return <span>{reward.prizeAmount.toNumber()}</span>
 
   return <MintAmount mintAddress={reward.mint} amount={reward.prizeAmount} />
 }

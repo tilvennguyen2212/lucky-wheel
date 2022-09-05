@@ -25,7 +25,7 @@ const DisplayReward = ({ material }: DisplayRewardProps) => {
         <RewardAmount rewardAddress={rewardAddress} />
       </Typography.Title>
       <Typography.Title
-        level={4}
+        level={5}
         style={{ color: '#212433', fontFamily: 'Nunito' }}
       >
         <RewardName rewardAddress={rewardAddress} />

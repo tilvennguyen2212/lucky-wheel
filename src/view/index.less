@@ -23,6 +23,17 @@ button:not(.lucky_wheel-btn-background-ghost) {
   }
 }
 
+.lucky_wheel-btn[disabled] {
+  backdrop-filter: blur(96px) !important;
+  span {
+    background: none;
+    color: #7a7b85 !important;
+  }
+  &:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+  }
+}
+
 .lucky_wheel-segmented-lg {
   border-radius: 100px !important;
   width: 100% !important;
@@ -35,6 +46,12 @@ button:not(.lucky_wheel-btn-background-ghost) {
       filter: grayscale(1);
       .lucky_wheel-typography {
         color: #a6a7ad !important;
+      }
+      &:hover {
+        filter: grayscale(0) !important;
+        .lucky_wheel-typography {
+          color: #f4f4f5 !important;
+        }
       }
     }
     &-selected {
@@ -65,7 +82,7 @@ button:not(.lucky_wheel-btn-background-ghost) {
 }
 
 .gradient-text {
-  background: linear-gradient(84.24deg, #9945ff 0%, #b9f8fd 100%);
+  background: linear-gradient(84.24deg, #9945ff 0%, #b9f8fd 100%) !important;
   background-clip: text !important;
   color: transparent !important;
 }
@@ -73,7 +90,7 @@ button:not(.lucky_wheel-btn-background-ghost) {
 //Table
 .reward {
   .lucky_wheel-table-title {
-    background:rgba(255, 255, 255, 0.1) ;
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 24px 24px 0 0 !important;
   }
   .lucky_wheel-table {
@@ -158,7 +175,7 @@ button:not(.lucky_wheel-btn-background-ghost) {
   }
 
   .lucky_wheel-modal-content {
-    border-radius: 8px !important;
+    border-radius: 16px !important;
   }
   .lucky_wheel-modal-body {
     position: relative;
