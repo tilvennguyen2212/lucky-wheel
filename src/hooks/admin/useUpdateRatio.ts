@@ -11,7 +11,8 @@ type onUpdateRatioParams = {
 
 export const useUpdateRatio = () => {
   const [loading, setLoading] = useState(false)
-  const onUpdateRatio = async ({
+
+  const updateRatio = async ({
     campaign,
     rewardAddress,
     ratio,
@@ -34,5 +35,5 @@ export const useUpdateRatio = () => {
       setLoading(false)
     }
   }
-  return { onUpdateRatio, loading }
+  return { updateRatio, loading }
 }

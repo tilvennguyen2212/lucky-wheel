@@ -1,86 +1,58 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-import { Button, Collapse, InputNumber, Popover, Typography, Space } from 'antd'
+import { Button, Collapse, InputNumber } from 'antd'
+import { Popover, Typography, Col, Row } from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
+import WithdrawReward from '../withdraw'
+import DepositReward from '../deposit'
 
-import { useDepositReward } from 'hooks/admin/useDepositReward'
 import { useUpdateRatio } from 'hooks/admin/useUpdateRatio'
 import { useReward } from 'hooks/reward/useReward'
-import { AvatarNFT, NFTSelection } from '@sen-use/components/dist'
-import { WithdrawReward } from '../withdraw'
 
 const ColumnAction = ({ rewardAddress }: { rewardAddress: string }) => {
   const [visible, setVisible] = useState(false)
-  const [ratio, setRatio] = useState(0)
-  const [totalPrize, setTotalPrize] = useState(0)
+  const [ratio, setRatio] = useState('')
   const reward = useReward(rewardAddress)
-  const { onUpdateRatio, loading: ratioLoading } = useUpdateRatio()
-  const { onDepositReward, loading: depositLoading } = useDepositReward()
-  const [mintAddress, setMintAddress] = useState(reward.mint.toBase58())
+  const { updateRatio, loading: ratioLoading } = useUpdateRatio()
 
-  useEffect(() => {
-    if (!reward.rewardType.nftCollection) return
-    setTotalPrize(1)
-  }, [reward.rewardType.nftCollection])
-
+  const onUpdateRatio = () => {
+    updateRatio({
+      campaign: reward.campaign.toBase58(),
+      rewardAddress,
+      ratio: Number(ratio),
+    })
+  }
   return (
     <Popover
       content={
         <Collapse defaultActiveKey={['1']}>
           <Collapse.Panel header="Update Ratio" key="1">
-            <Space size={4}>
-              <Typography.Text>New Ratio: </Typography.Text>
-              <InputNumber value={ratio} onChange={setRatio} />
-              <Button
-                onClick={() =>
-                  onUpdateRatio({
-                    campaign: reward.campaign.toBase58(),
-                    rewardAddress,
-                    ratio,
-                  })
-                }
-                loading={ratioLoading}
-              >
-                Update
-              </Button>
-            </Space>
+            <Row gutter={[12, 12]} justify="space-between">
+              <Col>
+                <Typography.Text>New Ratio:</Typography.Text>
+              </Col>
+              <Col span={24}>
+                <InputNumber
+                  value={ratio}
+                  onChange={setRatio}
+                  min={'0.0000000000000001'}
+                  style={{ width: '100%' }}
+                />
+              </Col>
+              <Col span={24}>
+                <Button
+                  onClick={onUpdateRatio}
+                  loading={ratioLoading}
+                  block
+                  type="primary"
+                >
+                  Update
+                </Button>
+              </Col>
+            </Row>
           </Collapse.Panel>
           <Collapse.Panel header="Deposit" key="2">
-            <Space>
-              {reward.rewardType.nftCollection ? (
-                <Space>
-                  <NFTSelection
-                    collectionAddress={[reward.mint.toBase58()]}
-                    onSelect={setMintAddress}
-                  />
-                  <AvatarNFT
-                    mintAddress={
-                      mintAddress === reward.mint.toBase58() ? '' : mintAddress
-                    }
-                    size={24}
-                  />
-                </Space>
-              ) : (
-                <Space>
-                  <Typography.Text>Total Prize: </Typography.Text>
-                  <InputNumber value={totalPrize} onChange={setTotalPrize} />
-                </Space>
-              )}
-
-              <Button
-                onClick={() =>
-                  onDepositReward({
-                    campaign: reward.campaign.toBase58(),
-                    reward: rewardAddress,
-                    mint: mintAddress,
-                    totalPrize,
-                  })
-                }
-                loading={depositLoading}
-              >
-                Deposit
-              </Button>
-            </Space>
+            <DepositReward rewardAddress={rewardAddress} />
           </Collapse.Panel>
           <Collapse.Panel header="Withdraw" key="Withdraw">
             <WithdrawReward rewardAddress={rewardAddress} />
