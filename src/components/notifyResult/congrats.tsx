@@ -1,34 +1,22 @@
-import { useMemo } from 'react'
-
 import { Button, Col, Image, Modal, Row, Typography } from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
 import { RewardAvatar } from 'components/reward/rewardAvatar'
 import { RewardName } from 'components/reward/rewardName'
 
 import { useClaim } from 'hooks/actions/useClaim'
-import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
-import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
+import { useTicket } from 'hooks/ticket/useTicket'
 
 import BG from 'static/images/bg-popup.svg'
 
 type CongratsProps = {
   visible: boolean
   onClose: (value: false) => void
-  resultReward: string
+  ticket: string
 }
 
-const Congrats = ({ onClose, visible, resultReward }: CongratsProps) => {
-  const selectedCampaign = useSelectedCampaign()
-  const tickets = useTicketByCampaign(selectedCampaign)
+const Congrats = ({ onClose, visible, ticket }: CongratsProps) => {
+  const ticketData = useTicket(ticket)
   const { loading, onClaim } = useClaim()
-
-  const ticketAddress = useMemo(() => {
-    for (const address in tickets) {
-      const rewardAddress = tickets[address].reward.toBase58()
-      if (rewardAddress === resultReward) return address
-    }
-    return ''
-  }, [resultReward, tickets])
 
   return (
     <Modal
@@ -50,11 +38,14 @@ const Congrats = ({ onClose, visible, resultReward }: CongratsProps) => {
         </Col>
         <Col span={24} /> {/** Safe place */}
         <Col span={24}>
-          <RewardAvatar size={96} rewardAddress={resultReward} />
+          <RewardAvatar
+            size={96}
+            rewardAddress={ticketData.reward.toBase58()}
+          />
         </Col>
         <Col span={24}>
           <Typography.Title level={3}>
-            <RewardName rewardAddress={resultReward} />
+            <RewardName rewardAddress={ticketData.reward.toBase58()} />
           </Typography.Title>
         </Col>
         <Col span={24} /> {/** Safe place */}
@@ -62,7 +53,7 @@ const Congrats = ({ onClose, visible, resultReward }: CongratsProps) => {
           <Button
             loading={loading}
             onClick={() => {
-              onClaim(ticketAddress)
+              onClaim(ticket)
               onClose(false)
             }}
             size="large"

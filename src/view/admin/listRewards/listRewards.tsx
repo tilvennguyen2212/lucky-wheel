@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import { BN } from '@project-serum/anchor'
 import { RewardData } from '@sentre/lucky-wheel-core'
 
@@ -31,6 +32,14 @@ const columns = [
     },
   },
   {
+    title: 'Total Prize',
+    dataIndex: 'totalPrize',
+    key: 'totalPrize',
+    render: (totalPrize: BN) => (
+      <Typography>{totalPrize.toNumber()}</Typography>
+    ),
+  },
+  {
     title: 'Reserve Prize',
     dataIndex: 'reservePrize',
     key: 'reservePrize',
@@ -56,11 +65,13 @@ const columns = [
   },
 ]
 
-const ListReward = ({
+const ListRewards = ({
   title,
+  actionCreate,
   data,
 }: {
   title: string
+  actionCreate: ReactNode
   data: ({ address: string } & RewardData)[]
 }) => {
   return (
@@ -70,12 +81,13 @@ const ListReward = ({
           className="reward"
           key={title}
           title={() => (
-            <Row justify="center">
+            <Row justify="space-between">
               <Col>
-                <Typography.Title level={5} style={{ fontWeight: 'bold' }}>
+                <Typography.Title level={4} style={{ fontWeight: 'bold' }}>
                   {title}
                 </Typography.Title>
               </Col>
+              <Col>{actionCreate}</Col>
             </Row>
           )}
           columns={columns}
@@ -89,4 +101,4 @@ const ListReward = ({
   )
 }
 
-export default ListReward
+export default ListRewards

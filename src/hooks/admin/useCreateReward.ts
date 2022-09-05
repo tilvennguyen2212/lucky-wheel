@@ -1,42 +1,38 @@
 import { useCallback, useState } from 'react'
-import { BN, web3 } from '@project-serum/anchor'
-import { useGetMintDecimals } from '@sentre/senhub'
-import { utilsBN } from '@sen-use/web3'
-import { REWARD_TYPE } from '@sentre/lucky-wheel-core'
+import { BN, web3, Address } from '@project-serum/anchor'
+import { RewardType } from '@sentre/lucky-wheel-core'
 
 import { notifyError, notifySuccess } from 'helper'
 
-type OnInitializeTokenRewardParams = {
-  mint: string
-  prizeAmount: string
-  campaign: string
+type CreateRewardParams = {
+  prizeAmount: BN
+  campaign: Address
+  rewardMint: Address
   ratio: number
+  rewardType: RewardType
 }
 
-export const useInitializeTokenReward = () => {
+export const useCreateReward = () => {
   const [loading, setLoading] = useState(false)
-  const getMintDecimals = useGetMintDecimals()
 
-  const onInitializeTokenReward = useCallback(
+  const createReward = useCallback(
     async ({
-      mint,
       prizeAmount,
       campaign,
       ratio,
-    }: OnInitializeTokenRewardParams) => {
+      rewardType,
+      rewardMint,
+    }: CreateRewardParams) => {
       setLoading(true)
       try {
-        const decimals = await getMintDecimals({ mintAddress: mint })
-        if (!decimals) throw new Error("Can't get mint decimals")
-
-        const prizeAmountBN = utilsBN.decimalize(prizeAmount, decimals)
+        const campaignPk = new web3.PublicKey(campaign)
         const reward = web3.Keypair.generate()
 
         const { tx: txReward } = await window.luckyWheel.initializeReward({
-          campaign: new web3.PublicKey(campaign),
-          rewardMint: new web3.PublicKey(mint),
-          prizeAmount: prizeAmountBN,
-          rewardType: REWARD_TYPE.token,
+          campaign: campaignPk,
+          rewardMint: new web3.PublicKey(rewardMint),
+          prizeAmount,
+          rewardType,
           reward,
           sendAndConfirm: false,
         })
@@ -66,7 +62,7 @@ export const useInitializeTokenReward = () => {
         setLoading(false)
       }
     },
-    [getMintDecimals],
+    [],
   )
-  return { onInitializeTokenReward, loading }
+  return { createReward, loading }
 }

@@ -30,11 +30,11 @@ type WheelProps = {
 
 const Wheel = ({ rewards }: WheelProps) => {
   const [spinning, setPinning] = useState(false)
-  const [visible, setVisible] = useState(false)
-  const [resultReward, setResultReward] = useState('')
+
+  const [pickedTickets, setPickedTickets] = useState<string[]>([])
   const selectedCampaign = useSelectedCampaign()
-  const onSpin = useSpin(selectedCampaign)
   const tickets = useAvailableTickets(selectedCampaign)
+  const onSpin = useSpin(selectedCampaign)
 
   const singleDeg = Math.ceil(360 / rewards.length)
   const skewDeg = 90 - singleDeg
@@ -67,15 +67,11 @@ const Wheel = ({ rewards }: WheelProps) => {
     return result
   }, [rewards.length])
 
-  const onSpinning = async () => {
+  const onSpinning = async (amount: number) => {
+    let tickets: string[] = []
     try {
       setPinning(true)
-      // Spin
-      const ticket = await onSpin()
-      let rewardAddress: string | null = null
-
-      const ticketData = await window.luckyWheel.account.ticket.fetch(ticket)
-      if (ticketData.state.won) rewardAddress = ticketData.reward.toBase58()
+      tickets = await onSpin(amount)
 
       audio.play()
       let wheel = document.getElementById('wheel')
@@ -88,33 +84,29 @@ const Wheel = ({ rewards }: WheelProps) => {
       wheel.style.transform = 'rotate(' + deg + 'deg)'
       wheel.style.transition = '3s all'
 
-      setResultReward(rewardAddress || Reward.GoodLuck)
+      let rewardAddress: string = Reward.GoodLuck
+      const ticketData = await window.luckyWheel.account.ticket.fetch(
+        tickets[0],
+      )
+      if (ticketData.state.won) rewardAddress = ticketData.reward.toBase58()
 
       setTimeout(() => {
         if (!wheel) return
         deg = -(value.get(rewardAddress || Reward.GoodLuck) || 0) - contentDeg //Value selected
         wheel.style.transform = 'rotate(' + deg + 'deg)'
       }, 2000)
-
-      //Sound wheel
-      setTimeout(() => {
-        audio.pause()
-        audio.currentTime = 0
-
-        winner.play()
-
-        setPinning(false)
-        setVisible(true)
-      }, 5000)
-
-      //Sound celebration
-      setTimeout(() => {
-        winner.currentTime = 0
-      }, 5000)
     } catch (error) {
       notifyError(error)
       setPinning(false)
     } finally {
+      setTimeout(() => {
+        audio.pause()
+        audio.currentTime = 0
+        winner.currentTime = 0
+        winner.play()
+        setPinning(false)
+        setPickedTickets(tickets)
+      }, 5000)
     }
   }
 
@@ -159,7 +151,7 @@ const Wheel = ({ rewards }: WheelProps) => {
               size="large"
               block
               disabled={spinning || !Object.keys(tickets).length}
-              onClick={onSpinning}
+              onClick={() => onSpinning(1)}
               loading={spinning}
               type="primary"
             >
@@ -171,18 +163,17 @@ const Wheel = ({ rewards }: WheelProps) => {
               size="large"
               block
               disabled={spinning || !Object.keys(tickets).length}
-              onClick={onSpinning}
+              loading={spinning}
+              onClick={() => onSpinning(5)}
             >
-              SPIN X10
+              SPIN X5
             </Button>
           </Col>
         </Row>
       </Col>
-      <NotifyResult
-        resultReward={resultReward}
-        visible={visible}
-        onClose={setVisible}
-      />
+      {pickedTickets.map((ticket) => (
+        <NotifyResult ticket={ticket} key={ticket} />
+      ))}
     </Row>
   )
 }

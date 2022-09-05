@@ -1,38 +1,40 @@
 import { Fragment } from 'react'
 
-import { GiftStatus } from 'constant'
-
 import imgGift from 'static/images/gifts/gift01.png'
 import CardGift from './cardGift'
-import { TOTAL_PERCENT } from './index'
+
 import { useLotteryInfo } from 'hooks/useLotteryInfo'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
+import { TOTAL_PERCENT } from './index'
+import { GiftStatus } from 'constant'
 
 const MINT_WIDTH = 150
-
-type SepRewardState = Record<string, { src: string; status: GiftStatus }>
-const STEP_REWARDS: SepRewardState = {
-  20: { src: imgGift, status: GiftStatus.Claimed },
-  50: { src: imgGift, status: GiftStatus.Ready },
-  80: { src: imgGift, status: GiftStatus.Pending },
-  120: { src: imgGift, status: GiftStatus.Pending },
-  180: { src: imgGift, status: GiftStatus.Pending },
-}
+const PROCESSES = [20, 50, 80, 120, 180]
 
 const ListGift = () => {
   const selectedCampaign = useSelectedCampaign()
   const lotteryInfo = useLotteryInfo(selectedCampaign)
 
+  const processes = PROCESSES.map((value) => {
+    let status = GiftStatus.Pending
+    if (lotteryInfo.totalPicked.toNumber() >= value) status = GiftStatus.Ready
+    if (lotteryInfo.totalClaimed.toNumber() >= value)
+      status = GiftStatus.Claimed
+    return {
+      src: imgGift,
+      value,
+      status,
+    }
+  })
   return (
     <Fragment>
-      {Object.keys(STEP_REWARDS).map((key) => {
-        const { src, status } = STEP_REWARDS[key]
+      {processes.map(({ src, status, value }) => {
         return (
           <div
             className="card-challenge-gift"
-            key={key}
+            key={value}
             style={{
-              left: `calc(${Number(key) * TOTAL_PERCENT}% - ${
+              left: `calc(${Number(value) * TOTAL_PERCENT}% - ${
                 MINT_WIDTH / 2
               }px)`,
             }}
@@ -41,8 +43,8 @@ const ListGift = () => {
               <CardGift
                 src={src}
                 status={status}
-                amount={key}
-                active={Number(key) <= lotteryInfo.totalClaimed.toNumber()}
+                amount={value}
+                active={Number(value) <= lotteryInfo.totalClaimed.toNumber()}
               />
             </div>
           </div>
