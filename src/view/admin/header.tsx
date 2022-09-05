@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useAppRoute, useWalletAddress } from '@sentre/senhub'
 
-import { Button, Select } from 'antd'
+import { Button, Col, Row, Select, Statistic } from 'antd'
 import { Descriptions, PageHeader, Tag, Space } from 'antd'
 
 import { useInitializeCampaign } from 'hooks/admin/useIntializeCampaign'
@@ -55,23 +55,33 @@ const Header = () => {
         </Button>,
       ]}
     >
-      <Descriptions size="small" column={2}>
-        <Descriptions.Item label="Address">
-          {selectedCampaign}
-        </Descriptions.Item>
-        <Descriptions.Item label="Ticket Token">
-          {selectedCampaign}
-        </Descriptions.Item>
-        <Descriptions.Item label="Total Ticket">
-          {campaignData.totalTicket.toNumber()}
-        </Descriptions.Item>
-        <Descriptions.Item label="Total Picked">
-          {campaignData.totalPicked.toNumber()}
-        </Descriptions.Item>
-        <Descriptions.Item label="Authority">
-          {campaignData.authority.toBase58()}
-        </Descriptions.Item>
-      </Descriptions>
+      <Row gutter={[24, 24]}>
+        <Col span={18}>
+          <Descriptions size="small" column={2}>
+            <Descriptions.Item label="Address">
+              {selectedCampaign}
+            </Descriptions.Item>
+            <Descriptions.Item label="Ticket Token">
+              {selectedCampaign}
+            </Descriptions.Item>
+            <Descriptions.Item label="Authority">
+              {campaignData.authority.toBase58()}
+            </Descriptions.Item>
+          </Descriptions>
+        </Col>
+        <Col span="auto">
+          <Space size={32}>
+            <Statistic
+              title="Total Ticket"
+              value={campaignData.totalTicket.toNumber()}
+            />
+            <Statistic
+              title="Total Picked"
+              value={campaignData.totalTicket.toNumber()}
+            />
+          </Space>
+        </Col>
+      </Row>
     </PageHeader>
   )
 }
