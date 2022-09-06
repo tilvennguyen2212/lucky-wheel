@@ -18,6 +18,7 @@ import { AppState } from 'model'
 
 import configs from 'configs'
 import CreateCampaign from './createCampaign'
+import UpdatePicker from './updatePicker'
 
 const Header = () => {
   const campaigns = useSelector((state: AppState) => state.campaigns)
@@ -86,8 +87,9 @@ const Header = () => {
             </Select.Option>
           ))}
         </Select>,
-        <PrintTicket key="2" campaignAddress={selectedCampaign} />,
-        <CreateCampaign key="1" />,
+        <PrintTicket key="PrintTicket" campaignAddress={selectedCampaign} />,
+        <UpdatePicker key="UpdatePicker" campaignAddress={selectedCampaign} />,
+        <CreateCampaign key="CreateCampaign" />,
       ]}
     >
       <Row gutter={[24, 24]} style={{ paddingLeft: 32 }}>
