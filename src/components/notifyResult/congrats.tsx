@@ -8,8 +8,9 @@ import { RewardAmount } from 'components/reward/rewardAmount'
 import { RewardName } from 'components/reward/rewardName'
 
 import { setCongratulate, setTabId } from 'model/main.controller'
-import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
+import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
+import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
 import { TabId } from 'constant'
 
 import BG from 'static/images/bg-popup.svg'
@@ -28,7 +29,9 @@ const Congrats = ({
   onSpinning,
 }: CongratsProps) => {
   const selectedCampaign = useSelectedCampaign()
+  const availableTickets = useAvailableTickets(selectedCampaign)
   const tickets = useTicketByCampaign(selectedCampaign)
+
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -99,6 +102,7 @@ const Congrats = ({
               onClose(false)
               onSpinning(1, false)
             }}
+            disabled={!Object.keys(availableTickets).length}
           >
             SPIN MORE
           </Button>

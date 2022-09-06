@@ -27,7 +27,7 @@ const Challenge = () => {
     : 'card-challenge'
 
   return (
-    <Row style={{ padding: '0px 32px 32px 32px' }}>
+    <Row className="challenge">
       <Col span={24}>
         <Card className={wrapCln}>
           <Row gutter={[24, rowGap]} justify="center">

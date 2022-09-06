@@ -1,6 +1,10 @@
 import IonIcon from '@sentre/antd-ionicon'
 
 import { Avatar, Button, Col, Modal, Row, Typography } from 'antd'
+
+import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
+import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
+
 import GoodLuckIcon from 'static/images/good-luck-icon.png'
 
 type GoodLuckProps = {
@@ -10,6 +14,9 @@ type GoodLuckProps = {
 }
 
 const NotifyGoodLuck = ({ onClose, visible, onSpinning }: GoodLuckProps) => {
+  const selectedCampaign = useSelectedCampaign()
+  const tickets = useAvailableTickets(selectedCampaign)
+
   return (
     <Modal
       visible={visible}
@@ -43,6 +50,7 @@ const NotifyGoodLuck = ({ onClose, visible, onSpinning }: GoodLuckProps) => {
               onClose(false)
               onSpinning(1, false)
             }}
+            disabled={!Object.keys(tickets).length}
           >
             SPIN AGAIN
           </Button>

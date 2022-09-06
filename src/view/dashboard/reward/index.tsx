@@ -1,9 +1,11 @@
 import { useMemo, useState } from 'react'
 import { TicketData } from '@sentre/lucky-wheel-core'
 import { web3, BN } from '@project-serum/anchor'
+import { Infix, useInfix } from '@sentre/senhub'
 import moment from 'moment'
 
 import { Col, Row, Space, Table, Typography, Switch } from 'antd'
+import ListReward from './listReward'
 import ColumnAction from './columnAction'
 import { RewardAmount } from 'components/reward/rewardAmount'
 import { RewardAvatar } from 'components/reward/rewardAvatar'
@@ -12,12 +14,15 @@ import { RewardName } from 'components/reward/rewardName'
 import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 
-type History = TicketData & { ticketAddress: string }
+import './index.less'
+
+export type History = TicketData & { ticketAddress: string }
 
 const Reward = () => {
   const selectedCampaign = useSelectedCampaign()
   const tickets = useTicketByCampaign(selectedCampaign)
   const [claimOnly, setClaimOnly] = useState(false)
+  const infix = useInfix()
 
   const filterTickets = useMemo(() => {
     const usedTicket: History[] = []
@@ -85,7 +90,15 @@ const Reward = () => {
         </Space>
       </Col>
       <Col span={24}>
-        <Table dataSource={sortedReward} columns={columns} pagination={false} />
+        {infix === Infix.xs ? (
+          <ListReward history={sortedReward} />
+        ) : (
+          <Table
+            dataSource={sortedReward}
+            columns={columns}
+            pagination={false}
+          />
+        )}
       </Col>
     </Row>
   )
