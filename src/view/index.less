@@ -8,12 +8,22 @@ button:not(.lucky_wheel-btn-background-ghost) {
     background: linear-gradient(84.24deg, #9945ff 0%, #b9f8fd 100%);
     background-clip: text;
     color: transparent;
+    transition: all 1s linear;
+
+    &:hover {
+      background: linear-gradient(264.24deg, #9945ff 0%, #b9f8fd 100%);
+      background-clip: text;
+      color: transparent;
+    }
   }
+  
 }
 
 .lucky_wheel-btn-primary {
+  transition: all 1s linear;
   &:hover {
-    background: #f4f4f5 !important;
+    background: linear-gradient(264.24deg, #9945ff 0%, #b9f8fd 100%) !important;
+
   }
   &:active {
     background: #f4f4f5 !important;
