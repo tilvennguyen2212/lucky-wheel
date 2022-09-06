@@ -1,19 +1,22 @@
+import { useDispatch } from 'react-redux'
+
 import { Button, Image } from 'antd'
+
 import { GiftStatus, TabId } from 'constant'
+import { AppDispatch } from 'model'
+import { setTabId } from 'model/main.controller'
 
 type CardGiftProps = {
   src?: string
   status?: GiftStatus
   amount?: number | string
   active?: boolean
-  setTabId: (val: string) => void
 }
 const CardGift = ({
   src = '',
   status = GiftStatus.Pending,
   amount = 0,
   active,
-  setTabId,
 }: CardGiftProps) => {
   const cardGiftCln = active ? 'card-gift active' : 'card-gift'
   const btnType = status === GiftStatus.Pending ? 'default' : 'primary'
@@ -22,8 +25,11 @@ const CardGift = ({
       ? 'card-gift-btn claimed-btn'
       : 'card-gift-btn'
 
+  const dispatch = useDispatch<AppDispatch>()
+
   const onHandleClick = () => {
-    if (status === GiftStatus.Pending) return setTabId(TabId.Spin)
+    if (status === GiftStatus.Pending)
+      return dispatch(setTabId({ tabId: TabId.Spin }))
   }
 
   return (

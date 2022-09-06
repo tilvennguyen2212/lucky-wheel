@@ -1,4 +1,5 @@
-import { useState, Fragment } from 'react'
+import { Fragment } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { Col, Row, Segmented, Space, Typography } from 'antd'
 import Icon from '@ant-design/icons'
@@ -7,6 +8,9 @@ import Layout from 'components/layout'
 import Challenge from './challenge'
 
 import { TabId } from 'constant'
+import { AppDispatch, AppState } from 'model'
+import { setTabId } from 'model/main.controller'
+
 import { ReactComponent as SpinIcon } from 'static/images/icons/spin-icon.svg'
 import { ReactComponent as RewardIcon } from 'static/images/icons/reward-icon.svg'
 import { ReactComponent as ChallengeIcon } from 'static/images/icons/challenge-icon.svg'
@@ -42,7 +46,8 @@ const LUCKY_WHEEL_TABS = [
 ]
 
 const Dashboard = () => {
-  const [tabId, setTabId] = useState<string>(TabId.Spin)
+  const tabId = useSelector((state: AppState) => state.main.tabId)
+  const dispatch = useDispatch<AppDispatch>()
 
   return (
     <Fragment>
@@ -51,7 +56,9 @@ const Dashboard = () => {
           <Col span={24}>
             <Segmented
               value={tabId}
-              onChange={(val) => setTabId(val.toString())}
+              onChange={(val) =>
+                dispatch(setTabId({ tabId: val.toString() as TabId }))
+              }
               options={LUCKY_WHEEL_TABS}
               size="large"
             />
@@ -61,7 +68,7 @@ const Dashboard = () => {
           </Col>
         </Row>
       </Layout>
-      {tabId === TabId.Challenge && <Challenge setTabId={setTabId} />}
+      {tabId === TabId.Challenge && <Challenge />}
     </Fragment>
   )
 }

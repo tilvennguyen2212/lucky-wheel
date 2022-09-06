@@ -1,12 +1,14 @@
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-
 import Confetti from 'react-confetti'
+
 import { Col, Row } from 'antd'
 import Admin from './admin'
 import Dashboard from './dashboard'
 import Winners from 'components/winners'
+import EmptyCampaign from 'components/emptyCampaign'
 
+import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 import { useAppRouter } from 'hooks/useAppRouter'
 import { AppLoader } from './appLoader'
 import { AppWatcher } from 'watcher'
@@ -14,8 +16,6 @@ import { AppState } from 'model'
 
 import './index.less'
 import 'swiper/css/bundle'
-import EmptyCampaign from 'components/emptyCampaign'
-import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 
 const View = () => {
   const congratulate = useSelector((state: AppState) => state.main.congratulate)

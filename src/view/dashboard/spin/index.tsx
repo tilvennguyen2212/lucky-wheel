@@ -35,8 +35,7 @@ const Spin = () => {
     ]
 
     for (const address in rewards) {
-      const { rewardType, reservePrize } = rewards[address]
-      if (reservePrize.isZero()) continue
+      const { rewardType } = rewards[address]
       let type = Reward.Token
       if (rewardType.nftCollection) type = Reward.NFT
       if (rewardType.ticket) type = Reward.Ticket

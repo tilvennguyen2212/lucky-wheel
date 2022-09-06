@@ -15,12 +15,12 @@ export const useInitializeCampaign = () => {
       // const pickerPublickey = await window.luckyWheel.decodePickerPublickey(
       //   picker,
       // )
-      const pickerPublickey = Array.from(window.luckyWheel.picker.pubKey).slice(
-        1,
-        65,
-      )
+      // const pickerPublickey = Array.from(window.luckyWheel.picker.pubKey).slice(
+      //   1,
+      //   65,
+      // )
       const { txId } = await window.luckyWheel.initializeCampaign({
-        picker: pickerPublickey,
+        picker,
         startDate: new BN(0),
         endDate: new BN(0),
       })

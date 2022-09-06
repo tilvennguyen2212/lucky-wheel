@@ -30,6 +30,12 @@ const Reward = () => {
     return usedTicket
   }, [claimOnly, tickets])
 
+  const sortedReward = filterTickets.sort((a, b) => {
+    const time_a = a.pickAt.toNumber()
+    const time_b = b.pickAt.toNumber()
+    return time_b - time_a
+  })
+
   const columns = [
     {
       title: 'TIME',
@@ -79,11 +85,7 @@ const Reward = () => {
         </Space>
       </Col>
       <Col span={24}>
-        <Table
-          dataSource={filterTickets}
-          columns={columns}
-          pagination={false}
-        />
+        <Table dataSource={sortedReward} columns={columns} pagination={false} />
       </Col>
     </Row>
   )

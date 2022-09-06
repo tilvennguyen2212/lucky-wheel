@@ -1,19 +1,31 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import NotifyGoodLuck from './goodLuck'
 import Congrats from './congrats'
 
-import { useTicket } from 'hooks/ticket/useTicket'
+import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
+import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
+
 type NotifyResultProps = {
-  ticket: string
+  pickedTickets: string[]
   onSpinning: (amount: number, isMul: boolean) => void
 }
 
-const NotifyResult = ({ ticket, onSpinning }: NotifyResultProps) => {
-  const [visible, setVisible] = useState(true)
-  const ticketData = useTicket(ticket)
+const NotifyResult = ({ pickedTickets, onSpinning }: NotifyResultProps) => {
+  const [visible, setVisible] = useState(false)
+  const selectedCampaign = useSelectedCampaign()
+  const tickets = useTicketByCampaign(selectedCampaign)
 
-  if (!ticketData.state.won)
+  const wonTickets = useMemo(
+    () => pickedTickets.filter((ticket) => tickets[ticket].state.won),
+    [pickedTickets, tickets],
+  )
+
+  useEffect(() => {
+    setVisible(!!pickedTickets.length)
+  }, [pickedTickets])
+
+  if (!wonTickets.length)
     return (
       <NotifyGoodLuck
         visible={visible}
@@ -24,7 +36,7 @@ const NotifyResult = ({ ticket, onSpinning }: NotifyResultProps) => {
 
   return (
     <Congrats
-      ticket={ticket}
+      pickedTickets={wonTickets}
       visible={visible}
       onClose={() => setVisible(false)}
       onSpinning={onSpinning}

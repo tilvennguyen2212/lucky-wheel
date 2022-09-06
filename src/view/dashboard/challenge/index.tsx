@@ -14,14 +14,11 @@ import './index.less'
 const TOTAL_SPIN = 200
 export const TOTAL_PERCENT = 100 / TOTAL_SPIN
 
-type ChallengeProps = {
-  setTabId: (val: string) => void
-}
-
-const Challenge = ({ setTabId }: ChallengeProps) => {
+const Challenge = () => {
   const selectedCampaign = useSelectedCampaign()
   const lotteryInfo = useLotteryInfo(selectedCampaign)
   const infix = useInfix()
+
   const isMobile = infix < Infix.lg
   const direction = isMobile ? 'vertical' : 'horizontal'
   const rowGap = isMobile ? 48 : 134
@@ -37,7 +34,7 @@ const Challenge = ({ setTabId }: ChallengeProps) => {
             <Col span={24}>
               <Row className="inner-challenge-progress">
                 <Col className="challenge-gifts" span={24}>
-                  <ListGift setTabId={setTabId} />
+                  <ListGift />
                 </Col>
                 <Col className="challenge-progress">
                   <ProgressBar

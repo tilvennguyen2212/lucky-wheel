@@ -182,9 +182,7 @@ const Wheel = ({ rewards }: WheelProps) => {
         </Row>
       </Col>
 
-      {pickedTickets.map((ticket) => (
-        <NotifyResult onSpinning={onSpinning} ticket={ticket} key={ticket} />
-      ))}
+      <NotifyResult onSpinning={onSpinning} pickedTickets={pickedTickets} />
     </Row>
   )
 }

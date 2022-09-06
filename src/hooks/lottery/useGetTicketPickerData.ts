@@ -1,5 +1,11 @@
 import { useCallback } from 'react'
+import { useSelector } from 'react-redux'
 import { web3, BN } from '@project-serum/anchor'
+import axios from 'axios'
+
+import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
+import { AppState } from 'model'
+import configs from 'configs'
 
 export type PickerData = {
   ticket: web3.PublicKey
@@ -18,19 +24,37 @@ const generate_lucky_number = (signature: number[]) => {
 }
 
 export const useGetTicketPickerData = () => {
+  const campaignSelected = useSelectedCampaign()
+  const campaignPicker = useSelector(
+    (state: AppState) => state.campaigns[campaignSelected].picker,
+  )
   const getTicketPickerData = useCallback(
     async (ticketAddress: string): Promise<PickerData> => {
-      // const { data: pickerData } = await axios.get<{
-      //   pubKey: string
-      //   signature: string
-      //   recid: number
-      // }>(configs.api.lottery.luckyNumber + ticketAddress, {
-      //   withCredentials: true,
-      // })
-      const pickerData = window.luckyWheel.picker.sign(
+      const { data: picker } = await axios.get(configs.api.lottery.publicKey, {
+        withCredentials: true,
+      })
+      const pickerPublickey = await window.luckyWheel.decodePickerPublickey(
+        picker,
+      )
+
+      let pickerData: { recid: number; signature: Uint8Array } = {
+        recid: 0,
+        signature: Buffer.from(''),
+      }
+
+      if (campaignPicker === pickerPublickey) {
+        const { data } = await axios.get<{
+          signature: Uint8Array
+          recid: number
+        }>(configs.api.lottery.luckyNumber + ticketAddress, {
+          withCredentials: true,
+        })
+        pickerData = data
+      }
+
+      pickerData = window.luckyWheel.picker.sign(
         new web3.PublicKey(ticketAddress).toBuffer(),
       )
-      // const signature = Array.from(Buffer.from(pickerData.signature, 'hex'))
       const signature = Array.from(pickerData.signature)
       return {
         ticket: new web3.PublicKey(ticketAddress),
@@ -39,7 +63,7 @@ export const useGetTicketPickerData = () => {
         luckyNumber: generate_lucky_number(signature),
       }
     },
-    [],
+    [campaignPicker],
   )
 
   return getTicketPickerData

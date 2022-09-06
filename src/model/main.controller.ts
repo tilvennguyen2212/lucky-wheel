@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { TabId } from 'constant'
 
 /**
  * Interface & Utility
@@ -7,6 +8,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 export type MainState = {
   campaign: string
   congratulate: boolean
+  tabId: TabId
 }
 
 /**
@@ -17,6 +19,7 @@ const NAME = 'main'
 const initialState: MainState = {
   campaign: '',
   congratulate: false,
+  tabId: TabId.Spin,
 }
 
 /**
@@ -37,6 +40,13 @@ export const setCongratulate = createAsyncThunk<
   return { congratulate }
 })
 
+export const setTabId = createAsyncThunk<Partial<MainState>, { tabId: TabId }>(
+  `${NAME}/setTabId`,
+  async ({ tabId }) => {
+    return { tabId }
+  },
+)
+
 /**
  * Usual procedure
  */
@@ -53,6 +63,10 @@ const slice = createSlice({
       )
       .addCase(
         setCongratulate.fulfilled,
+        (state, { payload }) => void Object.assign(state, payload),
+      )
+      .addCase(
+        setTabId.fulfilled,
         (state, { payload }) => void Object.assign(state, payload),
       ),
 })
