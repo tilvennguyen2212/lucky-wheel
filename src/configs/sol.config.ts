@@ -35,7 +35,7 @@ const conf: Record<Net, Conf> = {
   mainnet: {
     node: 'https://api.mainnet-beta.solana.com',
     programId: '3sFeMcoZbqRJVVZpv2jvK6zfDopJ48B2vxzTBsHPoSJ7',
-    campaignId: 'CMaVCUKcxf2qHNhvcnLUEmpXWs9aZWB4xp5nYACj6a2g',
+    campaignId: '6o6qwGH8WzntHBg5rf64zPUQJKGr7WtGgBhhfhEwpHj8',
   },
 }
 
