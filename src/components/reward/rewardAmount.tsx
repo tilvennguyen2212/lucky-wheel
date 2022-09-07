@@ -8,8 +8,7 @@ export const RewardAmount = ({ rewardAddress }: { rewardAddress: string }) => {
 
   if (!reward?.rewardType || rewardAddress === EMPTY_ADDRESS) return null
 
-  if (reward.rewardType.nft || reward.rewardType.nftCollection)
-    return <span>1</span>
+  if (reward.rewardType.nftCollection) return <span>1</span>
 
   if (reward.rewardType.ticket)
     return <span>{reward.prizeAmount.toNumber()}</span>

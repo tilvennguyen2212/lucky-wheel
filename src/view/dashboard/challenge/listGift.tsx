@@ -18,8 +18,8 @@ const ListGift = () => {
   const processes = PROCESSES.map((value) => {
     let status = GiftStatus.Pending
     if (lotteryInfo.totalPicked.toNumber() >= value) status = GiftStatus.Ready
-    if (lotteryInfo.totalClaimed.toNumber() >= value)
-      status = GiftStatus.Claimed
+
+    status = GiftStatus.Claimed
     return {
       src: imgGift,
       value,

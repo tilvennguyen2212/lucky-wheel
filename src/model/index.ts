@@ -6,6 +6,7 @@ import campaigns from 'model/campaigns.controller'
 import rewards from 'model/rewards.controller'
 import tickets from 'model/tickets.controller'
 import lotteryInfos from 'model/lotteryInfo.controller'
+import challengeRewards from 'model/challengeRewards.controller'
 
 /**
  * Isolated store
@@ -20,6 +21,7 @@ const model = configureStore({
     rewards,
     tickets,
     lotteryInfos,
+    challengeRewards,
   },
 })
 

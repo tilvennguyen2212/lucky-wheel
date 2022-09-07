@@ -15,7 +15,7 @@ const conf: Record<Net, Conf> = {
    */
   devnet: {
     node: 'https://api.devnet.solana.com',
-    programId: 'Kvjqp3uHm6Efgz5fbYrfY33DCku1gaKKeUm2m37NSRF',
+    programId: '38k8ejgfKJ2VKRApCMkev1hQwqobTTZPLnX11t2dxAXA',
     campaignId: 'CMaVCUKcxf2qHNhvcnLUEmpXWs9aZWB4xp5nYACj6a2g',
   },
 

@@ -1,7 +1,6 @@
 import { Col, Row } from 'antd'
 import Header from './header'
 import TokenRewards from './listRewards/tokenRewards'
-
 import NftRewards from './listRewards/nftRewards'
 import TicketRewards from './listRewards/ticketRewards'
 
