@@ -1,5 +1,4 @@
-import { useMemo, useState } from 'react'
-import { web3 } from '@project-serum/anchor'
+import { useMemo } from 'react'
 
 import { Button, Col, Divider, Row, Space, Typography } from 'antd'
 import Icon from '@ant-design/icons'
@@ -11,15 +10,15 @@ import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 import { useTotalUnclaimedTicket } from 'hooks/ticket/useTotalUnclaimedTicket'
 import { useClaimTicket } from 'hooks/actions/useClaimTicket'
 
-import { notifyError, notifySuccess } from 'helper'
 import { Reward } from 'constant'
 
 import { ReactComponent as Ticket } from 'static/images/icons/ticket-icon.svg'
 
 import './index.less'
 
+const ANY_ART_URL = 'https://hub.sentre.io/app/any_arts?autoInstall=true'
+
 const Spin = () => {
-  const [loading, setLoading] = useState(false)
   const selectedCampaign = useSelectedCampaign()
   const rewards = useRewardByCampaign(selectedCampaign)
   const tickets = useAvailableTickets(selectedCampaign)
@@ -47,30 +46,6 @@ const Spin = () => {
 
     return material
   }, [rewards])
-
-  const onCreateTicket = async () => {
-    setLoading(true)
-    try {
-      const tx = new web3.Transaction()
-      let signer: web3.Keypair[] = []
-      for (let i = 0; i < 5; i++) {
-        const ticket = web3.Keypair.generate()
-        const { tx: txInit } = await window.luckyWheel.initializeTicket({
-          campaign: new web3.PublicKey(selectedCampaign),
-          ticket,
-          sendAndConfirm: false,
-        })
-        tx.add(txInit)
-        signer.push(ticket)
-      }
-      const txId = await window.luckyWheel.provider.sendAndConfirm(tx, signer)
-      notifySuccess('Create 5 Ticket', txId)
-    } catch (error) {
-      notifyError(error)
-    } finally {
-      setLoading(false)
-    }
-  }
 
   return (
     <Row gutter={[16, 16]} justify="center">
@@ -114,10 +89,9 @@ const Spin = () => {
               </Col>
               <Col>
                 <Button
+                  onClick={() => window.open(ANY_ART_URL)}
                   style={{ marginLeft: -12 }}
                   type="text"
-                  onClick={onCreateTicket}
-                  loading={loading}
                 >
                   Get more ticket
                 </Button>

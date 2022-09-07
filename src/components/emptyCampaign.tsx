@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { useSelector } from 'react-redux'
 
 import { Result, Row, Col } from 'antd'
-import CreateCampaign from 'view/admin/createCampaign'
+import CreateCampaign from 'view/admin/header/createCampaign'
 
 import { AppState } from 'model'
 
