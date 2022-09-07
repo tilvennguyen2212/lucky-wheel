@@ -31,9 +31,10 @@ const conf: Record<Net, Conf> = {
   /**
    * Production configurations
    */
+
   mainnet: {
     node: 'https://api.mainnet-beta.solana.com',
-    programId: '2L1eKz8TA88j84yoAywGdeKF1ohvjQC4iMxzR5GbjkWD',
+    programId: '3sFeMcoZbqRJVVZpv2jvK6zfDopJ48B2vxzTBsHPoSJ7',
     campaignId: 'CMaVCUKcxf2qHNhvcnLUEmpXWs9aZWB4xp5nYACj6a2g',
   },
 }
