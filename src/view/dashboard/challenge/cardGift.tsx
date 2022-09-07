@@ -1,6 +1,8 @@
 import { useDispatch } from 'react-redux'
+import { BN } from '@project-serum/anchor'
 
-import { Button, Image } from 'antd'
+import { Button, Image, Space, Typography } from 'antd'
+import { MintAmount } from '@sen-use/app'
 
 import { GiftStatus, TabId } from 'constant'
 import { AppDispatch } from 'model'
@@ -34,7 +36,15 @@ const CardGift = ({
 
   return (
     <div className={cardGiftCln}>
-      <Image src={src} preview={false} />
+      <Space direction="vertical" align="center" className="card-gift_item">
+        <Typography.Title level={4}>
+          <MintAmount
+            mintAddress={'5YwUkPdXLoujGkZuo9B4LsLKj3hdkDcfP4derpspifSJ'}
+            amount={new BN(1_000_000_000_000)}
+          />
+        </Typography.Title>
+        <Image src={src} preview={false} />
+      </Space>
       <div className="gift-step-icon">{amount}</div>
       <div className={btnClnClaimed}>
         <Button

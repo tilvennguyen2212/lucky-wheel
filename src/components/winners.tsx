@@ -19,8 +19,8 @@ const Winners = () => {
   const width = useWidth()
 
   const perView = useMemo(() => {
-    let result = 2
-    if (width > 575) result = 3
+    let result = 1
+    if (width > 685) result = 3
     if (width > 992) result = 4
     if (width > 1200) result = 5
     return result
@@ -45,8 +45,8 @@ const Winners = () => {
   return (
     <Card
       bordered={false}
-      style={{ borderRadius: 50 }}
-      bodyStyle={{ padding: 16 }}
+      style={{ borderRadius: 50, backdropFilter: ' blur(96px)' }}
+      bodyStyle={{ padding: 8 }}
     >
       <InfiniteSwiper
         data={winnersLatestList}

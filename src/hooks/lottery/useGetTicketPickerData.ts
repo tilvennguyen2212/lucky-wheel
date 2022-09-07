@@ -41,7 +41,7 @@ export const useGetTicketPickerData = () => {
         new web3.PublicKey(ticketAddress).toBuffer(),
       )
 
-      if (campaignPicker === pickerPublickey) {
+      if (JSON.stringify(campaignPicker) === JSON.stringify(pickerPublickey)) {
         const { data } = await axios.get<{
           signature: Uint8Array
           recid: number

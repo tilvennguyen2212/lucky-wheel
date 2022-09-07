@@ -1,5 +1,6 @@
 button:not(.lucky_wheel-btn-background-ghost) {
   border: none !important;
+  text-transform: uppercase !important;
 }
 
 .lucky_wheel-btn-default {
@@ -16,14 +17,13 @@ button:not(.lucky_wheel-btn-background-ghost) {
       color: transparent;
     }
   }
-  
 }
 
 .lucky_wheel-btn-primary {
   transition: all 1s linear;
+
   &:hover {
     background: linear-gradient(264.24deg, #9945ff 0%, #b9f8fd 100%) !important;
-
   }
   &:active {
     background: #f4f4f5 !important;
@@ -45,6 +45,7 @@ button:not(.lucky_wheel-btn-background-ghost) {
 }
 
 .lucky_wheel-segmented-lg {
+  backdrop-filter: blur(96px) !important;
   border-radius: 100px !important;
   width: 100% !important;
   padding: 1px;
@@ -97,33 +98,18 @@ button:not(.lucky_wheel-btn-background-ghost) {
   color: transparent !important;
 }
 
-//Table
-.reward {
-  .lucky_wheel-table-title {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 24px 24px 0 0 !important;
-  }
-  .lucky_wheel-table {
-    background: transparent !important;
-    &-thead {
-      & > tr:first-child > th:first-child {
-        border-radius: 0px 0 0 0 !important;
-      }
-      & > tr:last-child > th:last-child {
-        border-radius: 0 0px 0 0 !important;
-      }
-    }
-  }
-}
-
 .lucky_wheel-table {
   background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px !important;
+  backdrop-filter: blur(96px);
   &-thead {
     background: linear-gradient(
       84.24deg,
       rgba(153, 69, 255, 0.1) 0%,
       rgba(185, 248, 253, 0.1) 100%
     ) !important;
+
     & > tr > th {
       border-bottom: solid 1px #4e4f5c !important;
       &::before {
