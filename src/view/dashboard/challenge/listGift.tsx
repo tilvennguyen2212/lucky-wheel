@@ -7,28 +7,29 @@ import { useLotteryInfo } from 'hooks/useLotteryInfo'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 import { TOTAL_PERCENT } from './index'
 import { GiftStatus } from 'constant'
+import { useChallengeRewardByCampaign } from 'hooks/challengeReward/useChallengeRewardByCampaign'
 
 const MINT_WIDTH = 150
-const PROCESSES = [20, 50, 80, 120, 180]
 
 const ListGift = () => {
   const selectedCampaign = useSelectedCampaign()
+  const challengeRewards = useChallengeRewardByCampaign(selectedCampaign)
   const lotteryInfo = useLotteryInfo(selectedCampaign)
 
-  const processes = PROCESSES.map((value) => {
+  const processes = Object.keys(challengeRewards).map((addr) => {
+    const challengeData = challengeRewards[addr]
     let status = GiftStatus.Pending
-    if (lotteryInfo.totalPicked.toNumber() >= value) status = GiftStatus.Ready
-
-    status = GiftStatus.Claimed
     return {
       src: imgGift,
-      value,
+      value: challengeData.totalPicked.toNumber(),
       status,
     }
   })
+
+  const sortedProcesses = processes.sort((a, b) => (a.value > b.value ? 1 : -1))
   return (
     <Fragment>
-      {processes.map(({ src, status, value }) => {
+      {sortedProcesses.map(({ src, status, value }) => {
         return (
           <div
             className="card-challenge-gift"
