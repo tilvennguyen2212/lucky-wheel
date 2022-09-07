@@ -13,8 +13,8 @@ import {
   Typography,
 } from 'antd'
 
-import { useCreateReward } from 'hooks/admin/useCreateReward'
 import Ticket from 'static/images/ticket-icon.png'
+import { useCreateChallengeReward } from 'hooks/challengeReward/useCreateChallengeReward'
 
 const CreateTicketReward = ({
   campaignAddress,
@@ -22,19 +22,19 @@ const CreateTicketReward = ({
   campaignAddress: string
 }) => {
   const [visible, setVisible] = useState(false)
-  const [prizeAmount, setPrizeAmount] = useState('0')
-  const [ratio, setRatio] = useState('0')
-  const { createReward, loading } = useCreateReward()
+  const [amount, setAMount] = useState('0')
+  const [totalPicked, setTotalPicked] = useState('0')
+  const { createChallengeReward, loading } = useCreateChallengeReward()
 
   const onCreate = async () => {
     const PDAs = await window.luckyWheel.deriveCampaignPDAs(
       new web3.PublicKey(campaignAddress),
     )
-    await createReward({
-      prizeAmount: new BN(prizeAmount),
+    await createChallengeReward({
+      amount: new BN(amount),
       campaign: campaignAddress,
       rewardMint: PDAs.ticketMint,
-      ratio: Number(ratio),
+      totalPicked: new BN(totalPicked),
       rewardType: REWARD_TYPE.ticket,
     })
   }
@@ -63,26 +63,25 @@ const CreateTicketReward = ({
 
         <Row gutter={[24, 24]}>
           <Col span={10}>
-            <Typography.Text>Prize Amount :</Typography.Text>
+            <Typography.Text>Prize Amount:</Typography.Text>
           </Col>
           <Col span={14}>
             <Input
               style={{ width: '100%' }}
               min="0"
-              value={prizeAmount}
-              onChange={(e) => setPrizeAmount(e.target.value)}
+              value={amount}
+              onChange={(e) => setAMount(e.target.value)}
             />
           </Col>
           <Col span={10}>
-            <Typography.Text>Ratio (%) :</Typography.Text>
+            <Typography.Text>Total picked:</Typography.Text>
           </Col>
           <Col span={14}>
             <InputNumber
               style={{ width: '100%' }}
               min="0"
-              max="100"
-              value={ratio}
-              onChange={(val) => setRatio(val)}
+              value={totalPicked}
+              onChange={(val) => setTotalPicked(val)}
             />
           </Col>
         </Row>

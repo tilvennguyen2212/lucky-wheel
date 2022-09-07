@@ -10,13 +10,13 @@ import { useCreateChallengeReward } from 'hooks/challengeReward/useCreateChallen
 
 const CreateNFTReward = ({ campaignAddress }: { campaignAddress: string }) => {
   const [visible, setVisible] = useState(false)
-  const [ratio, setRatio] = useState('0')
+  const [totalPicked, setTotalPicked] = useState('0')
   const [collection, setCollection] = useState('')
   const { createChallengeReward, loading } = useCreateChallengeReward()
 
   const onCreate = async () => {
     await createChallengeReward({
-      totalPicked: new BN(1),
+      totalPicked: new BN(totalPicked),
       campaign: campaignAddress,
       rewardMint: collection,
       rewardType: REWARD_TYPE.nftCollection,
@@ -38,21 +38,20 @@ const CreateNFTReward = ({ campaignAddress }: { campaignAddress: string }) => {
       >
         <Row gutter={[24, 24]}>
           <Col span={10}>
-            <Typography.Text>Prize Amount :</Typography.Text>
+            <Typography.Text>Prize Amount:</Typography.Text>
           </Col>
           <Col span={14}>
             <Typography.Text>1 NFT</Typography.Text>
           </Col>
           <Col span={10}>
-            <Typography.Text>Ratio (%) :</Typography.Text>
+            <Typography.Text>Total picked:</Typography.Text>
           </Col>
           <Col span={14}>
             <InputNumber
               style={{ width: '100%' }}
               min="0"
-              max="100"
-              value={ratio}
-              onChange={(val) => setRatio(val)}
+              value={totalPicked}
+              onChange={(val) => setTotalPicked(val)}
             />
           </Col>
           <Col span={10}>

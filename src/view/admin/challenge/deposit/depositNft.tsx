@@ -1,24 +1,28 @@
 import { NFTSelection } from '@sen-use/components'
 
-import { useDepositReward } from 'hooks/admin/useDepositReward'
-import { useReward } from 'hooks/reward/useReward'
+import { useChallengeRewardData } from 'hooks/challengeReward/useChallengeData'
+import { useDepositChallengeReward } from 'hooks/challengeReward/useDepositChallengeReward'
 
-const DepositNft = ({ rewardAddress }: { rewardAddress: string }) => {
-  const { onDepositReward } = useDepositReward()
-  const rewardData = useReward(rewardAddress)
+const DepositNft = ({
+  challengeRewardAddress,
+}: {
+  challengeRewardAddress: string
+}) => {
+  const { onDepositChallengeReward } = useDepositChallengeReward()
+  const challengeReward = useChallengeRewardData(challengeRewardAddress)
 
   const onDeposit = async (mint: string) => {
-    await onDepositReward({
-      campaign: rewardData.campaign.toBase58(),
-      reward: rewardAddress,
+    await onDepositChallengeReward({
+      campaign: challengeReward.campaign.toBase58(),
+      challengeReward: challengeRewardAddress,
       mint,
-      totalPrize: 1,
+      amount: 1,
     })
   }
 
   return (
     <NFTSelection
-      collectionAddress={[rewardData.mint.toBase58()]}
+      collectionAddress={[challengeReward.mint.toBase58()]}
       onSelect={onDeposit}
     />
   )
