@@ -3,12 +3,12 @@ import { Space, Typography } from 'antd'
 import Icon from '@ant-design/icons'
 
 import { useLotteryInfo } from 'hooks/useLotteryInfo'
-import configs from 'configs'
-
+import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 import { ReactComponent as Ticket } from 'static/images/icons/ticket-icon.svg'
 
 const TotalSpined = () => {
-  const lotteryInfo = useLotteryInfo(configs.sol.campaignId)
+  const selectedCampaign = useSelectedCampaign()
+  const lotteryInfo = useLotteryInfo(selectedCampaign)
 
   return (
     <Space size={4} className="remaining-ticket space-middle-icon">
