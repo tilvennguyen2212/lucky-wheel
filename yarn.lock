@@ -2130,10 +2130,10 @@
     util "^0.12.4"
     webpack-bundle-analyzer "^4.5.0"
 
-"@sentre/lucky-wheel-core@^0.3.6":
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/@sentre/lucky-wheel-core/-/lucky-wheel-core-0.3.6.tgz#a4a4a5093babdff36365966eba407d1755fdbdf5"
-  integrity sha512-98XuTPpLtLm3cUEp345nx3PbhbAjtaOE2wMX3CJ1oDjUxX47Umbi2W27sVlDvkjbePJygbMwEj8g5NiDSLqHzQ==
+"@sentre/lucky-wheel-core@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@sentre/lucky-wheel-core/-/lucky-wheel-core-0.4.3.tgz#04f849236e07aceb87a35f4f459076af8f04818c"
+  integrity sha512-0IvmQoXtAdqEEGNydMInYPZFxSvL+vzjCw+v56COtc9kQ8pN/A5PbISKiSi0Fh4/SJVivckXQb+GRWLLUFCl3g==
   dependencies:
     "@metaplex/js" "^4.12.0"
     "@project-serum/anchor" "^0.24.2"

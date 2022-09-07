@@ -1,19 +1,23 @@
 import { Button, Col, InputNumber, Row, Space, Typography } from 'antd'
+import { useChallengeRewardData } from 'hooks/challengeReward/useChallengeData'
 
-import { useWithdrawReward } from 'hooks/admin/useWithdrawReward'
-import { useReward } from 'hooks/reward/useReward'
+import { useWithdrawChallengeReward } from 'hooks/challengeReward/useWithdrawChallengeReward'
 import { useState } from 'react'
 
-const WithdrawMint = ({ rewardAddress }: { rewardAddress: string }) => {
+const WithdrawMint = ({
+  challengeRewardAddress,
+}: {
+  challengeRewardAddress: string
+}) => {
   const [totalPrize, setTotalPrize] = useState('0')
-  const rewardData = useReward(rewardAddress)
-  const { withdrawReward, loading } = useWithdrawReward()
+  const rewardChallengeData = useChallengeRewardData(challengeRewardAddress)
+  const { withdrawChallengeReward, loading } = useWithdrawChallengeReward()
 
   const onWithdraw = async () => {
-    await withdrawReward({
-      totalPrize: Number(totalPrize),
-      mint: rewardData.mint.toBase58(),
-      reward: rewardAddress,
+    await withdrawChallengeReward({
+      amount: Number(totalPrize),
+      mint: rewardChallengeData.mint.toBase58(),
+      challengeReward: challengeRewardAddress,
     })
   }
 
@@ -25,7 +29,7 @@ const WithdrawMint = ({ rewardAddress }: { rewardAddress: string }) => {
       <Col span="auto">
         <Space>
           <Typography.Text type="secondary">
-            Available: {rewardData.reservePrize.toNumber()}
+            Available: {rewardChallengeData.reserve.toNumber()}
           </Typography.Text>
         </Space>
       </Col>

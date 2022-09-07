@@ -31,6 +31,7 @@ const Admin = () => {
       <Col span={24}>
         {id === 'challenge' ? <ManagementChallenge /> : <ManagementReward />}
       </Col>
+      <Col span={24} />
     </Row>
   )
 }

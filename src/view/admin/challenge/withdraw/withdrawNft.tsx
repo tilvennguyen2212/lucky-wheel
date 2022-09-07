@@ -1,23 +1,29 @@
 import { Button } from 'antd'
+import { useGetTokenAccountByChallengeReward } from 'hooks/challengeReward/useGetTokenAccountByChallengeReward'
 
-import { useWithdrawReward } from 'hooks/admin/useWithdrawReward'
-import { useGetTokenAccountByReward } from 'hooks/reward/useGetTokenAccountByReward'
+import { useWithdrawChallengeReward } from 'hooks/challengeReward/useWithdrawChallengeReward'
 
-const WithdrawNft = ({ rewardAddress }: { rewardAddress: string }) => {
-  const { withdrawReward } = useWithdrawReward()
-  const getTokenAccountByReward = useGetTokenAccountByReward()
+const WithdrawNft = ({
+  challengeRewardAddress,
+}: {
+  challengeRewardAddress: string
+}) => {
+  const { withdrawChallengeReward, loading } = useWithdrawChallengeReward()
+  const getTokenAccountByChallengeReward = useGetTokenAccountByChallengeReward()
 
   const onWithdraw = async () => {
-    const tokenAccounts = await getTokenAccountByReward(rewardAddress)
-    await withdrawReward({
-      totalPrize: 1,
+    const tokenAccounts = await getTokenAccountByChallengeReward(
+      challengeRewardAddress,
+    )
+    await withdrawChallengeReward({
+      amount: 1,
       mint: tokenAccounts[0].mint,
-      reward: rewardAddress,
+      challengeReward: challengeRewardAddress,
     })
   }
 
   return (
-    <Button onClick={onWithdraw} block type="primary">
+    <Button loading={loading} onClick={onWithdraw} block type="primary">
       Withdraw 1 NFT
     </Button>
   )

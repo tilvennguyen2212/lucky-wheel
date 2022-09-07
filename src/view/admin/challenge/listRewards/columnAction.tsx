@@ -17,7 +17,7 @@ const ColumnAction = ({ rewardAddress }: { rewardAddress: string }) => {
             <DepositReward challengeRewardAddress={rewardAddress} />
           </Collapse.Panel>
           <Collapse.Panel header="Withdraw" key="Withdraw">
-            <WithdrawReward rewardAddress={rewardAddress} />
+            <WithdrawReward challengeRewardAddress={rewardAddress} />
           </Collapse.Panel>
         </Collapse>
       }

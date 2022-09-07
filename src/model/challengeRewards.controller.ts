@@ -36,6 +36,17 @@ export const upsetChallengeReward = createAsyncThunk<
   return { [address]: data }
 })
 
+export const getChallengeReward = createAsyncThunk<
+  ChallengeRewardState,
+  { address: string },
+  { state: any }
+>(`${NAME}/getChallengeReward`, async ({ address }, { getState }) => {
+  const {
+    challengeRewards: { [address]: data },
+  } = getState()
+  return { [address]: data }
+})
+
 /**
  * Usual procedure
  */
