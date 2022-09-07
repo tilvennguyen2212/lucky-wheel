@@ -56,7 +56,7 @@ const CreateTokenReward = ({
             <MintSelection onChange={setMint} />
           </Col>
           <Col span={10}>
-            <Typography.Text> Amount:</Typography.Text>
+            <Typography.Text>Prize Amount:</Typography.Text>
           </Col>
           <Col span={14}>
             <Input

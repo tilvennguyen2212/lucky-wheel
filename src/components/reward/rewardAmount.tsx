@@ -1,17 +1,29 @@
 import { MintAmount } from '@sen-use/app'
 
 import { EMPTY_ADDRESS } from 'constant'
+import { useChallengeRewardData } from 'hooks/challengeReward/useChallengeData'
 import { useReward } from 'hooks/reward/useReward'
 
-export const RewardAmount = ({ rewardAddress }: { rewardAddress: string }) => {
+type RewardAmountProps = {
+  rewardAddress: string
+  isChallenge?: boolean
+}
+
+export const RewardAmount = ({
+  rewardAddress,
+  isChallenge = false,
+}: RewardAmountProps) => {
+  const challengeReward = useChallengeRewardData(rewardAddress)
   const reward = useReward(rewardAddress)
 
-  if (!reward?.rewardType || rewardAddress === EMPTY_ADDRESS) return null
+  const data = isChallenge ? challengeReward : reward
+  const amount = isChallenge ? challengeReward?.amount : reward?.prizeAmount
 
-  if (reward.rewardType.nftCollection) return <span>1</span>
+  if (!data?.rewardType || rewardAddress === EMPTY_ADDRESS) return null
 
-  if (reward.rewardType.ticket)
-    return <span>{reward.prizeAmount.toNumber()}</span>
+  if (data.rewardType.nftCollection) return <span>1</span>
 
-  return <MintAmount mintAddress={reward.mint} amount={reward.prizeAmount} />
+  if (data.rewardType.ticket) return <span>{amount.toNumber()}</span>
+
+  return <MintAmount mintAddress={data.mint} amount={amount} />
 }

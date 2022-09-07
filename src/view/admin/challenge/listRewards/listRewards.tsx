@@ -1,31 +1,33 @@
 import { ReactNode } from 'react'
-import { BN, web3 } from '@project-serum/anchor'
+import { BN } from '@project-serum/anchor'
 import { ChallengeRewardData } from '@sentre/lucky-wheel-core'
 
 import { Col, Row, Space, Table, Typography } from 'antd'
-import { MintAmount, MintAvatar, MintName } from '@sen-use/app'
 import ColumnAction from './columnAction'
+import { RewardAmount } from 'components/reward/rewardAmount'
+import { RewardAvatar } from 'components/reward/rewardAvatar'
+import { RewardName } from 'components/reward/rewardName'
 
 const columns = [
   {
     title: 'Avatar',
-    dataIndex: 'mint',
-    key: 'mint',
-    render: (mint: web3.PublicKey) => {
+    dataIndex: 'address',
+    key: 'address',
+    render: (address: string) => {
       return (
         <Space>
-          <MintAvatar mintAddress={mint.toBase58()} size={32} />
-          <MintName mintAddress={mint.toBase58()} />
+          <RewardAvatar rewardAddress={address} isChallenge={true} size={32} />
+          <RewardName isChallenge={true} rewardAddress={address} />
         </Space>
       )
     },
   },
   {
     title: 'Amount',
-    dataIndex: 'mint',
-    key: 'mint',
-    render: (mint: web3.PublicKey, { amount }: ChallengeRewardData) => {
-      return <MintAmount mintAddress={mint.toBase58()} amount={amount} />
+    dataIndex: 'address',
+    key: 'address',
+    render: (address: string) => {
+      return <RewardAmount rewardAddress={address} isChallenge={true} />
     },
   },
 

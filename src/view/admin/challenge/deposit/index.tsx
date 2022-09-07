@@ -13,7 +13,7 @@ const DepositReward = ({
   )
 
   if (challengeRewardData.rewardType.nftCollection)
-    return <DepositNft rewardAddress={challengeRewardAddress} />
+    return <DepositNft challengeRewardAddress={challengeRewardAddress} />
 
   return <DepositMint challengeRewardAddress={challengeRewardAddress} />
 }
