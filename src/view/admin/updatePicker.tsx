@@ -3,7 +3,7 @@ import axios from 'axios'
 
 import { Button, Col, Input, Modal, Row, Typography } from 'antd'
 
-import { useWalletAddress } from '@sentre/senhub/dist'
+import { useWalletAddress } from '@sentre/senhub'
 import configs from 'configs'
 import { notifyError, notifySuccess } from 'helper'
 

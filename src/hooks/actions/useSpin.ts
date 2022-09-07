@@ -37,7 +37,7 @@ export const useSpin = (campaign: string) => {
       // Spin transaction
       const spinTxs = selectedTickets.map(async (ticket) => {
         const pickerData = await getTicketPickerData(ticket)
-        const estimateRewards = await getEstimateReward(pickerData.luckyNumber)
+        const estimateRewards = await getEstimateReward()
         const tx = new web3.Transaction()
 
         // Pick lucky number
