@@ -37,10 +37,9 @@ export const useGetTicketPickerData = () => {
         picker,
       )
 
-      let pickerData: { recid: number; signature: Uint8Array } = {
-        recid: 0,
-        signature: Buffer.from(''),
-      }
+      let pickerData = window.luckyWheel.picker.sign(
+        new web3.PublicKey(ticketAddress).toBuffer(),
+      )
 
       if (campaignPicker === pickerPublickey) {
         const { data } = await axios.get<{
@@ -52,9 +51,6 @@ export const useGetTicketPickerData = () => {
         pickerData = data
       }
 
-      pickerData = window.luckyWheel.picker.sign(
-        new web3.PublicKey(ticketAddress).toBuffer(),
-      )
       const signature = Array.from(pickerData.signature)
       return {
         ticket: new web3.PublicKey(ticketAddress),
