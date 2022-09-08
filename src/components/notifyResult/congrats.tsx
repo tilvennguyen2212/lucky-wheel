@@ -7,7 +7,7 @@ import { RewardAvatar } from 'components/reward/rewardAvatar'
 import { RewardAmount } from 'components/reward/rewardAmount'
 import { RewardName } from 'components/reward/rewardName'
 
-import { setCongratulate, setTabId } from 'model/main.controller'
+import { setConfetti, setTabId } from 'model/main.controller'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
 import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
@@ -35,9 +35,27 @@ const Congrats = ({
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(setCongratulate({ congratulate: true }))
+    dispatch(
+      setConfetti({
+        confetti: {
+          gravity: 0.5,
+          opacity: 1,
+          zIndex: 9999,
+          numberOfPieces: 200,
+        },
+      }),
+    )
     setTimeout(() => {
-      dispatch(setCongratulate({ congratulate: false }))
+      dispatch(
+        setConfetti({
+          confetti: {
+            gravity: 0.008,
+            opacity: 0.3,
+            zIndex: 'unset',
+            numberOfPieces: 50,
+          },
+        }),
+      )
     }, 5000)
   }, [dispatch])
 

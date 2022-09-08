@@ -5,9 +5,16 @@ import { TabId } from 'constant'
  * Interface & Utility
  */
 
+type Confetti = {
+  gravity: number
+  zIndex: string | number
+  opacity: number
+  numberOfPieces: number
+}
+
 export type MainState = {
   campaign: string
-  congratulate: boolean
+  confetti: Confetti
   tabId: TabId
 }
 
@@ -18,7 +25,12 @@ export type MainState = {
 const NAME = 'main'
 const initialState: MainState = {
   campaign: '',
-  congratulate: false,
+  confetti: {
+    gravity: 0.008,
+    zIndex: 'unset',
+    opacity: 0.3,
+    numberOfPieces: 50,
+  },
   tabId: TabId.Spin,
 }
 
@@ -33,11 +45,11 @@ export const setCampaign = createAsyncThunk<
   return { campaign }
 })
 
-export const setCongratulate = createAsyncThunk<
+export const setConfetti = createAsyncThunk<
   Partial<MainState>,
-  { congratulate: boolean }
->(`${NAME}/setCongratulate`, async ({ congratulate }) => {
-  return { congratulate }
+  { confetti: Confetti }
+>(`${NAME}/setConfetti`, async ({ confetti }) => {
+  return { confetti }
 })
 
 export const setTabId = createAsyncThunk<Partial<MainState>, { tabId: TabId }>(
@@ -62,7 +74,7 @@ const slice = createSlice({
         (state, { payload }) => void Object.assign(state, payload),
       )
       .addCase(
-        setCongratulate.fulfilled,
+        setConfetti.fulfilled,
         (state, { payload }) => void Object.assign(state, payload),
       )
       .addCase(
