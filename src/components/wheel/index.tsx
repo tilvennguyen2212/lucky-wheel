@@ -15,6 +15,7 @@ import SOUND from 'static/images/sound.mp3'
 import WINNER from 'static/images/winner.mp3'
 
 import './index.less'
+import './animation.scss'
 
 let audio = new Audio(SOUND)
 let winner = new Audio(WINNER)
@@ -148,6 +149,16 @@ const Wheel = ({ rewards }: WheelProps) => {
                     />
                     <DisplayReward material={reward} />
                   </div>
+                  {index === 3 &&
+                    new Array(15).fill('firework-').map((item, idx) => (
+                      <div
+                        className={item + idx}
+                        style={{
+                          transform: `skewY(${skewDeg}deg)`,
+                        }}
+                        key={idx}
+                      />
+                    ))}
                 </li>
               ))}
             </ul>

@@ -1,3 +1,12 @@
+@keyframes rotateColor {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
 .container {
   background: radial-gradient(
     50.36% 50.36% at 50.36% 50.36%,
@@ -19,7 +28,7 @@
   height: 100%;
   margin: 0 auto;
   overflow: hidden;
-  border: 3px solid#9951F1;
+  border: 3px solid #9951f1;
 
   border-radius: 50%;
   background: radial-gradient(
@@ -104,6 +113,10 @@ li {
       width: 70px !important;
     }
   }
+}
+
+.rotate-color {
+  animation: rotateColor 1s linear infinite;
 }
 
 @media (max-width: 427px) {
