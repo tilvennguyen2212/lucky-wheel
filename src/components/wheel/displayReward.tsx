@@ -16,9 +16,9 @@ const DisplayReward = ({ material }: DisplayRewardProps) => {
   const width = useWidth()
 
   const avatarSize = useMemo(() => {
-    if (width < 590) return 32
-    if (width < 427) return 16
-    return 64
+    if (width < 590) return 24
+    if (width < 427) return 12
+    return 48
   }, [width])
 
   return (
@@ -29,17 +29,17 @@ const DisplayReward = ({ material }: DisplayRewardProps) => {
     >
       <RewardAvatar rewardAddress={rewardAddress} size={avatarSize} />
       <Typography.Title
-        level={4}
+        level={5}
         style={{ color: '#212433', fontFamily: 'Nunito', fontWeight: 'bold' }}
       >
         <RewardAmount rewardAddress={rewardAddress} />
       </Typography.Title>
-      <Typography.Title
-        level={5}
+      <Typography.Text
+        className="caption"
         style={{ color: '#212433', fontFamily: 'Nunito' }}
       >
         <RewardName rewardAddress={rewardAddress} />
-      </Typography.Title>
+      </Typography.Text>
     </Space>
   )
 }

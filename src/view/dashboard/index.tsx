@@ -42,6 +42,7 @@ const LUCKY_WHEEL_TABS = [
       </Space>
     ),
     value: TabId.Challenge,
+    disabled: true,
   },
 ]
 
