@@ -24,7 +24,7 @@ export const RewardName = ({
   if (!data?.rewardType || rewardAddress === EMPTY_ADDRESS)
     return (
       <span>
-        Good <br /> luck
+        So <br /> Close!
       </span>
     )
 

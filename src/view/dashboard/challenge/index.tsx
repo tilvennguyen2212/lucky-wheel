@@ -8,13 +8,13 @@ import ProgressBar from './progressBar'
 
 import { useLotteryInfo } from 'hooks/useLotteryInfo'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
-import useChallengePecent from 'hooks/useChallengePecent'
+import { useChallengePercent } from 'hooks/useChallengePercent'
 
 import './index.less'
 
 const Challenge = () => {
   const selectedCampaign = useSelectedCampaign()
-  const challengePecent = useChallengePecent()
+  const challengePecent = useChallengePercent()
   const lotteryInfo = useLotteryInfo(selectedCampaign)
   const infix = useInfix()
 

@@ -7,6 +7,7 @@ import ColumnAction from './columnAction'
 import { RewardAmount } from 'components/reward/rewardAmount'
 import { RewardAvatar } from 'components/reward/rewardAvatar'
 import { RewardName } from 'components/reward/rewardName'
+import { MintAmount } from '@sen-use/app/dist'
 
 const columns = [
   {
@@ -35,16 +36,21 @@ const columns = [
     title: 'Reserve',
     dataIndex: 'reserve',
     key: 'reserve',
-    render: (reserve: BN) => <Typography>{reserve.toNumber()}</Typography>,
+    render: (reserve: BN, { mint, rewardType }: ChallengeRewardData) => {
+      if (!rewardType.token)
+        return <Typography.Text>{reserve.toString()}</Typography.Text>
+
+      return <MintAmount mintAddress={mint.toBase58()} amount={reserve} />
+    },
   },
 
   {
     title: 'Total Picked',
     dataIndex: 'totalPicked',
     key: 'totalPicked',
-    render: (totalPicked: BN) => (
-      <Typography>{totalPicked.toNumber()}</Typography>
-    ),
+    render: (totalPicked: BN) => {
+      return <Typography.Text>{totalPicked.toString()}</Typography.Text>
+    },
   },
 
   {

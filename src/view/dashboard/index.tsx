@@ -54,7 +54,7 @@ const Dashboard = () => {
     <Fragment>
       <Layout>
         <Row gutter={[32, 32]} style={{ paddingBottom: 24 }}>
-          <Col span={24}>
+          <Col span={24} style={{ zIndex: 1 }}>
             <Segmented
               value={tabId}
               onChange={(val) =>

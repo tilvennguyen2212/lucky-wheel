@@ -1,7 +1,9 @@
 import { useState } from 'react'
-import { BN, web3 } from '@project-serum/anchor'
+import { web3 } from '@project-serum/anchor'
 
 import { notifyError, notifySuccess } from 'helper'
+import { useGetMintDecimals } from '@sentre/senhub/dist'
+import { utilsBN } from '@sen-use/web3'
 
 type onDepositRewardParams = {
   mint: string
@@ -12,6 +14,7 @@ type onDepositRewardParams = {
 
 export const useDepositChallengeReward = () => {
   const [loading, setLoading] = useState(false)
+  const getDecimal = useGetMintDecimals()
 
   const onDepositChallengeReward = async ({
     mint,
@@ -21,14 +24,14 @@ export const useDepositChallengeReward = () => {
   }: onDepositRewardParams) => {
     setLoading(true)
     try {
+      const decimals = (await getDecimal({ mintAddress: mint })) || 0
       const { txId } = await window.luckyWheel.depositChallengeReward({
         campaign: new web3.PublicKey(campaign),
         challengeReward: new web3.PublicKey(challengeReward),
-        amount: new BN(amount),
+        amount: utilsBN.decimalize(amount, decimals),
         rewardMint: new web3.PublicKey(mint),
       })
-
-      notifySuccess('Deposit reward', txId)
+      return notifySuccess('Deposited', txId)
     } catch (error) {
       notifyError(error)
     } finally {

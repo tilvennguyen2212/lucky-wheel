@@ -3,11 +3,11 @@ import { Fragment } from 'react'
 import imgGift from 'static/images/gifts/gift01.png'
 import CardGift from './cardGift'
 
+import { GiftStatus } from 'constant'
 import { useLotteryInfo } from 'hooks/useLotteryInfo'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
-import { GiftStatus } from 'constant'
 import { useChallengeRewardByCampaign } from 'hooks/challengeReward/useChallengeRewardByCampaign'
-import useChallengePecent from 'hooks/useChallengePecent'
+import { useChallengePercent } from 'hooks/useChallengePercent'
 
 const MINT_WIDTH = 150
 
@@ -15,7 +15,7 @@ const ListGift = () => {
   const selectedCampaign = useSelectedCampaign()
   const challengeRewards = useChallengeRewardByCampaign(selectedCampaign)
   const lotteryInfo = useLotteryInfo(selectedCampaign)
-  const challengePercent = useChallengePecent()
+  const challengePercent = useChallengePercent()
 
   const processes = Object.keys(challengeRewards).map((addr) => {
     const challengeData = challengeRewards[addr]
