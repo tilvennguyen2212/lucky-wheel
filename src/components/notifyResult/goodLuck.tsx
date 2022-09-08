@@ -1,3 +1,6 @@
+import { useEffect } from 'react'
+import { util } from '@sentre/senhub'
+
 import IonIcon from '@sentre/antd-ionicon'
 
 import { Avatar, Button, Col, Modal, Row, Typography } from 'antd'
@@ -6,6 +9,9 @@ import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 
 import GoodLuckIcon from 'static/images/good-luck-icon.png'
+import FAIL from 'static/sound/fail.mp3'
+
+let fail = new Audio(FAIL)
 
 type GoodLuckProps = {
   visible: boolean
@@ -16,6 +22,19 @@ type GoodLuckProps = {
 const NotifyGoodLuck = ({ onClose, visible, onSpinning }: GoodLuckProps) => {
   const selectedCampaign = useSelectedCampaign()
   const tickets = useAvailableTickets(selectedCampaign)
+
+  useEffect(() => {
+    if (!visible) {
+      fail.currentTime = 0
+      fail.pause()
+      return
+    }
+    ;(async () => {
+      fail.play()
+      await util.asyncWait(5000)
+      fail.pause()
+    })()
+  }, [visible])
 
   return (
     <Modal
@@ -32,7 +51,7 @@ const NotifyGoodLuck = ({ onClose, visible, onSpinning }: GoodLuckProps) => {
         <Col span={24} /> {/** Safe place */}
         <Col span={24}>
           <Typography.Title level={4} className="gradient-text">
-            Good luck
+            So Close!
           </Typography.Title>
         </Col>
         <Col span={24}>

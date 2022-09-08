@@ -20,6 +20,9 @@ import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
 import { TabId } from 'constant'
 
 import BG from 'static/images/bg-popup.svg'
+import WINNER from 'static/sound/winner.mp3'
+
+let winner = new Audio(WINNER)
 
 type CongratsProps = {
   visible: boolean
@@ -41,11 +44,18 @@ const Congrats = ({
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (!visible) return
+    if (!visible) {
+      winner.currentTime = 0
+      winner.pause()
+      dispatch(setConfetti({ confetti: CONFETTI_DEFAULT }))
+      return
+    }
     ;(async () => {
       dispatch(setConfetti({ confetti: CONFETTI_CONGRATS }))
+      winner.play()
       await util.asyncWait(5000)
       dispatch(setConfetti({ confetti: CONFETTI_DEFAULT }))
+      winner.pause()
     })()
   }, [dispatch, visible])
 

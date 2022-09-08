@@ -4,21 +4,21 @@ import { Button, Col, Image, Row } from 'antd'
 import DisplayReward from './displayReward'
 import NotifyResult from 'components/notifyResult'
 
-import { LIST_BG_WHEEL, Reward } from 'constant'
+import { LIST_BG_WHEEL, Reward, SPECIAL_BG } from 'constant'
 import { useSpin } from 'hooks/actions/useSpin'
 import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
+import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
+
 import { notifyError } from 'helper'
 
 import ARROW from 'static/images/arrow.png'
-import SOUND from 'static/images/sound.mp3'
-import WINNER from 'static/images/winner.mp3'
+import SOUND from 'static/sound/sound.mp3'
 
 import './index.less'
 import './animation.scss'
 
 let audio = new Audio(SOUND)
-let winner = new Audio(WINNER)
 
 export type Material = {
   type: string
@@ -36,12 +36,32 @@ const Wheel = ({ rewards }: WheelProps) => {
   const [spinMul, setSpinMul] = useState(false)
   const [pickedTickets, setPickedTickets] = useState<string[]>([])
   const selectedCampaign = useSelectedCampaign()
+  const allReward = useRewardByCampaign(selectedCampaign)
   const tickets = useAvailableTickets(selectedCampaign)
   const onSpin = useSpin(selectedCampaign)
 
   const singleDeg = 360 / rewards.length
   const skewDeg = 90 - singleDeg
   const contentDeg = singleDeg / 2
+
+  const bestReward = useMemo(() => {
+    if (!rewards.length || !Object.keys(allReward).length) return
+    let best = ''
+    const defaultFrom = allReward[rewards[1].rewardAddress].fromLuckyNumber
+    const defaultTo = allReward[rewards[1].rewardAddress].toLuckyNumber
+
+    let min = Number(defaultTo.sub(defaultFrom)) / 10 ** 18
+
+    for (const { rewardAddress } of rewards) {
+      if (rewardAddress === 'good-luck') continue
+      const { toLuckyNumber, fromLuckyNumber } = allReward[rewardAddress]
+      const ratio = Number(toLuckyNumber.sub(fromLuckyNumber)) / 10 ** 18
+      if (ratio > min) continue
+      min = ratio
+      best = rewardAddress
+    }
+    return best
+  }, [allReward, rewards])
 
   const value = useMemo(() => {
     const map = new Map<string, number>()
@@ -104,8 +124,6 @@ const Wheel = ({ rewards }: WheelProps) => {
       setTimeout(() => {
         audio.pause()
         audio.currentTime = 0
-        winner.currentTime = 0
-        winner.play()
         setSpinning(false)
         setSpinMul(false)
         setPickedTickets(tickets)
@@ -128,39 +146,44 @@ const Wheel = ({ rewards }: WheelProps) => {
           <div className="container-body">
             <Image src={ARROW} id="stopper" preview={false} />
             <ul className="circle" id="wheel">
-              {rewards.map((reward, index) => (
-                <li
-                  key={reward.rewardAddress}
-                  style={{
-                    transform: `rotate(${
-                      index * singleDeg
-                    }deg) skewY(-${skewDeg}deg)`,
-                  }}
-                >
-                  <div
+              {rewards.map((reward, index) => {
+                const isBest = bestReward === reward.rewardAddress
+                return (
+                  <li
+                    key={reward.rewardAddress}
                     style={{
-                      transform: `skewY(${skewDeg}deg) rotate(${contentDeg}deg)`,
+                      transform: `rotate(${
+                        index * singleDeg
+                      }deg) skewY(-${skewDeg}deg)`,
                     }}
-                    className="text"
                   >
                     <div
-                      className="bg"
-                      style={{ background: `${listBG[index]}` }}
-                    />
-                    <DisplayReward material={reward} />
-                  </div>
-                  {index === 3 &&
-                    new Array(15).fill('firework-').map((item, idx) => (
+                      style={{
+                        transform: `skewY(${skewDeg}deg) rotate(${contentDeg}deg)`,
+                      }}
+                      className="text"
+                    >
                       <div
-                        className={item + idx}
+                        className="bg"
                         style={{
-                          transform: `skewY(${skewDeg}deg)`,
+                          background: `${isBest ? SPECIAL_BG : listBG[index]}`,
                         }}
-                        key={idx}
                       />
-                    ))}
-                </li>
-              ))}
+                      <DisplayReward material={reward} />
+                    </div>
+                    {isBest &&
+                      new Array(15).fill('firework-').map((item, idx) => (
+                        <div
+                          className={item + idx}
+                          style={{
+                            transform: `skewY(${skewDeg}deg)`,
+                          }}
+                          key={idx}
+                        />
+                      ))}
+                  </li>
+                )
+              })}
             </ul>
           </div>
         </div>

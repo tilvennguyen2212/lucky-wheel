@@ -1,6 +1,5 @@
 import { web3 } from '@project-serum/anchor'
-import { MintSymbol } from '@sen-use/app'
-import { useNftMetaData } from '@sen-use/components'
+import { MintName, MintSymbol } from '@sen-use/app'
 
 import { EMPTY_ADDRESS } from 'constant'
 import { useChallengeRewardData } from 'hooks/challengeReward/useChallengeData'
@@ -19,8 +18,6 @@ export const RewardName = ({
   const challengeReward = useChallengeRewardData(rewardAddress)
   const data = isChallenge ? challengeReward : reward
 
-  const { nftInfo, metadata } = useNftMetaData(reward.mint.toBase58())
-
   if (!data?.rewardType || rewardAddress === EMPTY_ADDRESS)
     return (
       <span>
@@ -30,8 +27,7 @@ export const RewardName = ({
 
   if (data.rewardType.ticket) return <span>Ticket</span>
 
-  if (data.rewardType.nftCollection)
-    return <span>{metadata?.data.data.name || nftInfo?.name}</span>
+  if (data.rewardType.nftCollection) return <MintName mintAddress={data.mint} />
 
   return <MintSymbol mintAddress={data.mint} />
 }
