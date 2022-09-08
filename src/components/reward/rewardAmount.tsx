@@ -25,5 +25,7 @@ export const RewardAmount = ({
 
   if (data.rewardType.ticket) return <span>{amount.toNumber()}</span>
 
-  return <MintAmount mintAddress={data.mint} amount={amount} />
+  return (
+    <MintAmount mintAddress={data.mint} amount={amount} formatter="0,0.[00]a" />
+  )
 }

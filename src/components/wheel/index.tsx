@@ -38,9 +38,9 @@ const Wheel = ({ rewards }: WheelProps) => {
   const tickets = useAvailableTickets(selectedCampaign)
   const onSpin = useSpin(selectedCampaign)
 
-  const singleDeg = Math.ceil(360 / rewards.length)
+  const singleDeg = 360 / rewards.length
   const skewDeg = 90 - singleDeg
-  const contentDeg = Math.floor(singleDeg / 2)
+  const contentDeg = singleDeg / 2
 
   const value = useMemo(() => {
     const map = new Map<string, number>()

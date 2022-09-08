@@ -53,6 +53,17 @@ button:not(.lucky_wheel-btn-background-ghost) {
     height: 48px !important;
     width: 100%;
     padding: 5px;
+    &-disabled {
+      .lucky_wheel-segmented-item-label {
+        &:hover {
+          filter: grayscale(1) !important;
+          .lucky_wheel-typography {
+            color: #a6a7ad !important;
+          }
+        }
+      }
+    }
+
     &-label {
       filter: grayscale(1);
       .lucky_wheel-typography {

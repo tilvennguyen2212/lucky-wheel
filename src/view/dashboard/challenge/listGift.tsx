@@ -19,6 +19,7 @@ const ListGift = () => {
 
   const processes = Object.keys(challengeRewards).map((addr) => {
     const challengeData = challengeRewards[addr]
+
     let status = GiftStatus.Pending
     return {
       src: imgGift,
