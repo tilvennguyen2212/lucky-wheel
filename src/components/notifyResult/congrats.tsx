@@ -1,6 +1,6 @@
-import { util } from '@sentre/senhub'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { util } from '@sentre/senhub'
 
 import { Button, Col, Image, Modal, Row, Space, Typography } from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
@@ -8,12 +8,16 @@ import { RewardAvatar } from 'components/reward/rewardAvatar'
 import { RewardAmount } from 'components/reward/rewardAmount'
 import { RewardName } from 'components/reward/rewardName'
 
-import { setConfetti, setTabId } from 'model/main.controller'
+import {
+  setConfetti,
+  setTabId,
+  CONFETTI_CONGRATS,
+  CONFETTI_DEFAULT,
+} from 'model/main.controller'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
 import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
 import { TabId } from 'constant'
-import { CONFETTI_CONGRATS, CONFETTI_DEFAULT } from 'model/main.controller'
 
 import BG from 'static/images/bg-popup.svg'
 
