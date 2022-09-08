@@ -5,9 +5,9 @@ import CardGift from './cardGift'
 
 import { useLotteryInfo } from 'hooks/useLotteryInfo'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
-import { TOTAL_PERCENT } from './index'
 import { GiftStatus } from 'constant'
 import { useChallengeRewardByCampaign } from 'hooks/challengeReward/useChallengeRewardByCampaign'
+import useChallengePecent from 'hooks/useChallengePecent'
 
 const MINT_WIDTH = 150
 
@@ -15,6 +15,7 @@ const ListGift = () => {
   const selectedCampaign = useSelectedCampaign()
   const challengeRewards = useChallengeRewardByCampaign(selectedCampaign)
   const lotteryInfo = useLotteryInfo(selectedCampaign)
+  const challengePercent = useChallengePecent()
 
   const processes = Object.keys(challengeRewards).map((addr) => {
     const challengeData = challengeRewards[addr]
@@ -35,7 +36,7 @@ const ListGift = () => {
             className="card-challenge-gift"
             key={value}
             style={{
-              left: `calc(${Number(value) * TOTAL_PERCENT}% - ${
+              left: `calc(${Number(value) * challengePercent}% - ${
                 MINT_WIDTH / 2
               }px)`,
             }}

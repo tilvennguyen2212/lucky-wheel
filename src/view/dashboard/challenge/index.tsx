@@ -8,20 +8,19 @@ import ProgressBar from './progressBar'
 
 import { useLotteryInfo } from 'hooks/useLotteryInfo'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
+import useChallengePecent from 'hooks/useChallengePecent'
 
 import './index.less'
 
-const TOTAL_SPIN = 200
-export const TOTAL_PERCENT = 100 / TOTAL_SPIN
-
 const Challenge = () => {
   const selectedCampaign = useSelectedCampaign()
+  const challengePecent = useChallengePecent()
   const lotteryInfo = useLotteryInfo(selectedCampaign)
   const infix = useInfix()
 
-  const isMobile = infix < Infix.lg
+  const isMobile = infix < Infix.xl
   const direction = isMobile ? 'vertical' : 'horizontal'
-  const rowGap = isMobile ? 48 : 134
+  const rowGap = isMobile ? 48 : 150
   const wrapCln = isMobile
     ? 'card-challenge mobile-direction'
     : 'card-challenge'
@@ -38,7 +37,9 @@ const Challenge = () => {
                 </Col>
                 <Col className="challenge-progress">
                   <ProgressBar
-                    percent={lotteryInfo.totalPicked.toNumber() * TOTAL_PERCENT}
+                    percent={
+                      lotteryInfo.totalPicked.toNumber() * challengePecent
+                    }
                     strokeWitdh={12}
                     background="#212433"
                     successColor="linear-gradient(84.24deg, #9945FF 0%, #B9F8FD 100%)"
