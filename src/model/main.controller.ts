@@ -9,10 +9,10 @@ export const CONFETTI_CONGRATS = {
 }
 
 export const CONFETTI_DEFAULT = {
-  gravity: 0.008,
+  gravity: 0.1,
   opacity: 0.3,
   zIndex: 'unset',
-  numberOfPieces: 50,
+  numberOfPieces: 75,
 }
 
 /**

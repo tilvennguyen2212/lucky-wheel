@@ -1,13 +1,12 @@
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import Confetti from 'react-confetti'
 
 import { Col, Row } from 'antd'
-// import Admin from './admin'
+import Confetti from 'react-confetti'
+import Admin from './admin'
 import Dashboard from './dashboard'
 import Winners from 'components/winners'
 import EmptyCampaign from 'components/emptyCampaign'
-import Admin from './admin'
 
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 import { useAppRouter } from 'hooks/useAppRouter'
@@ -31,10 +30,7 @@ const View = () => {
         <EmptyCampaign campaignAddress={selectedCampaign}>
           <Row gutter={[24, 24]}>
             <Confetti
-              style={{ zIndex }}
-              width={window.innerWidth}
-              height={window.innerHeight}
-              recycle={true}
+              style={{ zIndex, width: '100%' }}
               gravity={gravity}
               opacity={opacity}
               numberOfPieces={numberOfPieces}

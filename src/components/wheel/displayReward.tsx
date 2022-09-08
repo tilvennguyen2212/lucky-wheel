@@ -43,8 +43,7 @@ const DisplayReward = ({ material, isBest = false }: DisplayRewardProps) => {
         <RewardAmount rewardAddress={rewardAddress} />
       </Typography.Title>
       <Typography.Text
-        className="caption"
-        style={{ color: '#212433', fontFamily: 'Nunito' }}
+        style={{ color: '#212433', fontFamily: 'Nunito', fontSize: 9 }}
       >
         <RewardName rewardAddress={rewardAddress} />
       </Typography.Text>
