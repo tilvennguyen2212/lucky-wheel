@@ -13,25 +13,9 @@ import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
 import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
 import { TabId } from 'constant'
+import { CONFETTI_CONGRATS, CONFETTI_DEFAULT } from 'model/main.controller'
 
 import BG from 'static/images/bg-popup.svg'
-
-const CONFIG_CONGRAT = {
-  confetti: {
-    gravity: 0.5,
-    opacity: 1,
-    zIndex: 9999,
-    numberOfPieces: 200,
-  },
-}
-const CONFIG_DEFAULT = {
-  confetti: {
-    gravity: 0.008,
-    opacity: 0.3,
-    zIndex: 'unset',
-    numberOfPieces: 50,
-  },
-}
 
 type CongratsProps = {
   visible: boolean
@@ -55,9 +39,9 @@ const Congrats = ({
   useEffect(() => {
     if (!visible) return
     ;(async () => {
-      dispatch(setConfetti(CONFIG_CONGRAT))
+      dispatch(setConfetti({ confetti: CONFETTI_CONGRATS }))
       await util.asyncWait(5000)
-      dispatch(setConfetti(CONFIG_DEFAULT))
+      dispatch(setConfetti({ confetti: CONFETTI_DEFAULT }))
     })()
   }, [dispatch, visible])
 

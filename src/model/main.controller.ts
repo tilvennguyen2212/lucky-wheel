@@ -1,6 +1,20 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { TabId } from 'constant'
 
+export const CONFETTI_CONGRATS = {
+  gravity: 0.5,
+  opacity: 1,
+  zIndex: 9999,
+  numberOfPieces: 200,
+}
+
+export const CONFETTI_DEFAULT = {
+  gravity: 0.008,
+  opacity: 0.3,
+  zIndex: 'unset',
+  numberOfPieces: 50,
+}
+
 /**
  * Interface & Utility
  */
@@ -25,12 +39,7 @@ export type MainState = {
 const NAME = 'main'
 const initialState: MainState = {
   campaign: '',
-  confetti: {
-    gravity: 0.008,
-    zIndex: 'unset',
-    opacity: 0.3,
-    numberOfPieces: 50,
-  },
+  confetti: CONFETTI_DEFAULT,
   tabId: TabId.Spin,
 }
 
