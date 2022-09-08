@@ -7,11 +7,13 @@ import { RewardAmount } from 'components/reward/rewardAmount'
 import { RewardName } from 'components/reward/rewardName'
 
 import { Material } from './index'
+import GradientAvatar from 'components/gradientAvatar/gradientAvatar'
 
 type DisplayRewardProps = {
   material: Material
+  isBest?: boolean
 }
-const DisplayReward = ({ material }: DisplayRewardProps) => {
+const DisplayReward = ({ material, isBest = false }: DisplayRewardProps) => {
   const { rewardAddress } = material
   const width = useWidth()
 
@@ -27,7 +29,13 @@ const DisplayReward = ({ material }: DisplayRewardProps) => {
       direction="vertical"
       size={0}
     >
-      <RewardAvatar rewardAddress={rewardAddress} size={avatarSize} />
+      {isBest ? (
+        <GradientAvatar size={avatarSize}>
+          <RewardAvatar rewardAddress={rewardAddress} size={avatarSize} />
+        </GradientAvatar>
+      ) : (
+        <RewardAvatar rewardAddress={rewardAddress} size={avatarSize} />
+      )}
       <Typography.Title
         level={5}
         style={{ color: '#212433', fontFamily: 'Nunito', fontWeight: 'bold' }}

@@ -169,7 +169,7 @@ const Wheel = ({ rewards }: WheelProps) => {
                           background: `${isBest ? SPECIAL_BG : listBG[index]}`,
                         }}
                       />
-                      <DisplayReward material={reward} />
+                      <DisplayReward material={reward} isBest={isBest} />
                     </div>
                     {isBest &&
                       new Array(15).fill('firework-').map((item, idx) => (

@@ -1,0 +1,53 @@
+@keyframes rotateColor {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
+.shadow-rotate {
+  position: relative;
+  padding: 4px;
+  border-radius: 50%;
+  background: linear-gradient(#143bff, #9d17a6, #db7735);
+  margin: auto;
+  .inner-color {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #ffeb3b;
+    z-index: 99;
+    * {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover;
+      background: transparent !important;
+    }
+  }
+  [class^='span-item-'] {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    left: 0;
+    top: 0;
+    background: linear-gradient(#143bff, #9d17a6, #db7735);
+    animation: rotateColor 1s linear infinite;
+    z-index: 1;
+    &.span-item-0 {
+      filter: blur(5px);
+    }
+    &.span-item-1 {
+      filter: blur(10px);
+    }
+    &.span-item-2 {
+      filter: blur(15px);
+    }
+    &.span-item-3 {
+      filter: blur(20px);
+    }
+  }
+}
