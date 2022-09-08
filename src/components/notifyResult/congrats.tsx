@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { util } from '@sentre/senhub'
 
 import { Button, Col, Image, Modal, Row, Space, Typography } from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
@@ -7,7 +8,12 @@ import { RewardAvatar } from 'components/reward/rewardAvatar'
 import { RewardAmount } from 'components/reward/rewardAmount'
 import { RewardName } from 'components/reward/rewardName'
 
-import { setCongratulate, setTabId } from 'model/main.controller'
+import {
+  setConfetti,
+  setTabId,
+  CONFETTI_CONGRATS,
+  CONFETTI_DEFAULT,
+} from 'model/main.controller'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
 import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
@@ -35,11 +41,13 @@ const Congrats = ({
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(setCongratulate({ congratulate: true }))
-    setTimeout(() => {
-      dispatch(setCongratulate({ congratulate: false }))
-    }, 5000)
-  }, [dispatch])
+    if (!visible) return
+    ;(async () => {
+      dispatch(setConfetti({ confetti: CONFETTI_CONGRATS }))
+      await util.asyncWait(5000)
+      dispatch(setConfetti({ confetti: CONFETTI_DEFAULT }))
+    })()
+  }, [dispatch, visible])
 
   return (
     <Modal

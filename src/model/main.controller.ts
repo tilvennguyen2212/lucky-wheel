@@ -1,13 +1,34 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { TabId } from 'constant'
 
+export const CONFETTI_CONGRATS = {
+  gravity: 0.5,
+  opacity: 1,
+  zIndex: 9999,
+  numberOfPieces: 200,
+}
+
+export const CONFETTI_DEFAULT = {
+  gravity: 0.008,
+  opacity: 0.3,
+  zIndex: 'unset',
+  numberOfPieces: 50,
+}
+
 /**
  * Interface & Utility
  */
 
+type Confetti = {
+  gravity: number
+  zIndex: string | number
+  opacity: number
+  numberOfPieces: number
+}
+
 export type MainState = {
   campaign: string
-  congratulate: boolean
+  confetti: Confetti
   tabId: TabId
 }
 
@@ -18,7 +39,7 @@ export type MainState = {
 const NAME = 'main'
 const initialState: MainState = {
   campaign: '',
-  congratulate: false,
+  confetti: CONFETTI_DEFAULT,
   tabId: TabId.Spin,
 }
 
@@ -33,11 +54,11 @@ export const setCampaign = createAsyncThunk<
   return { campaign }
 })
 
-export const setCongratulate = createAsyncThunk<
+export const setConfetti = createAsyncThunk<
   Partial<MainState>,
-  { congratulate: boolean }
->(`${NAME}/setCongratulate`, async ({ congratulate }) => {
-  return { congratulate }
+  { confetti: Confetti }
+>(`${NAME}/setConfetti`, async ({ confetti }) => {
+  return { confetti }
 })
 
 export const setTabId = createAsyncThunk<Partial<MainState>, { tabId: TabId }>(
@@ -62,7 +83,7 @@ const slice = createSlice({
         (state, { payload }) => void Object.assign(state, payload),
       )
       .addCase(
-        setCongratulate.fulfilled,
+        setConfetti.fulfilled,
         (state, { payload }) => void Object.assign(state, payload),
       )
       .addCase(
