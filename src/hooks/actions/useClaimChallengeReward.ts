@@ -3,10 +3,12 @@ import { web3 } from '@project-serum/anchor'
 
 import { useChallengeRewardByCampaign } from 'hooks/challengeReward/useChallengeRewardByCampaign'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
+import { useChallengeReceipts } from 'hooks/useChallengeReceipt'
 import { notifyError } from 'helper'
 
 export const useClaimChallengeReward = () => {
   const selectedCampaign = useSelectedCampaign()
+  const { checkExistedReceipt } = useChallengeReceipts()
   const challengeReward = useChallengeRewardByCampaign(selectedCampaign)
 
   const getMintReward = useCallback(
@@ -39,8 +41,10 @@ export const useClaimChallengeReward = () => {
       try {
         const transactions: web3.Transaction[] = []
         for (const address of challengeAddresses) {
-          const { mint: mintReward, rewardType } = challengeReward[address]
+          const isClaimed = await checkExistedReceipt(address)
+          if (isClaimed) continue
 
+          const { mint: mintReward, rewardType } = challengeReward[address]
           let mint = mintReward
           if (rewardType.nftCollection) mint = await getMintReward(address)
 
@@ -68,7 +72,7 @@ export const useClaimChallengeReward = () => {
         notifyError(error)
       }
     },
-    [challengeReward, getMintReward],
+    [challengeReward, checkExistedReceipt, getMintReward],
   )
 
   return { onClaimChallengeReward }

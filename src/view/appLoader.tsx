@@ -14,6 +14,7 @@ export const AppLoader: React.FC = ({ children }) => {
     const provider = getAnchorProvider(rpc, address, window.sentre.wallet)
     const luckyWheel = new LuckyWheel(provider, configs.sol.programId)
     window.luckyWheel = luckyWheel
+
     setLoaded(true)
   }, [address, loaded])
 

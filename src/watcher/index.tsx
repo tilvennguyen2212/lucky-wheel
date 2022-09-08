@@ -7,6 +7,7 @@ import RewardsWatcher from './rewards.watcher'
 import TicketsWatcher from './tickets.watcher'
 import LotteryInfoWatcher from './lotteryInfo.watcher'
 import ChallengeRewardWatcher from './challengeReward.watcher'
+import ChallengeReceiptWatcher from './challengeReceipt.watcher'
 
 export const AppWatcher: React.FC = ({ children }) => {
   const [loading, setLoading] = useState(true)
@@ -22,6 +23,7 @@ export const AppWatcher: React.FC = ({ children }) => {
       <TicketsWatcher />
       <LotteryInfoWatcher />
       <ChallengeRewardWatcher />
+      <ChallengeReceiptWatcher />
       {loading ? <Loading /> : children}
     </Fragment>
   )
