@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { web3 } from '@project-serum/anchor'
 
 import { notifyError, notifySuccess } from 'helper'
-import { useGetMintDecimals } from '@sentre/senhub/dist'
+import { useGetMintDecimals } from '@sentre/senhub'
 import { utilsBN } from '@sen-use/web3'
 
 type onDepositRewardParams = {
