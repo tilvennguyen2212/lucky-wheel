@@ -19,7 +19,9 @@ import './index.less'
 import 'swiper/css/bundle'
 
 const View = () => {
-  const congratulate = useSelector((state: AppState) => state.main.congratulate)
+  const { opacity, numberOfPieces, gravity, zIndex } = useSelector(
+    (state: AppState) => state.main.confetti,
+  )
   const { appRoute } = useAppRouter()
   const selectedCampaign = useSelectedCampaign()
 
@@ -28,16 +30,15 @@ const View = () => {
       <AppWatcher>
         <EmptyCampaign campaignAddress={selectedCampaign}>
           <Row gutter={[24, 24]}>
-            {congratulate && (
-              <Confetti
-                style={{ zIndex: 9999 }}
-                width={window.innerWidth}
-                height={window.innerHeight}
-                recycle={false}
-                gravity={0.5}
-                tweenDuration={10000}
-              />
-            )}
+            <Confetti
+              style={{ zIndex }}
+              width={window.innerWidth}
+              height={window.innerHeight}
+              recycle={true}
+              gravity={gravity}
+              opacity={opacity}
+              numberOfPieces={numberOfPieces}
+            />
             <Col span={24}>
               <Winners />
             </Col>
