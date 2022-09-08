@@ -35,6 +35,7 @@ const Congrats = ({
   const dispatch = useDispatch()
 
   useEffect(() => {
+    if (!visible) return
     dispatch(
       setConfetti({
         confetti: {
@@ -57,7 +58,7 @@ const Congrats = ({
         }),
       )
     }, 5000)
-  }, [dispatch])
+  }, [dispatch, visible])
 
   return (
     <Modal
