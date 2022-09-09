@@ -14,7 +14,7 @@ import './index.less'
 
 const Challenge = () => {
   const selectedCampaign = useSelectedCampaign()
-  const challengePecent = useChallengePercent()
+  const challengePecrent = useChallengePercent()
   const lotteryInfo = useLotteryInfo(selectedCampaign)
   const infix = useInfix()
 
@@ -38,7 +38,7 @@ const Challenge = () => {
                 <Col className="challenge-progress">
                   <ProgressBar
                     percent={
-                      lotteryInfo.totalPicked.toNumber() * challengePecent
+                      lotteryInfo.totalPicked.toNumber() * challengePecrent
                     }
                     strokeWitdh={12}
                     background="#212433"
