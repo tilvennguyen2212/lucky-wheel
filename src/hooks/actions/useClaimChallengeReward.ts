@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { web3 } from '@project-serum/anchor'
 
 import { useChallengeRewardByCampaign } from 'hooks/challengeReward/useChallengeRewardByCampaign'
@@ -7,6 +7,7 @@ import { useChallengeReceipts } from 'hooks/useChallengeReceipt'
 import { notifyError } from 'helper'
 
 export const useClaimChallengeReward = () => {
+  const [loading, setLoading] = useState(false)
   const selectedCampaign = useSelectedCampaign()
   const { checkExistedReceipt } = useChallengeReceipts()
   const challengeReward = useChallengeRewardByCampaign(selectedCampaign)
@@ -39,6 +40,7 @@ export const useClaimChallengeReward = () => {
   const onClaimChallengeReward = useCallback(
     async (challengeAddresses: string[]) => {
       try {
+        setLoading(true)
         const transactions: web3.Transaction[] = []
         for (const address of challengeAddresses) {
           const isClaimed = await checkExistedReceipt(address)
@@ -70,10 +72,12 @@ export const useClaimChallengeReward = () => {
         })
       } catch (error) {
         notifyError(error)
+      } finally {
+        setLoading(false)
       }
     },
     [challengeReward, checkExistedReceipt, getMintReward],
   )
 
-  return { onClaimChallengeReward }
+  return { onClaimChallengeReward, loading }
 }

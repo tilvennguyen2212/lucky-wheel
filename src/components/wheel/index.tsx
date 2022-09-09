@@ -44,23 +44,23 @@ const Wheel = ({ rewards }: WheelProps) => {
   const skewDeg = 90 - singleDeg
   const contentDeg = singleDeg / 2
 
-  const bestReward = useMemo(() => {
-    if (!rewards.length || !Object.keys(allReward).length) return
-    let best = ''
-    const defaultFrom = allReward[rewards[1].rewardAddress].fromLuckyNumber
-    const defaultTo = allReward[rewards[1].rewardAddress].toLuckyNumber
-
-    let min = Number(defaultTo.sub(defaultFrom)) / 10 ** 18
+  const bestRewards = useMemo(() => {
+    if (!rewards.length || !Object.keys(allReward).length) return []
+    const mapRatio: Record<string, number> = {}
 
     for (const { rewardAddress } of rewards) {
       if (rewardAddress === 'good-luck') continue
       const { toLuckyNumber, fromLuckyNumber } = allReward[rewardAddress]
       const ratio = Number(toLuckyNumber.sub(fromLuckyNumber)) / 10 ** 18
-      if (ratio > min) continue
-      min = ratio
-      best = rewardAddress
+      mapRatio[rewardAddress] = ratio
     }
-    return best
+    const sortedRatio = Object.values(mapRatio).sort().slice(0, 3)
+
+    const result = Object.keys(mapRatio).filter((address) =>
+      sortedRatio.includes(mapRatio[address]),
+    )
+
+    return result
   }, [allReward, rewards])
 
   const value = useMemo(() => {
@@ -147,7 +147,7 @@ const Wheel = ({ rewards }: WheelProps) => {
             <Image src={ARROW} id="stopper" preview={false} />
             <ul className="circle" id="wheel">
               {rewards.map((reward, index) => {
-                const isBest = bestReward === reward.rewardAddress
+                const isBest = bestRewards.includes(reward.rewardAddress)
                 return (
                   <li
                     key={reward.rewardAddress}

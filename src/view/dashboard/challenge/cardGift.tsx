@@ -1,18 +1,19 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { BN } from '@project-serum/anchor'
 
 import { Button, Image, Space, Typography } from 'antd'
-import { MintAmount } from '@sen-use/app'
+import { RewardAmount } from 'components/reward/rewardAmount'
 import { RewardAvatar } from 'components/reward/rewardAvatar'
 
-import { GiftStatus, TabId } from 'constant'
-import { AppDispatch } from 'model'
-import { setTabId } from 'model/main.controller'
 import { useClaimChallengeReward } from 'hooks/actions/useClaimChallengeReward'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 import { useChallengeRewardByCampaign } from 'hooks/challengeReward/useChallengeRewardByCampaign'
 import { useChallengeReceipts } from 'hooks/useChallengeReceipt'
+import { GiftStatus, TabId } from 'constant'
+import { AppDispatch } from 'model'
+import { setTabId } from 'model/main.controller'
+
+import imgGift from 'static/images/gifts/gift01.png'
 
 type CardRewardProps = { rewardAddress: string; size?: number }
 const CardReward = ({ rewardAddress, size = 64 }: CardRewardProps) => {
@@ -29,16 +30,15 @@ const CardReward = ({ rewardAddress, size = 64 }: CardRewardProps) => {
 }
 
 type CardGiftProps = {
-  src?: string
-  amount?: number | string
-  active?: boolean
+  amount: number
+  active: boolean
 }
-const CardGift = ({ src = '', amount = 0, active }: CardGiftProps) => {
+const CardGift = ({ amount, active }: CardGiftProps) => {
   const [claimed, setClaimed] = useState(false)
   const selectedCampaign = useSelectedCampaign()
   const challengeRewards = useChallengeRewardByCampaign(selectedCampaign)
   const { checkExistedReceipt } = useChallengeReceipts()
-  const { onClaimChallengeReward } = useClaimChallengeReward()
+  const { onClaimChallengeReward, loading } = useClaimChallengeReward()
   const dispatch = useDispatch<AppDispatch>()
 
   const listAddress = useMemo(() => {
@@ -69,7 +69,7 @@ const CardGift = ({ src = '', amount = 0, active }: CardGiftProps) => {
   }, [checkIsClaimed])
 
   const cardGiftCln = active ? 'card-gift active' : 'card-gift'
-  const btnType = active ? 'primary' : 'default'
+  const btnType = active ? 'primary' : 'text'
   const btnClnClaimed = claimed ? 'card-gift-btn claimed-btn' : 'card-gift-btn'
 
   const btnText = useMemo(() => {
@@ -81,16 +81,19 @@ const CardGift = ({ src = '', amount = 0, active }: CardGiftProps) => {
   return (
     <div className={cardGiftCln}>
       <Space direction="vertical" align="center" className="card-gift_item">
-        <Typography.Title level={4}>
-          <MintAmount
-            mintAddress={'5YwUkPdXLoujGkZuo9B4LsLKj3hdkDcfP4derpspifSJ'}
-            amount={new BN(1_000_000_000_000)}
-          />
-        </Typography.Title>
-        <CardReward
-          rewardAddress={'5YwUkPdXLoujGkZuo9B4LsLKj3hdkDcfP4derpspifSJ'}
-        />
-        <Image src={src} preview={false} />
+        <Space size={12}>
+          {listAddress.map((address) => (
+            <Typography.Title level={4} key={address}>
+              <RewardAmount rewardAddress={address} isChallenge={true} />{' '}
+              <RewardAvatar
+                size={24}
+                rewardAddress={address}
+                isChallenge={true}
+              />
+            </Typography.Title>
+          ))}
+        </Space>
+        <Image src={imgGift} preview={false} />
       </Space>
       <div className="gift-step-icon">{amount}</div>
       <div className={btnClnClaimed}>
@@ -99,6 +102,7 @@ const CardGift = ({ src = '', amount = 0, active }: CardGiftProps) => {
           type={btnType}
           onClick={onHandleClick}
           ghost={claimed}
+          loading={loading}
         >
           {btnText}
         </Button>

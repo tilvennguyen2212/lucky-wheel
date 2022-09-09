@@ -10,10 +10,14 @@ export const useLotteryInfo = (campaign: string) => {
   const lotteryInfos = useSelector((state: AppState) => state.lotteryInfos)
   const walletAddress = useWalletAddress()
 
-  const lotteryInfoData = Object.values(lotteryInfos).find(
-    (data) =>
-      data.campaign.toBase58() === campaign &&
-      data.authority.toBase58() === walletAddress,
+  const lotteryInfoData = useMemo(
+    () =>
+      Object.values(lotteryInfos).find(
+        (data) =>
+          data.campaign.toBase58() === campaign &&
+          data.authority.toBase58() === walletAddress,
+      ),
+    [campaign, lotteryInfos, walletAddress],
   )
 
   const DEFAULT_DATA: LotteryInfoData = useMemo(() => {

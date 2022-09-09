@@ -1,6 +1,5 @@
-import { Fragment } from 'react'
+import { Fragment, useMemo } from 'react'
 
-import imgGift from 'static/images/gifts/gift01.svg'
 import CardGift from './cardGift'
 
 import { useLotteryInfo } from 'hooks/useLotteryInfo'
@@ -16,33 +15,34 @@ const ListGift = () => {
   const lotteryInfo = useLotteryInfo(selectedCampaign)
   const challengePercent = useChallengePercent()
 
-  const processes = Object.keys(challengeRewards).map((addr) => {
-    const challengeData = challengeRewards[addr]
-    return {
-      src: imgGift,
-      value: challengeData.totalPicked.toNumber(),
+  const processes = useMemo(() => {
+    const result: number[] = []
+    for (const rewardAddress in challengeRewards) {
+      const totalPicked = challengeRewards[rewardAddress].totalPicked.toNumber()
+      if (result.includes(totalPicked)) continue
+      result.push(totalPicked)
     }
-  })
 
-  const sortedProcesses = processes.sort((a, b) => (a.value > b.value ? 1 : -1))
+    return result.sort()
+  }, [challengeRewards])
+
   return (
     <Fragment>
-      {sortedProcesses.map(({ src, value }) => {
+      {processes.map((totalPicked) => {
         return (
           <div
             className="card-challenge-gift"
-            key={value}
+            key={totalPicked}
             style={{
-              left: `calc(${Number(value) * challengePercent}% - ${
+              left: `calc(${totalPicked * challengePercent}% - ${
                 MINT_WIDTH / 2
               }px)`,
             }}
           >
             <div style={{ minWidth: MINT_WIDTH }}>
               <CardGift
-                src={src}
-                amount={value}
-                active={Number(value) <= lotteryInfo.totalPicked.toNumber()}
+                amount={totalPicked}
+                active={totalPicked <= lotteryInfo.totalPicked.toNumber()}
               />
             </div>
           </div>

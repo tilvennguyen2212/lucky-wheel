@@ -46,10 +46,7 @@ const slice = createSlice({
   reducers: {},
   extraReducers: (builder) =>
     void builder
-      .addCase(
-        initLotteryInfo.fulfilled,
-        (state, { payload }) => void Object.assign(state, payload),
-      )
+      .addCase(initLotteryInfo.fulfilled, (state, { payload }) => payload)
       .addCase(
         upsetLotteryInfo.fulfilled,
         (state, { payload }) => void Object.assign(state, payload),
