@@ -19,12 +19,21 @@
     top: -354px;
     z-index: 9;
   }
+  .scroll-challenge {
+    display: flex !important;
+    flex-flow: column nowrap !important;
+    overflow: auto;
+    justify-content: flex-end;
+  }
   .inner-challenge-progress {
+    padding-top: 351px;
+    padding-bottom: 75px;
     .challenge-progress {
       width: 100%;
     }
     .card-challenge-gift {
       position: absolute;
+      width: 150px;
       .card-gift {
         display: flex;
         flex-flow: column;

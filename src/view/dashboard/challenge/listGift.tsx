@@ -13,7 +13,7 @@ const ListGift = () => {
   const selectedCampaign = useSelectedCampaign()
   const challengeRewards = useChallengeRewardByCampaign(selectedCampaign)
   const lotteryInfo = useLotteryInfo(selectedCampaign)
-  const challengePercent = useChallengePercent()
+  const { challengePecrent } = useChallengePercent()
 
   const processes = useMemo(() => {
     const result: number[] = []
@@ -42,7 +42,7 @@ const ListGift = () => {
             className="card-challenge-gift"
             key={totalPicked}
             style={{
-              left: `calc(${totalPicked * challengePercent}% - ${
+              left: `calc(${totalPicked * challengePecrent}% - ${
                 MINT_WIDTH / 2
               }px)`,
             }}

@@ -12,15 +12,16 @@ import { useChallengePercent } from 'hooks/useChallengePercent'
 
 import './index.less'
 
+const ITEM_REWARD_MINT_WIDTH = 15
+
 const Challenge = () => {
   const selectedCampaign = useSelectedCampaign()
-  const challengePecrent = useChallengePercent()
+  const { challengePecrent, totalChallenge } = useChallengePercent()
   const lotteryInfo = useLotteryInfo(selectedCampaign)
   const infix = useInfix()
 
   const isMobile = infix < Infix.xl
   const direction = isMobile ? 'vertical' : 'horizontal'
-  const rowGap = isMobile ? 48 : 110
   const wrapCln = isMobile
     ? 'card-challenge mobile-direction'
     : 'card-challenge'
@@ -29,13 +30,18 @@ const Challenge = () => {
     <Row className="challenge">
       <Col span={24}>
         <Card className={wrapCln}>
-          <Row gutter={[24, rowGap]} justify="center">
-            <Col span={24}>
-              <Row className="inner-challenge-progress">
-                <Col className="challenge-gifts" span={24}>
+          <Row gutter={[24, 24]} justify="center">
+            <Col className="scroll-challenge" span={24}>
+              <Row
+                className="inner-challenge-progress"
+                style={{
+                  width: ITEM_REWARD_MINT_WIDTH * totalChallenge,
+                }}
+              >
+                <Col className="challenge-gifts" style={{ width: '100%' }}>
                   <ListGift />
                 </Col>
-                <Col className="challenge-progress">
+                <Col className="challenge-progress" style={{ width: '100%' }}>
                   <ProgressBar
                     percent={
                       lotteryInfo.totalPicked.toNumber() * challengePecrent

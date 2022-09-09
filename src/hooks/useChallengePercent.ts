@@ -2,7 +2,7 @@ import { useChallengeRewardByCampaign } from './challengeReward/useChallengeRewa
 import { useSelectedCampaign } from './useSelectedCampaign'
 
 const ONE_HUNDRED = 100
-const EXTRA_PERCENT = 20
+const EXTRA_PERCENT = 10
 
 export const useChallengePercent = () => {
   const selectedCampaign = useSelectedCampaign()
@@ -14,6 +14,8 @@ export const useChallengePercent = () => {
 
   const totalChallenge =
     sortedChallenge[sortedChallenge.length - 1]?.totalPicked.toNumber() || 0
-
-  return ONE_HUNDRED / (totalChallenge + EXTRA_PERCENT)
+  return {
+    challengePecrent: ONE_HUNDRED / (totalChallenge + EXTRA_PERCENT),
+    totalChallenge,
+  }
 }
