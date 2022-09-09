@@ -59,9 +59,11 @@ export const useClaimChallengeReward = () => {
             ({ mint }) => mint === mintReward.toBase58(),
           )
           if (!accountData || Number(accountData.amount) < amount.toNumber())
-            throw new Error(
-              'The reward has expired, contact admin to deposit more',
-            )
+            return window.notify({
+              type: 'warning',
+              description:
+                'The reward has expired, contact admin to deposit more',
+            })
 
           let mint = mintReward
           if (rewardType.nftCollection) mint = await getMintReward(address)

@@ -1,16 +1,18 @@
 import { useCallback, useState } from 'react'
 import { web3 } from '@project-serum/anchor'
 
-import { notifyError, notifySuccess } from 'helper'
+import { notifyError } from 'helper'
 import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
 import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
+import { useRedeemTicket } from './useRedeemTicket'
 
 export const useClaim = () => {
   const [loading, setLoading] = useState(false)
   const selectedCampaign = useSelectedCampaign()
   const rewards = useRewardByCampaign(selectedCampaign)
   const tickets = useTicketByCampaign(selectedCampaign)
+  const redeemTicket = useRedeemTicket()
 
   const getMintReward = useCallback(
     async (rewardAddress: string) => {
@@ -39,6 +41,11 @@ export const useClaim = () => {
     async (ticketAddress: string) => {
       try {
         setLoading(true)
+        let transactions: {
+          tx: web3.Transaction
+          signers: web3.Keypair[]
+        }[] = []
+
         const rewardAddress = tickets[ticketAddress].reward.toBase58()
         const {
           rewardType,
@@ -53,37 +60,36 @@ export const useClaim = () => {
           mint = await getMintReward(rewardAddress)
         }
 
-        const tx = new web3.Transaction()
-        const signer: web3.Keypair[] = []
         const { tx: txClaim } = await window.luckyWheel.claim({
           ticket: new web3.PublicKey(ticketAddress),
           mint,
           sendAndConfirm: false,
         })
-        tx.add(txClaim)
+        transactions.push({ tx: txClaim, signers: [] })
 
         // Redeem ticket
         if (rewardType.ticket) {
-          for (let i = 0; i < prizeAmount.toNumber(); i++) {
-            const newTicket = web3.Keypair.generate()
-            const { tx: txRedeem } = await window.luckyWheel.redeemTicket({
-              campaign: new web3.PublicKey(selectedCampaign),
-              ticket: newTicket,
-              sendAndConfirm: false,
-            })
-            tx.add(txRedeem)
-            signer.push(newTicket)
-          }
+          const txRedeem = await redeemTicket(prizeAmount.toNumber())
+          transactions = transactions.concat(...txRedeem)
         }
-        const txId = await window.luckyWheel.provider.sendAndConfirm(tx, signer)
-        return notifySuccess('Claimed', txId)
+
+        await window.luckyWheel.provider.sendAll(
+          transactions.map(({ tx, signers }) => {
+            return { tx, signers }
+          }),
+        )
+
+        return window.notify({
+          type: 'success',
+          description: `Claimed reward successfully.`,
+        })
       } catch (error) {
         return notifyError(error)
       } finally {
         setLoading(false)
       }
     },
-    [getMintReward, rewards, selectedCampaign, tickets],
+    [getMintReward, redeemTicket, rewards, tickets],
   )
   return { onClaim, loading }
 }
