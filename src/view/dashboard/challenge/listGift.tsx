@@ -26,6 +26,14 @@ const ListGift = () => {
     return result.sort()
   }, [challengeRewards])
 
+  const nextMilestone = useMemo(() => {
+    const totalSpin = lotteryInfo.totalPicked.toNumber()
+    for (const value of processes) {
+      if (value > totalSpin) return value
+    }
+    return processes[0]
+  }, [lotteryInfo.totalPicked, processes])
+
   return (
     <Fragment>
       {processes.map((totalPicked) => {
@@ -43,6 +51,7 @@ const ListGift = () => {
               <CardGift
                 amount={totalPicked}
                 active={totalPicked <= lotteryInfo.totalPicked.toNumber()}
+                nextMilestone={nextMilestone === totalPicked}
               />
             </div>
           </div>

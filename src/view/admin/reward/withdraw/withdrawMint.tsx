@@ -24,7 +24,11 @@ const WithdrawMint = ({ rewardAddress }: { rewardAddress: string }) => {
       </Col>
       <Col span="auto">
         <Space>
-          <Typography.Text type="secondary">
+          <Typography.Text
+            type="secondary"
+            style={{ cursor: 'pointer' }}
+            onClick={() => setTotalPrize(rewardData.reservePrize.toString())}
+          >
             Available: {rewardData.reservePrize.toNumber()}
           </Typography.Text>
         </Space>

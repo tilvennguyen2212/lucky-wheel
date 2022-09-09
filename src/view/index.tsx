@@ -1,5 +1,6 @@
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { useAppRoute } from '@sentre/senhub'
 
 import { Col, Row } from 'antd'
 import Confetti from 'react-confetti'
@@ -9,7 +10,6 @@ import Winners from 'components/winners'
 import EmptyCampaign from 'components/emptyCampaign'
 
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
-import { useAppRouter } from 'hooks/useAppRouter'
 import { AppLoader } from './appLoader'
 import { AppWatcher } from 'watcher'
 import { AppState } from 'model'
@@ -21,7 +21,7 @@ const View = () => {
   const { opacity, numberOfPieces, gravity, zIndex } = useSelector(
     (state: AppState) => state.main.confetti,
   )
-  const { appRoute } = useAppRouter()
+  const { root, extend } = useAppRoute()
   const selectedCampaign = useSelectedCampaign()
 
   return (
@@ -40,13 +40,13 @@ const View = () => {
             </Col>
             <Col span={24}>
               <Switch>
-                <Route exact path={`${appRoute}/admin`} component={Admin} />
+                <Route exact path={extend('/admin')} component={Admin} />
                 <Route
                   exact
-                  path={`${appRoute}/dashboard`}
+                  path={extend('/dashboard')}
                   component={Dashboard}
                 />
-                <Redirect from={appRoute} to={`${appRoute}/dashboard`} />
+                <Redirect from={root} to={`${root}/dashboard`} />
               </Switch>
             </Col>
           </Row>

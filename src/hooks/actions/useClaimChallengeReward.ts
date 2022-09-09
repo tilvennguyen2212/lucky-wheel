@@ -5,12 +5,14 @@ import { useChallengeRewardByCampaign } from 'hooks/challengeReward/useChallenge
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 import { useChallengeReceipts } from 'hooks/useChallengeReceipt'
 import { notifyError } from 'helper'
+import { useGetTokenAccountByChallengeReward } from 'hooks/challengeReward/useGetTokenAccountByChallengeReward'
 
 export const useClaimChallengeReward = () => {
   const [loading, setLoading] = useState(false)
   const selectedCampaign = useSelectedCampaign()
   const { checkExistedReceipt } = useChallengeReceipts()
   const challengeReward = useChallengeRewardByCampaign(selectedCampaign)
+  const getAccounts = useGetTokenAccountByChallengeReward()
 
   const getMintReward = useCallback(
     async (challengeRewardAddr: string) => {
@@ -45,8 +47,22 @@ export const useClaimChallengeReward = () => {
         for (const address of challengeAddresses) {
           const isClaimed = await checkExistedReceipt(address)
           if (isClaimed) continue
+          const {
+            mint: mintReward,
+            rewardType,
+            amount,
+          } = challengeReward[address]
 
-          const { mint: mintReward, rewardType } = challengeReward[address]
+          //Check treasury
+          const accounts = await getAccounts(address)
+          const accountData = accounts.find(
+            ({ mint }) => mint === mintReward.toBase58(),
+          )
+          if (!accountData || Number(accountData.amount) < amount.toNumber())
+            throw new Error(
+              'The reward has expired, contact admin to deposit more',
+            )
+
           let mint = mintReward
           if (rewardType.nftCollection) mint = await getMintReward(address)
 
@@ -76,7 +92,7 @@ export const useClaimChallengeReward = () => {
         setLoading(false)
       }
     },
-    [challengeReward, checkExistedReceipt, getMintReward],
+    [challengeReward, checkExistedReceipt, getAccounts, getMintReward],
   )
 
   return { onClaimChallengeReward, loading }
