@@ -1,8 +1,9 @@
+import { useState } from 'react'
+
 import { Button, Col, InputNumber, Row, Space, Typography } from 'antd'
 
 import { useWithdrawReward } from 'hooks/admin/useWithdrawReward'
 import { useReward } from 'hooks/reward/useReward'
-import { useState } from 'react'
 
 const WithdrawMint = ({ rewardAddress }: { rewardAddress: string }) => {
   const [totalPrize, setTotalPrize] = useState('0')
