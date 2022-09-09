@@ -119,9 +119,9 @@ const Wheel = ({ rewards }: WheelProps) => {
         wheel.style.transform = 'rotate(' + deg + 'deg)'
       }, 2000)
     } catch (error) {
-      notifyError(
-        `The Solana network is experiencing degraded performance, and this leads to your ticket not instantly available. Let's try again in 2-5 minutes later. Details: ${error}`,
-      )
+      notifyError({
+        message: `The Solana network is experiencing degraded performance, and this leads to your ticket not instantly available. Let's try again in 2-5 minutes later. Details: ${error.message}`,
+      })
     } finally {
       setTimeout(() => {
         audio.pause()
