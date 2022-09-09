@@ -118,7 +118,7 @@ const Wheel = ({ rewards }: WheelProps) => {
         deg = -(value.get(rewardAddress || Reward.GoodLuck) || 0) - contentDeg //Value selected
         wheel.style.transform = 'rotate(' + deg + 'deg)'
       }, 2000)
-    } catch (error) {
+    } catch (error: any) {
       notifyError({
         message: `The Solana network is experiencing degraded performance, and this leads to your ticket not instantly available. Let's try again in 2-5 minutes later. Details: ${error.message}`,
       })
