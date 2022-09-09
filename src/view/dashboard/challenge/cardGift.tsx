@@ -18,8 +18,9 @@ import imgGift from 'static/images/gifts/gift01.png'
 type CardGiftProps = {
   amount: number
   active: boolean
+  nextMilestone: boolean
 }
-const CardGift = ({ amount, active }: CardGiftProps) => {
+const CardGift = ({ amount, active, nextMilestone }: CardGiftProps) => {
   const [claimed, setClaimed] = useState(false)
   const selectedCampaign = useSelectedCampaign()
   const challengeRewards = useChallengeRewardByCampaign(selectedCampaign)
@@ -83,15 +84,17 @@ const CardGift = ({ amount, active }: CardGiftProps) => {
       </Space>
       <div className="gift-step-icon">{amount}</div>
       <div className={btnClnClaimed}>
-        <Button
-          disabled={claimed}
-          type={btnType}
-          onClick={onHandleClick}
-          ghost={claimed}
-          loading={loading}
-        >
-          {btnText}
-        </Button>
+        {(active || claimed || nextMilestone) && (
+          <Button
+            disabled={claimed}
+            type={btnType}
+            onClick={onHandleClick}
+            ghost={claimed}
+            loading={loading}
+          >
+            {btnText}
+          </Button>
+        )}
       </div>
     </div>
   )
