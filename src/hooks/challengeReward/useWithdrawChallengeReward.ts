@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { BN, web3 } from '@project-serum/anchor'
+import { web3 } from '@project-serum/anchor'
+import { useGetMintDecimals } from '@sentre/senhub'
+import { utilsBN } from '@sen-use/web3'
 
 import { notifyError, notifySuccess } from 'helper'
 
@@ -11,6 +13,7 @@ type WithdrawRewardParams = {
 
 export const useWithdrawChallengeReward = () => {
   const [loading, setLoading] = useState(false)
+  const getDecimal = useGetMintDecimals()
 
   const withdrawChallengeReward = async ({
     challengeReward,
@@ -20,9 +23,11 @@ export const useWithdrawChallengeReward = () => {
     setLoading(true)
 
     try {
+      const decimals = (await getDecimal({ mintAddress: mint })) || 0
+
       const { txId } = await window.luckyWheel.withdrawChallengeReward({
         challengeReward: new web3.PublicKey(challengeReward),
-        amount: new BN(amount),
+        amount: utilsBN.decimalize(amount, decimals),
         rewardMint: new web3.PublicKey(mint),
       })
       notifySuccess('Withdraw reward', txId)

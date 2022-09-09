@@ -1,8 +1,10 @@
+import { useState } from 'react'
+import { utilsBN } from '@sen-use/web3'
+import { useMintDecimals, util } from '@sentre/senhub'
 import { Button, Col, InputNumber, Row, Space, Typography } from 'antd'
 import { useChallengeRewardData } from 'hooks/challengeReward/useChallengeData'
 
 import { useWithdrawChallengeReward } from 'hooks/challengeReward/useWithdrawChallengeReward'
-import { useState } from 'react'
 
 const WithdrawMint = ({
   challengeRewardAddress,
@@ -12,6 +14,8 @@ const WithdrawMint = ({
   const [totalPrize, setTotalPrize] = useState('0')
   const rewardChallengeData = useChallengeRewardData(challengeRewardAddress)
   const { withdrawChallengeReward, loading } = useWithdrawChallengeReward()
+  const mintDecimals =
+    useMintDecimals({ mintAddress: rewardChallengeData.mint.toBase58() }) || 0
 
   const onWithdraw = async () => {
     await withdrawChallengeReward({
@@ -28,8 +32,21 @@ const WithdrawMint = ({
       </Col>
       <Col span="auto">
         <Space>
-          <Typography.Text type="secondary">
-            Available: {rewardChallengeData.reserve.toNumber()}
+          <Typography.Text
+            type="secondary"
+            style={{ cursor: 'pointer' }}
+            onClick={() =>
+              setTotalPrize(
+                utilsBN.undecimalize(rewardChallengeData.reserve, mintDecimals),
+              )
+            }
+          >
+            Available:{' '}
+            {util
+              .numeric(
+                utilsBN.undecimalize(rewardChallengeData.reserve, mintDecimals),
+              )
+              .format('0,0.[0000]')}
           </Typography.Text>
         </Space>
       </Col>

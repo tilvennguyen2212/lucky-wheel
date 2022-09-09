@@ -18,7 +18,6 @@ const ListGift = () => {
 
   const processes = Object.keys(challengeRewards).map((addr) => {
     const challengeData = challengeRewards[addr]
-
     return {
       src: imgGift,
       value: challengeData.totalPicked.toNumber(),

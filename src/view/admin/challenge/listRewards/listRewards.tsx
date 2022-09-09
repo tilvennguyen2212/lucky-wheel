@@ -7,7 +7,7 @@ import ColumnAction from './columnAction'
 import { RewardAmount } from 'components/reward/rewardAmount'
 import { RewardAvatar } from 'components/reward/rewardAvatar'
 import { RewardName } from 'components/reward/rewardName'
-import { MintAmount } from '@sen-use/app/dist'
+import { MintAmount } from '@sen-use/app'
 
 const columns = [
   {
