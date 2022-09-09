@@ -18,8 +18,14 @@ type CardGiftProps = {
   amount: number
   active: boolean
   nextMilestone: boolean
+  size?: number
 }
-const CardGift = ({ amount, active, nextMilestone }: CardGiftProps) => {
+const CardGift = ({
+  amount,
+  active,
+  nextMilestone,
+  size = 64,
+}: CardGiftProps) => {
   const [claimed, setClaimed] = useState(false)
   const selectedCampaign = useSelectedCampaign()
   const challengeRewards = useChallengeRewardByCampaign(selectedCampaign)
@@ -67,7 +73,7 @@ const CardGift = ({ amount, active, nextMilestone }: CardGiftProps) => {
   return (
     <div className={cardGiftCln}>
       <div className="card-gift-item">
-        <CardReward rewardAddresses={listAddress} />
+        <CardReward rewardAddresses={listAddress} size={size} />
         <Image src={imgGift} preview={false} />
       </div>
       <div className="gift-step-icon">{amount}</div>

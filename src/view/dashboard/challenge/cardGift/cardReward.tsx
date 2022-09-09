@@ -73,12 +73,14 @@ const CardReward = ({
             <CardRewardAvartar
               rewardAddress={rewardAddress}
               style={{ zIndex: 99 - idx, marginLeft }}
+              size={size}
             />
           )
         })}
         {remaining > 0 && (
           <CardRewardAvartar
             style={{ zIndex: 1, marginLeft: -(size * MARGIN_RATIO) }}
+            size={size}
           >
             <Typography.Title level={3}>+{remaining}</Typography.Title>
           </CardRewardAvartar>

@@ -1,4 +1,5 @@
 import { Fragment, useMemo } from 'react'
+import { useInfix, Infix } from '@sentre/senhub'
 
 import CardGift from './cardGift'
 
@@ -8,12 +9,18 @@ import { useChallengeRewardByCampaign } from 'hooks/challengeReward/useChallenge
 import { useChallengePercent } from 'hooks/useChallengePercent'
 
 const MINT_WIDTH = 150
+const MINT_WIDTH_MOBILE = 75
 
 const ListGift = () => {
   const selectedCampaign = useSelectedCampaign()
   const challengeRewards = useChallengeRewardByCampaign(selectedCampaign)
   const lotteryInfo = useLotteryInfo(selectedCampaign)
-  const challengePercent = useChallengePercent()
+  const { challengePecrent } = useChallengePercent()
+  const infix = useInfix()
+
+  const isMobile = infix < Infix.lg
+  const cardMintWidth = isMobile ? MINT_WIDTH_MOBILE : MINT_WIDTH
+  const avatarSize = isMobile ? 38 : 64
 
   const processes = useMemo(() => {
     const result: number[] = []
@@ -42,16 +49,17 @@ const ListGift = () => {
             className="card-challenge-gift"
             key={totalPicked}
             style={{
-              left: `calc(${totalPicked * challengePercent}% - ${
-                MINT_WIDTH / 2
+              left: `calc(${totalPicked * challengePecrent}% - ${
+                cardMintWidth / 2
               }px)`,
             }}
           >
-            <div style={{ minWidth: MINT_WIDTH }}>
+            <div style={{ minWidth: cardMintWidth }}>
               <CardGift
                 amount={totalPicked}
                 active={totalPicked <= lotteryInfo.totalPicked.toNumber()}
                 nextMilestone={nextMilestone === totalPicked}
+                size={avatarSize}
               />
             </div>
           </div>
