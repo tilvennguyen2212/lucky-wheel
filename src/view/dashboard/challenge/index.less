@@ -16,7 +16,7 @@
     width: 100%;
   }
   .challenge-gifts {
-    top: -328px;
+    top: -354px;
     z-index: 9;
   }
   .inner-challenge-progress {
@@ -30,9 +30,17 @@
         flex-flow: column;
         align-items: center;
         gap: 24px;
-        .lucky_wheel-image {
-          min-width: 50px;
-          opacity: 0.6;
+        .card-gift-item {
+          display: flex;
+          flex-flow: column;
+          align-items: center;
+          .card-avatar-reward {
+            margin-bottom: -35px;
+          }
+          .lucky_wheel-image {
+            min-width: 50px;
+            opacity: 0.6;
+          }
         }
         .gift-step-icon {
           min-width: 48px;
@@ -125,9 +133,15 @@
   padding: 4px;
   .card-reward-child {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 50%;
     background: #212433;
     z-index: 1;
+    img {
+      border-radius: 50%;
+    }
   }
   .card-reward-balloons {
     position: absolute;
@@ -177,6 +191,11 @@
       }
     }
   }
+}
+.group-reward-avatar {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
 }
 
 @media (max-width: 767px) {

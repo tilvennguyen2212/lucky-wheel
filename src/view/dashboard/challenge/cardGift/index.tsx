@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { Button, Image, Space, Typography } from 'antd'
-import { RewardAmount } from 'components/reward/rewardAmount'
-import { RewardAvatar } from 'components/reward/rewardAvatar'
+import { Button, Image } from 'antd'
+import CardReward from './cardReward'
 
 import { useClaimChallengeReward } from 'hooks/actions/useClaimChallengeReward'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
@@ -13,21 +12,7 @@ import { GiftStatus, TabId } from 'constant'
 import { AppDispatch } from 'model'
 import { setTabId } from 'model/main.controller'
 
-import imgGift from 'static/images/gifts/gift01.png'
-
-type CardRewardProps = { rewardAddress: string; size?: number }
-const CardReward = ({ rewardAddress, size = 64 }: CardRewardProps) => {
-  return (
-    <div className="card-reward" style={{ width: size + 8, height: size + 8 }}>
-      <div className="card-reward-child">
-        <RewardAvatar rewardAddress={rewardAddress} size={size} />
-      </div>
-      <div className="card-reward-balloons">
-        <div className="card-reward-glossy" />
-      </div>
-    </div>
-  )
-}
+import imgGift from 'static/images/gifts/gift01.svg'
 
 type CardGiftProps = {
   amount: number
@@ -80,21 +65,10 @@ const CardGift = ({ amount, active }: CardGiftProps) => {
 
   return (
     <div className={cardGiftCln}>
-      <Space direction="vertical" align="center" className="card-gift_item">
-        <Space size={12}>
-          {listAddress.map((address) => (
-            <Typography.Title level={4} key={address}>
-              <RewardAmount rewardAddress={address} isChallenge={true} />{' '}
-              <RewardAvatar
-                size={24}
-                rewardAddress={address}
-                isChallenge={true}
-              />
-            </Typography.Title>
-          ))}
-        </Space>
+      <div className="card-gift-item">
+        <CardReward rewardAddresses={listAddress} />
         <Image src={imgGift} preview={false} />
-      </Space>
+      </div>
       <div className="gift-step-icon">{amount}</div>
       <div className={btnClnClaimed}>
         <Button

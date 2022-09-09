@@ -20,7 +20,7 @@ const Challenge = () => {
 
   const isMobile = infix < Infix.xl
   const direction = isMobile ? 'vertical' : 'horizontal'
-  const rowGap = isMobile ? 48 : 150
+  const rowGap = isMobile ? 48 : 110
   const wrapCln = isMobile
     ? 'card-challenge mobile-direction'
     : 'card-challenge'
