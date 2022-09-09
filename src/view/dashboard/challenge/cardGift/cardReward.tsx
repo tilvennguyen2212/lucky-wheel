@@ -53,7 +53,11 @@ const CardReward = ({
 
   return (
     <Space className="card-avatar-reward" direction="vertical" align="center">
-      <Space style={{ minHeight: 64 }} direction="vertical" align="center">
+      <Space
+        style={{ minHeight: 64, justifyContent: 'end' }}
+        direction="vertical"
+        align="center"
+      >
         {filteredAddresses.map((rewardAddress, idx) => (
           <Typography.Title level={4} key={rewardAddress}>
             {idx > 0 && '+ '}
