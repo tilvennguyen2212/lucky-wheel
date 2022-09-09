@@ -4,6 +4,7 @@ import { BN } from '@project-serum/anchor'
 
 import { Button, Image, Space, Typography } from 'antd'
 import { MintAmount } from '@sen-use/app'
+import { RewardAvatar } from 'components/reward/rewardAvatar'
 
 import { GiftStatus, TabId } from 'constant'
 import { AppDispatch } from 'model'
@@ -12,6 +13,20 @@ import { useClaimChallengeReward } from 'hooks/actions/useClaimChallengeReward'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 import { useChallengeRewardByCampaign } from 'hooks/challengeReward/useChallengeRewardByCampaign'
 import { useChallengeReceipts } from 'hooks/useChallengeReceipt'
+
+type CardRewardProps = { rewardAddress: string; size?: number }
+const CardReward = ({ rewardAddress, size = 64 }: CardRewardProps) => {
+  return (
+    <div className="card-reward" style={{ width: size + 8, height: size + 8 }}>
+      <div className="card-reward-child">
+        <RewardAvatar rewardAddress={rewardAddress} size={size} />
+      </div>
+      <div className="card-reward-balloons">
+        <div className="card-reward-glossy" />
+      </div>
+    </div>
+  )
+}
 
 type CardGiftProps = {
   src?: string
@@ -72,6 +87,9 @@ const CardGift = ({ src = '', amount = 0, active }: CardGiftProps) => {
             amount={new BN(1_000_000_000_000)}
           />
         </Typography.Title>
+        <CardReward
+          rewardAddress={'5YwUkPdXLoujGkZuo9B4LsLKj3hdkDcfP4derpspifSJ'}
+        />
         <Image src={src} preview={false} />
       </Space>
       <div className="gift-step-icon">{amount}</div>

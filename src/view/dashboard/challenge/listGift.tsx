@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 
-import imgGift from 'static/images/gifts/gift01.png'
+import imgGift from 'static/images/gifts/gift01.svg'
 import CardGift from './cardGift'
 
 import { useLotteryInfo } from 'hooks/useLotteryInfo'
