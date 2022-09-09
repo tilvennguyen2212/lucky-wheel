@@ -1,4 +1,4 @@
-import { useInfix, Infix } from '@sentre/senhub'
+import { useInfix, Infix, useWidth } from '@sentre/senhub'
 
 import { Col, Row } from 'antd'
 import Card from 'antd/lib/card/Card'
@@ -12,19 +12,27 @@ import { useChallengePercent } from 'hooks/useChallengePercent'
 
 import './index.less'
 
-const ITEM_REWARD_MINT_WIDTH = 15
+const ITEM_REWARD_WIDTH_RATIO = 15
+const ITEM_REWARD_MOBILE_WIDTH_RATIO = 12
 
 const Challenge = () => {
   const selectedCampaign = useSelectedCampaign()
   const { challengePecrent, totalChallenge } = useChallengePercent()
   const lotteryInfo = useLotteryInfo(selectedCampaign)
   const infix = useInfix()
+  const screenWidth = useWidth()
 
-  const isMobile = infix < Infix.xl
-  const direction = isMobile ? 'vertical' : 'horizontal'
+  const isMobile = infix < Infix.lg
   const wrapCln = isMobile
     ? 'card-challenge mobile-direction'
     : 'card-challenge'
+  const widthRatio = isMobile
+    ? ITEM_REWARD_MOBILE_WIDTH_RATIO
+    : ITEM_REWARD_WIDTH_RATIO
+  const fitWitdh =
+    widthRatio * totalChallenge < screenWidth
+      ? '100%'
+      : widthRatio * totalChallenge
 
   return (
     <Row className="challenge">
@@ -35,7 +43,7 @@ const Challenge = () => {
               <Row
                 className="inner-challenge-progress"
                 style={{
-                  width: ITEM_REWARD_MINT_WIDTH * totalChallenge,
+                  width: fitWitdh,
                 }}
               >
                 <Col className="challenge-gifts" style={{ width: '100%' }}>
@@ -49,7 +57,6 @@ const Challenge = () => {
                     strokeWitdh={12}
                     background="#212433"
                     successColor="linear-gradient(84.24deg, #9945FF 0%, #B9F8FD 100%)"
-                    direction={direction}
                   />
                 </Col>
               </Row>

@@ -5,7 +5,6 @@
 .card-challenge {
   backdrop-filter: blur(96px);
   border-radius: 24px;
-  min-height: 660px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -82,44 +81,29 @@
   }
 
   &.mobile-direction {
-    align-items: flex-start;
-    justify-content: flex-start;
     .ant-card-body {
-      padding: 48px 20px 48px 48px;
+      padding: 16px;
     }
     .inner-challenge-progress {
-      flex-flow: row-reverse nowrap !important;
+      padding-top: 210px;
       .challenge-gifts {
-        display: flex !important;
-        flex-flow: column;
-        top: 0;
-        gap: 24px;
+        top: -235px;
         .card-challenge-gift {
-          position: unset;
+          width: auto;
           .card-gift {
-            flex-flow: row nowrap;
-            gap: 32px;
-            &_item {
-              order: 2;
-            }
-            .gift-step-icon {
-              order: 1;
-              margin-left: -30px;
-            }
             .lucky_wheel-image {
-              order: 2;
-            }
-            .card-gift-btn {
-              flex: auto;
-              order: 3;
-              display: flex;
-              justify-content: flex-end;
+              width: 75px;
             }
           }
         }
       }
-      .challenge-progress {
-        width: auto;
+    }
+    .card-avatar-reward {
+      .lucky_wheel-space {
+        gap: 0px !important;
+        .lucky_wheel-typography {
+          font-size: 14px !important;
+        }
       }
     }
   }
