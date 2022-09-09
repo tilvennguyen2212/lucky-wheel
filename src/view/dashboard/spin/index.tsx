@@ -23,7 +23,7 @@ const Spin = () => {
   const rewards = useRewardByCampaign(selectedCampaign)
   const tickets = useAvailableTickets(selectedCampaign)
   const { totalTicket } = useTotalUnclaimedTicket()
-  const { loading: loadingRedeem, redeemTicket } = useClaimTicket()
+  const { loading: loadingRedeem, claimRawTicket } = useClaimTicket()
 
   const formatReward = useMemo(() => {
     const material: Material[] = [
@@ -72,7 +72,7 @@ const Spin = () => {
                       </Typography.Text>
                       <Button
                         type="text"
-                        onClick={redeemTicket}
+                        onClick={claimRawTicket}
                         loading={loadingRedeem}
                       >
                         Claim
