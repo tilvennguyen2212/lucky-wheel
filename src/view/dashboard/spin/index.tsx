@@ -9,7 +9,6 @@ import { useAvailableTickets } from 'hooks/lottery/useAvailableTickets'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
 import { useTotalUnclaimedTicket } from 'hooks/ticket/useTotalUnclaimedTicket'
 import { useClaimTicket } from 'hooks/actions/useClaimTicket'
-
 import { Reward } from 'constant'
 
 import { ReactComponent as Ticket } from 'static/images/icons/ticket-icon.svg'
