@@ -17,21 +17,17 @@ const RewardInfo = ({ visible, onClose }: RewardInfoProps) => {
   const campaignId = useSelectedCampaign()
   const rewards = useRewardByCampaign(campaignId)
 
-  const formatRewards = useMemo(() => {
+  const sortedReward = useMemo(() => {
     let listReward = Object.keys(rewards).map((address) => {
       return { address, ...rewards[address] }
     })
-    const nftReward = listReward.filter(
-      ({ rewardType }) => rewardType.nftCollection,
-    )
-    const tokenReward = listReward.filter(({ rewardType }) => rewardType.token)
-    const ticketReward = listReward.filter(
-      ({ rewardType }) => rewardType.ticket,
-    )
-    return (listReward = nftReward
-      .concat(tokenReward)
-      .concat(ticketReward)
-      .map((reward, index) => ({ ...reward, index })))
+    listReward.sort((a, b) => {
+      const ratio_a = Number(a.toLuckyNumber.sub(a.fromLuckyNumber)) / 10 ** 18
+      const ratio_b = Number(b.toLuckyNumber.sub(b.fromLuckyNumber)) / 10 ** 18
+      return ratio_a - ratio_b
+    })
+
+    return listReward.map((reward, index) => ({ ...reward, index }))
   }, [rewards])
 
   return (
@@ -47,7 +43,7 @@ const RewardInfo = ({ visible, onClose }: RewardInfoProps) => {
         <Col span={24} style={{ maxHeight: 300 }} className="scrollbar">
           <Table
             columns={COLUMNS_REWARD_INFO}
-            dataSource={formatRewards}
+            dataSource={sortedReward}
             bordered={false}
             pagination={false}
             style={{ width: '100%' }}
