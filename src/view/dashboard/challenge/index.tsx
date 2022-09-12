@@ -18,9 +18,10 @@ const ITEM_REWARD_MOBILE_WIDTH_RATIO = 12
 const Challenge = () => {
   const selectedCampaign = useSelectedCampaign()
   const { challengePecrent, totalChallenge } = useChallengePercent()
-  const lotteryInfo = useLotteryInfo(selectedCampaign)
+  const { getLotteryOwnerData } = useLotteryInfo(selectedCampaign)
   const infix = useInfix()
   const screenWidth = useWidth()
+  const lotteryOwner = getLotteryOwnerData()
 
   const isMobile = infix < Infix.lg
   const wrapCln = isMobile
@@ -52,7 +53,7 @@ const Challenge = () => {
                 <Col className="challenge-progress" style={{ width: '100%' }}>
                   <ProgressBar
                     percent={
-                      lotteryInfo.totalPicked.toNumber() * challengePecrent
+                      lotteryOwner.totalPicked.toNumber() * challengePecrent
                     }
                     strokeWitdh={12}
                     background="#212433"

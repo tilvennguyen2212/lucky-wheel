@@ -74,6 +74,7 @@ const CardReward = ({
               rewardAddress={rewardAddress}
               style={{ zIndex: 99 - idx, marginLeft }}
               size={size}
+              key={idx}
             />
           )
         })}

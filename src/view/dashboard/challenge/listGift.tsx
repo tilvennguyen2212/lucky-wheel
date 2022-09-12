@@ -5,59 +5,51 @@ import CardGift from './cardGift'
 
 import { useLotteryInfo } from 'hooks/useLotteryInfo'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
-import { useChallengeRewardByCampaign } from 'hooks/challengeReward/useChallengeRewardByCampaign'
 import { useChallengePercent } from 'hooks/useChallengePercent'
+import { useMilestoneByCampaign } from 'hooks/challengeReward/useMilestoneByCampaign'
 
 const MINT_WIDTH = 150
 const MINT_WIDTH_MOBILE = 75
 
 const ListGift = () => {
   const selectedCampaign = useSelectedCampaign()
-  const challengeRewards = useChallengeRewardByCampaign(selectedCampaign)
-  const lotteryInfo = useLotteryInfo(selectedCampaign)
+  const { getLotteryOwnerData } = useLotteryInfo(selectedCampaign)
   const { challengePecrent } = useChallengePercent()
   const infix = useInfix()
+  const lotteryOwner = getLotteryOwnerData()
+  const { getMilestoneCampaign } = useMilestoneByCampaign(selectedCampaign)
 
+  const processes = getMilestoneCampaign()
   const isMobile = infix < Infix.lg
   const cardMintWidth = isMobile ? MINT_WIDTH_MOBILE : MINT_WIDTH
   const avatarSize = isMobile ? 38 : 64
 
-  const processes = useMemo(() => {
-    const result: number[] = []
-    for (const rewardAddress in challengeRewards) {
-      const totalPicked = challengeRewards[rewardAddress].totalPicked.toNumber()
-      if (result.includes(totalPicked)) continue
-      result.push(totalPicked)
-    }
-
-    return result.sort()
-  }, [challengeRewards])
-
   const nextMilestone = useMemo(() => {
-    const totalSpin = lotteryInfo.totalPicked.toNumber()
+    const totalSpin = lotteryOwner.totalPicked
     for (const value of processes) {
-      if (value > totalSpin) return value
+      if (value.gt(totalSpin)) return value
     }
     return processes[0]
-  }, [lotteryInfo.totalPicked, processes])
+  }, [lotteryOwner.totalPicked, processes])
 
   return (
     <Fragment>
-      {processes.map((totalPicked) => {
+      {processes.map((totalPicked, idx) => {
+        const numTotalPicked = totalPicked.toNumber()
         return (
           <div
             className="card-challenge-gift"
-            key={totalPicked}
+            key={idx}
             style={{
-              left: `calc(${totalPicked * challengePecrent}% - ${
+              left: `calc(${numTotalPicked * challengePecrent}% - ${
                 cardMintWidth / 2
               }px)`,
             }}
           >
             <div style={{ minWidth: cardMintWidth }}>
               <CardGift
-                amount={totalPicked}
-                active={totalPicked <= lotteryInfo.totalPicked.toNumber()}
+                amount={numTotalPicked}
+                active={totalPicked.lte(lotteryOwner.totalPicked)}
                 nextMilestone={nextMilestone === totalPicked}
                 size={avatarSize}
               />
