@@ -1,0 +1,33 @@
+.reward-info {
+  .lucky_wheel-modal-header {
+    border: none !important;
+  }
+  .lucky_wheel-modal-body {
+    padding: 0px !important;
+    .lucky_wheel-table {
+      border: none !important;
+      &-thead {
+        & > tr:first-child > th:first-child {
+          border-radius: 0 !important;
+        }
+        & > tr:last-child > th:last-child {
+          border-radius: 0 !important;
+        }
+      }
+      &-tbody {
+        & > tr > td {
+          background-color: #212433 !important;
+          border-color: #4e4f5c !important;
+        }
+        & > tr:last-child {
+          & > td:first-child {
+            border-bottom-left-radius: 16px !important;
+          }
+          & > td:last-child {
+            border-bottom-right-radius: 16px !important;
+          }
+        }
+      }
+    }
+  }
+}
