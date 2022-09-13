@@ -32,7 +32,6 @@ const Winners = () => {
         if (!val.gte(milestone)) continue
         result = milestone
       }
-
       return result
     },
     [processes],
