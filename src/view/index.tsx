@@ -6,7 +6,7 @@ import { Col, Row } from 'antd'
 import Confetti from 'react-confetti'
 import Admin from './admin'
 import Dashboard from './dashboard'
-import Winners from 'components/winners'
+import Winners from 'components/winner'
 import EmptyCampaign from 'components/emptyCampaign'
 
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'

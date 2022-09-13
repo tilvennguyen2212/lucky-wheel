@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { web3, BN } from '@project-serum/anchor'
 import { useWalletAddress } from '@sentre/senhub'
 import { LotteryInfoData } from '@sentre/lucky-wheel-core'
@@ -10,16 +10,6 @@ export const useLotteryInfo = (campaign: string) => {
   const lotteryInfos = useSelector((state: AppState) => state.lotteryInfos)
   const walletAddress = useWalletAddress()
 
-  const lotteryInfoData = useMemo(
-    () =>
-      Object.values(lotteryInfos).find(
-        (data) =>
-          data.campaign.toBase58() === campaign &&
-          data.authority.toBase58() === walletAddress,
-      ),
-    [campaign, lotteryInfos, walletAddress],
-  )
-
   const DEFAULT_DATA: LotteryInfoData = useMemo(() => {
     return {
       authority: new web3.PublicKey(walletAddress),
@@ -29,5 +19,23 @@ export const useLotteryInfo = (campaign: string) => {
     }
   }, [campaign, walletAddress])
 
-  return lotteryInfoData || DEFAULT_DATA
+  const getLotteryOwnerData = useCallback(
+    () =>
+      Object.values(lotteryInfos).find(
+        (data) =>
+          data.campaign.toBase58() === campaign &&
+          data.authority.toBase58() === walletAddress,
+      ) || DEFAULT_DATA,
+    [DEFAULT_DATA, campaign, lotteryInfos, walletAddress],
+  )
+
+  const getListLotteryData = useCallback(() => {
+    return (
+      Object.values(lotteryInfos).filter(
+        (data) => data.campaign.toBase58() === campaign,
+      ) || [DEFAULT_DATA]
+    )
+  }, [DEFAULT_DATA, campaign, lotteryInfos])
+
+  return { getListLotteryData, getLotteryOwnerData }
 }
