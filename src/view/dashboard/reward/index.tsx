@@ -97,6 +97,7 @@ const Reward = () => {
             dataSource={sortedReward}
             columns={columns}
             pagination={false}
+            rowKey={(record) => record.ticketAddress}
           />
         )}
       </Col>
