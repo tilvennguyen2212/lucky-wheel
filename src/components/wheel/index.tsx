@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react'
 import { Button, Col, Image, Row } from 'antd'
 import DisplayReward from './displayReward'
 import NotifyResult from 'components/notifyResult'
+import RewardInfo from 'view/dashboard/rewardInfo'
 
 import { LIST_BG_WHEEL, Reward, SPECIAL_BG } from 'constant'
 import { useSpin } from 'hooks/actions/useSpin'
@@ -15,16 +16,25 @@ import SOUND from 'static/sound/sound.mp3'
 
 import './index.less'
 import './animation.scss'
-import RewardInfo from 'view/dashboard/rewardInfo'
 
 let audio = new Audio(SOUND)
+
+const errorHandler = (er: any) => {
+  if (er.message === 'Request failed with status code 429')
+    return window.notify({
+      type: 'info',
+      description:
+        "🥹 You have reached the maximum number of spins that is 10 spins per day. Let's be back tommorow!",
+    })
+  return "The Solana network is experiencing degraded performance, and this leads to your ticket not instantly available. Let's try again in 2-5 minutes later."
+}
 
 export type Material = {
   type: string
   rewardAddress: string
 }
 
-type WheelProps = {
+export type WheelProps = {
   rewards: Material[]
 }
 
@@ -116,11 +126,8 @@ const Wheel = ({ rewards }: WheelProps) => {
         deg = -(value.get(rewardAddress || Reward.GoodLuck) || 0) - contentDeg //Value selected
         wheel.style.transform = 'rotate(' + deg + 'deg)'
       }, 2000)
-    } catch (error: any) {
-      window.notify({
-        type: 'info',
-        description: `The Solana network is experiencing degraded performance, and this leads to your ticket not instantly available. Let's try again in 2-5 minutes later. Details: ${error.message}`,
-      })
+    } catch (er: any) {
+      errorHandler(er)
     } finally {
       setTimeout(() => {
         audio.pause()

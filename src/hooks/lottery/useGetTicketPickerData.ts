@@ -43,6 +43,7 @@ export const useGetTicketPickerData = () => {
 
       if (JSON.stringify(campaignPicker) === JSON.stringify(pickerPublickey)) {
         const { data } = await axios.get<{
+          pubKey: string
           signature: string
           recid: number
         }>(configs.api.lottery.luckyNumber + ticketAddress, {
