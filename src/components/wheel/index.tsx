@@ -15,6 +15,7 @@ import SOUND from 'static/sound/sound.mp3'
 
 import './index.less'
 import './animation.scss'
+import RewardInfo from 'view/dashboard/rewardInfo'
 
 let audio = new Audio(SOUND)
 
@@ -27,9 +28,8 @@ type WheelProps = {
   rewards: Material[]
 }
 
-const MAX_SPIN = 5
-
 const Wheel = ({ rewards }: WheelProps) => {
+  const [visible, setVisible] = useState(false)
   const [spinning, setSpinning] = useState(false)
   const [spinMul, setSpinMul] = useState(false)
   const [pickedTickets, setPickedTickets] = useState<string[]>([])
@@ -132,12 +132,6 @@ const Wheel = ({ rewards }: WheelProps) => {
     }
   }
 
-  const maxTotalSpin = useMemo(() => {
-    const totalTicket = Object.keys(tickets).length
-    if (totalTicket > MAX_SPIN) return MAX_SPIN
-    return totalTicket
-  }, [tickets])
-
   const disabled = spinning || spinMul || !Object.keys(tickets).length
 
   return (
@@ -200,23 +194,17 @@ const Wheel = ({ rewards }: WheelProps) => {
               loading={spinning}
               type="primary"
             >
-              SPIN X1
+              SPIN
             </Button>
           </Col>
           <Col xs={24} lg={12}>
-            <Button
-              size="large"
-              block
-              disabled={disabled}
-              loading={spinMul}
-              onClick={() => onSpinning(maxTotalSpin, true)}
-            >
-              SPIN X{maxTotalSpin}
+            <Button size="large" block onClick={() => setVisible(true)}>
+              Rewards Infomation
             </Button>
           </Col>
         </Row>
       </Col>
-
+      <RewardInfo visible={visible} onClose={setVisible} />
       <NotifyResult onSpinning={onSpinning} pickedTickets={pickedTickets} />
     </Row>
   )
