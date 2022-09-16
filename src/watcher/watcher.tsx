@@ -24,7 +24,7 @@ const Watcher = (props: UseWatcherProps) => {
 
   const fetchData = useCallback(async () => {
     try {
-      const accountInfos = await accountClient.all()
+      const accountInfos = await accountClient.all(filter)
       const bulk: any = {}
       for (const info of accountInfos) {
         bulk[info.publicKey.toBase58()] = info.account
@@ -33,7 +33,7 @@ const Watcher = (props: UseWatcherProps) => {
     } catch (error) {
       notifyError(error)
     }
-  }, [accountClient, init])
+  }, [accountClient, filter, init])
 
   const watchData = useCallback(async () => {
     if (watchId) return
