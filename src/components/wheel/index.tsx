@@ -24,7 +24,7 @@ const errorHandler = (er: any) => {
     return window.notify({
       type: 'info',
       description:
-        "🥹 You have reached the maximum number of spins that is 10 spins per day. Let's be back tommorow!",
+        "🥹 You have reached the maximum number of spins that is 10 spins per day. Let's be back tomorrow ☀️",
     })
   return "The Solana network is experiencing degraded performance, and this leads to your ticket not instantly available. Let's try again in 2-5 minutes later."
 }
