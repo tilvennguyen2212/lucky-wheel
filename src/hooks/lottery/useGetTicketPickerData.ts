@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { web3, BN } from '@project-serum/anchor'
+import { PDB, useWalletAddress } from '@sentre/senhub'
 import axios from 'axios'
 
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
@@ -28,6 +29,8 @@ export const useGetTicketPickerData = () => {
   const campaignPicker = useSelector(
     (state: AppState) => state.campaigns[campaignSelected].picker,
   )
+  const walletAddress = useWalletAddress()
+
   const getTicketPickerData = useCallback(
     async (ticketAddress: string): Promise<PickerData> => {
       const { data: picker } = await axios.get(configs.api.lottery.publicKey, {
@@ -42,16 +45,23 @@ export const useGetTicketPickerData = () => {
       )
 
       if (JSON.stringify(campaignPicker) === JSON.stringify(pickerPublickey)) {
-        const { data } = await axios.get<{
-          pubKey: string
-          signature: string
-          recid: number
-        }>(configs.api.lottery.luckyNumber + ticketAddress, {
-          withCredentials: true,
-        })
+        const pdb = new PDB(walletAddress)
+        const db = pdb.createInstance(configs.manifest.appId)
+        let cacheData = await db.getItem(ticketAddress)
+        if (!cacheData) {
+          const { data } = await axios.get<{
+            pubKey: string
+            signature: string
+            recid: number
+          }>(configs.api.lottery.luckyNumber + ticketAddress, {
+            withCredentials: true,
+          })
+          await db.setItem(ticketAddress, data)
+          cacheData = data
+        }
         pickerData = {
-          signature: Buffer.from(data.signature, 'hex'),
-          recid: data.recid,
+          signature: Buffer.from(cacheData.signature, 'hex'),
+          recid: cacheData.recid,
         }
       }
 
@@ -63,7 +73,7 @@ export const useGetTicketPickerData = () => {
         luckyNumber: generate_lucky_number(signature),
       }
     },
-    [campaignPicker],
+    [campaignPicker, walletAddress],
   )
 
   return getTicketPickerData
