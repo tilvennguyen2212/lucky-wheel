@@ -19,16 +19,20 @@ import { AppState } from 'model'
 import configs from 'configs'
 import CreateCampaign from './createCampaign'
 import UpdatePicker from './updatePicker'
+import usePrizeAmountRewardTickets from 'hooks/leaderBoard/usePrizeAmountRewardTickets'
 
 const Header = () => {
   const campaigns = useSelector((state: AppState) => state.campaigns)
   const [ticketMint, setTicketMint] = useState('')
+  const [totalUser, setTotalUser] = useState(0)
   const [totalMintTicket, setTotalMintTicket] = useState(0)
   const walletAddress = useWalletAddress()
   const selectedCampaign = useSelectedCampaign()
   const { to } = useAppRoute(configs.manifest.appId)
   const getMintData = useGetMintData()
   const dispatch = useDispatch()
+  const { getPrizeAmountTickets } =
+    usePrizeAmountRewardTickets(selectedCampaign)
 
   const campaignData = campaigns[selectedCampaign]
 
@@ -53,6 +57,16 @@ const Header = () => {
   useEffect(() => {
     getTicketMint()
   }, [getTicketMint])
+
+  // get total user
+  useEffect(() => {
+    ;(async () => {
+      const availabelTickets = await getPrizeAmountTickets()
+      if (!availabelTickets) return
+
+      setTotalUser(Object.keys(availabelTickets).length)
+    })()
+  }, [getPrizeAmountTickets])
 
   return (
     <PageHeader
@@ -123,6 +137,7 @@ const Header = () => {
               value={campaignData?.totalPicked.toNumber()}
             />
             <Statistic title="Total Ticket Mint" value={totalMintTicket} />
+            <Statistic title="Total user" value={totalUser} />
           </Space>
         </Col>
       </Row>

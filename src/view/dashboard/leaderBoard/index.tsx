@@ -22,7 +22,7 @@ const LeaderBoard = () => {
             <TablePrize />
           </Tabs.TabPane>
 
-          <Tabs.TabPane key={TabLeaderBoard.spin} tab={TabLeaderBoard.prize}>
+          <Tabs.TabPane key={TabLeaderBoard.spin} tab={TabLeaderBoard.spin}>
             <TableSpin />
           </Tabs.TabPane>
         </Tabs>
