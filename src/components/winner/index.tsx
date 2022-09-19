@@ -1,14 +1,15 @@
 import { useCallback, useMemo } from 'react'
 import { BN } from '@project-serum/anchor'
+import { LotteryInfoData } from '@sentre/lucky-wheel-core'
 
 import { Card, Col, Row } from 'antd'
+import IconSax from '@sentre/antd-iconsax'
 import WinList from './winList'
 
-import { useTicketByCampaign } from 'hooks/ticket/useTicketByCampaign'
+import { useWonTickets } from 'hooks/ticket/useWonTickets'
+import { useGetLastLottery } from 'hooks/lottery/useGetLastLottery'
 import { useSelectedCampaign } from 'hooks/useSelectedCampaign'
-import { useLotteryInfo } from 'hooks/useLotteryInfo'
 import { useMilestoneByCampaign } from 'hooks/challengeReward/useMilestoneByCampaign'
-import IconSax from '@sentre/antd-iconsax'
 
 export type Winner = {
   authority: string
@@ -17,57 +18,53 @@ export type Winner = {
 }
 
 const Winners = () => {
+  const wonTickets = useWonTickets()
   const selectedCampaign = useSelectedCampaign()
-  const tickets = useTicketByCampaign(selectedCampaign, false)
-  const { getListLotteryData } = useLotteryInfo(selectedCampaign)
-  const listLottery = getListLotteryData()
+  const lotteryInfo = useGetLastLottery()
   const { getMilestoneCampaign } = useMilestoneByCampaign(selectedCampaign)
+  const milestones = getMilestoneCampaign()
 
-  const processes = getMilestoneCampaign()
-
-  const getAroundedMilestone = useCallback(
-    (val: BN) => {
-      let result = new BN(0)
-      for (const milestone of processes) {
-        if (!val.gte(milestone)) continue
-        result = milestone
+  const checkValidMilestone = useCallback(
+    (milestone: BN) => {
+      for (const data of milestones) {
+        if (!data.cmp(milestone)) return true
       }
-      return result
+      return false
     },
-    [processes],
+    [milestones],
   )
 
+  const winnerList = useMemo(() => {
+    const listWonTickets = Object.values(wonTickets)
+    const length = listWonTickets.length
+    if (!length) return []
+    let result = listWonTickets
+    if (length >= 4) result = listWonTickets.slice(length - 3, length)
+    return result.map(({ authority, reward }) => ({
+      authority: authority.toBase58(),
+      rewardAddress: reward.toBase58(),
+    }))
+  }, [wonTickets])
+
   const reachedMilestoneList = useMemo(() => {
-    const data: Winner[] = []
-    for (const { totalPicked, authority } of listLottery) {
-      if (data.length > 5) return data
+    const listLottery = Object.values(lotteryInfo)
+    const length = listLottery.length
+    if (!length) return []
+    let result: LotteryInfoData[] = []
 
-      const lotteryMilestone = getAroundedMilestone(totalPicked)
-      if (lotteryMilestone.lte(new BN(0))) continue
+    for (const lottery of listLottery)
+      if (checkValidMilestone(lottery.totalPicked)) result.push(lottery)
 
-      data.push({
-        milestone: lotteryMilestone,
-        authority: authority.toBase58(),
-      })
-    }
-    return data
-  }, [getAroundedMilestone, listLottery])
+    if (result.length >= 4)
+      result = listLottery.slice(result.length - 3, result.length)
 
-  const winnersLatestList = useMemo(() => {
-    const data: Winner[] = []
-    for (const address in tickets) {
-      if (data.length > 5) return data
-      const { state, reward, authority } = tickets[address]
-      if (!state.won && !state.claimed) continue
-      data.push({
-        authority: authority.toBase58(),
-        rewardAddress: reward.toBase58(),
-      })
-    }
-    return data
-  }, [tickets])
+    return result.map(({ authority, totalPicked }) => ({
+      authority: authority.toBase58(),
+      milestone: totalPicked,
+    }))
+  }, [checkValidMilestone, lotteryInfo])
 
-  if (!winnersLatestList.length) return null
+  if (!winnerList.length && !reachedMilestoneList.length) return null
 
   return (
     <Card
@@ -81,7 +78,7 @@ const Winners = () => {
         </Col>
         <Col flex="auto">
           <WinList
-            data={[...winnersLatestList, ...reachedMilestoneList]}
+            data={[...winnerList, ...reachedMilestoneList]}
             height="auto"
           />
         </Col>

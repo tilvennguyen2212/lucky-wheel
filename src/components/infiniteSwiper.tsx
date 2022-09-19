@@ -10,7 +10,7 @@ type InfiniteSwiperProps = {
   children?: ReactNode
 }
 const InfiniteSwiper = ({
-  perViews = 4,
+  perViews = 1,
   spacing = 0,
   speed = 9000,
   children,
