@@ -18,6 +18,7 @@ export enum TabId {
   Spin = 'spin',
   Reward = 'reward',
   Challenge = 'challenge',
+  LeaderBoard = 'leaderboard',
 }
 
 export enum GiftStatus {
@@ -33,3 +34,5 @@ export enum RewardType {
   NFT = 'NFT',
   Ticket = 'Ticket',
 }
+
+export const LIMIT = 10

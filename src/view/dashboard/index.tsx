@@ -14,6 +14,7 @@ import { setTabId } from 'model/main.controller'
 import { ReactComponent as SpinIcon } from 'static/images/icons/spin-icon.svg'
 import { ReactComponent as RewardIcon } from 'static/images/icons/reward-icon.svg'
 import { ReactComponent as ChallengeIcon } from 'static/images/icons/challenge-icon.svg'
+import { ReactComponent as LeaderBoardIcon } from 'static/images/icons/leader-icon.svg'
 
 const LUCKY_WHEEL_TABS = [
   {
@@ -42,6 +43,15 @@ const LUCKY_WHEEL_TABS = [
       </Space>
     ),
     value: TabId.Challenge,
+  },
+  {
+    label: (
+      <Space className="space-middle-icon">
+        <Icon style={{ fontSize: 20 }} component={LeaderBoardIcon} />
+        <Typography.Text>LeaderBoard</Typography.Text>
+      </Space>
+    ),
+    value: TabId.LeaderBoard,
   },
 ]
 
