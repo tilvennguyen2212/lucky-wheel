@@ -1,5 +1,5 @@
-import { CSSProperties, useMemo } from 'react'
-import { useWidth, util } from '@sentre/senhub'
+import { CSSProperties } from 'react'
+import { util } from '@sentre/senhub'
 import { BN } from '@project-serum/anchor'
 
 import { SwiperSlide } from 'swiper/react'
@@ -51,20 +51,11 @@ type WinListProps = {
 }
 
 const WinList = ({ data = [], height = 240 }: WinListProps) => {
-  const width = useWidth()
   const selectedCampaign = useSelectedCampaign()
   const rewards = useRewardByCampaign(selectedCampaign)
 
-  const perView = useMemo(() => {
-    let result = 1
-    if (width > 685) result = 3
-    if (width > 992) result = 4
-    if (width > 1200) result = 5
-    return result
-  }, [width])
-
   return (
-    <InfiniteSwiper perViews={perView} spacing={24} speed={12000}>
+    <InfiniteSwiper spacing={24} speed={12000}>
       {!!Object.keys(rewards).length &&
         data.map(({ authority, rewardAddress, milestone }, idx) => (
           <SwiperSlide key={idx} style={{ height }}>

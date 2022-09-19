@@ -6,6 +6,7 @@ import Icon from '@ant-design/icons'
 import Container from './container'
 import Layout from 'components/layout'
 import Challenge from './challenge'
+import Winners from 'components/winner'
 
 import { TabId } from 'constant'
 import { AppDispatch, AppState } from 'model'
@@ -63,6 +64,9 @@ const Dashboard = () => {
     <Fragment>
       <Layout>
         <Row gutter={[32, 32]} style={{ paddingBottom: 24 }}>
+          <Col span={24}>
+            <Winners />
+          </Col>
           <Col span={24} style={{ zIndex: 1 }}>
             <Segmented
               value={tabId}

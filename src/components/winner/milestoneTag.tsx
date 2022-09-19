@@ -17,7 +17,7 @@ const MilestoneTag = ({ value = new BN(0) }: MilestoneTagProps) => {
   const getColor = useCallback(() => {
     let i = 0
     for (const milestone of processes) {
-      if (!value.gt(milestone)) break
+      if (!value.cmp(milestone)) break
       i++
     }
     const idxColor = i > TAG_COLOR.length - 1 ? TAG_COLOR.length - 1 : i
