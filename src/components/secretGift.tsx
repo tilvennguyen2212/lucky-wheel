@@ -33,7 +33,7 @@ const SecretGift = () => {
 
   useEffect(() => {
     if (!loseTickets || visible) return
-    if (Object.keys(loseTickets).length >= 1) setVisible(true)
+    if (Object.keys(loseTickets).length >= 15) setVisible(true)
   }, [loseTickets, visible])
 
   const onCloseTicket = async () => {
