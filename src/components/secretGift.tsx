@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { util } from '@sentre/senhub'
 
 import { Button, Col, Image, Modal, Row, Space, Typography } from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
@@ -32,12 +33,12 @@ const SecretGift = () => {
 
   useEffect(() => {
     if (!loseTickets || visible) return
-    if (Object.keys(loseTickets).length >= 15) setVisible(true)
+    if (Object.keys(loseTickets).length >= 1) setVisible(true)
   }, [loseTickets, visible])
 
-  const onCloseTicket = () => {
+  const onCloseTicket = async () => {
     if (!loseTickets) return
-    closeTickets(Object.keys(loseTickets))
+    await closeTickets(Object.keys(loseTickets))
     setLoseTickets({})
     return setVisible(false)
   }
@@ -67,7 +68,11 @@ const SecretGift = () => {
           <Space size={16} direction="vertical">
             <MintAvatar size={96} mintAddress={MINT_SOL} />
             <Typography.Title level={3}>
-              {FEE_PER_ACCOUNT * Object.keys(loseTickets || {}).length}{' '}
+              {util
+                .numeric(
+                  FEE_PER_ACCOUNT * Object.keys(loseTickets || {}).length,
+                )
+                .format('0,0[00000]')}{' '}
               <MintSymbol mintAddress={MINT_SOL} />
             </Typography.Title>
           </Space>
