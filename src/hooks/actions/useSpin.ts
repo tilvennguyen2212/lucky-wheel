@@ -61,6 +61,7 @@ export const useSpin = (campaign: string) => {
         txs.map((tx) => {
           return { tx }
         }),
+        { commitment: 'finalized', preflightCommitment: 'finalized' },
       )
       return selectedTickets
     },

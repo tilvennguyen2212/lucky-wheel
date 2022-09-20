@@ -37,6 +37,7 @@ const TicketsWatcher = () => {
       filter={FILTER}
       init={init}
       upset={upset}
+      commitment={'finalized'}
     />
   )
 }

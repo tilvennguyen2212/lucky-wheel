@@ -18,6 +18,7 @@ export const useClaimTicket = () => {
         txs.map(({ tx, signers }) => {
           return { tx, signers }
         }),
+        { commitment: 'finalized', preflightCommitment: 'finalized' },
       )
 
       return window.notify({
