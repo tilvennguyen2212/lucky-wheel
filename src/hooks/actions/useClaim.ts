@@ -78,9 +78,7 @@ export const useClaim = () => {
             ({ tx, signers }) => {
               return { tx, signers }
             },
-            rewardType.ticket
-              ? { commitment: 'finalized', preflightCommitment: 'finalized' }
-              : undefined,
+            { commitment: 'finalized', preflightCommitment: 'finalized' },
           ),
         )
 
