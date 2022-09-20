@@ -1,5 +1,6 @@
 import { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
 import { Program, web3 } from '@project-serum/anchor'
+import { rpc } from '@sentre/senhub'
 import { encodeIxData, accountDiscriminator } from '@sen-use/web3'
 
 import { notifyError } from 'helper'
@@ -10,16 +11,23 @@ type UseWatcherProps = {
   filter: web3.GetProgramAccountsFilter[]
   upset: (key: string, value: any) => void
   init: (bulk: Record<string, any>) => void
+  commitment?: web3.Commitment
 }
 
 const Watcher = (props: UseWatcherProps) => {
   const { program, name, filter, upset, init } = props
   const [watchId, setWatchId] = useState(0)
 
-  const { accountClient, connection } = useMemo(() => {
+  const commitment = props.commitment || 'confirmed'
+
+  const connection = useMemo(
+    () => new web3.Connection(rpc, commitment),
+    [commitment],
+  )
+
+  const { accountClient } = useMemo(() => {
     const accountClient = program?.account?.[name]
-    const connection = accountClient.provider.connection
-    return { accountClient, connection }
+    return { accountClient }
   }, [name, program?.account])
 
   const fetchData = useCallback(async () => {
@@ -45,7 +53,7 @@ const Watcher = (props: UseWatcherProps) => {
         const accountData = program.coder.accounts.decode(name, buffer)
         upset(address, accountData)
       },
-      'confirmed',
+      commitment,
       [
         {
           memcmp: {
@@ -59,6 +67,7 @@ const Watcher = (props: UseWatcherProps) => {
     setWatchId(newWatcherId)
   }, [
     accountClient.programId,
+    commitment,
     connection,
     filter,
     name,

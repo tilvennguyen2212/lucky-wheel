@@ -74,9 +74,14 @@ export const useClaim = () => {
         }
 
         await window.luckyWheel.provider.sendAll(
-          transactions.map(({ tx, signers }) => {
-            return { tx, signers }
-          }),
+          transactions.map(
+            ({ tx, signers }) => {
+              return { tx, signers }
+            },
+            rewardType.ticket
+              ? { commitment: 'finalized', preflightCommitment: 'finalized' }
+              : undefined,
+          ),
         )
 
         return window.notify({

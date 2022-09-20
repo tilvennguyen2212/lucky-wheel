@@ -20,12 +20,14 @@ import './animation.scss'
 let audio = new Audio(SOUND)
 
 const errorHandler = (er: any) => {
+  console.log(er)
   if (er.message === 'Request failed with status code 429')
     return window.notify({
       type: 'info',
       description:
         "🥹 You have reached the maximum number of spins that is 10 spins per day. Let's be back tomorrow ☀️",
     })
+
   return window.notify({
     type: 'info',
     description:
