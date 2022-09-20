@@ -64,7 +64,7 @@ const Spin = () => {
                     </Typography.Title>
                     <Icon style={{ fontSize: 20 }} component={Ticket} />
                   </Space>
-                  {!!totalTicket && (
+                  {(!!totalTicket || loadingRedeem) && (
                     <Space size={0}>
                       <Typography.Text>
                         You have {totalTicket} bonus tickets
