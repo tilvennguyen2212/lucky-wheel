@@ -7,6 +7,7 @@ import Container from './container'
 import Layout from 'components/layout'
 import Challenge from './challenge'
 import Winners from 'components/winner'
+import SecretGift from 'components/secretGift'
 
 import { TabId } from 'constant'
 import { AppDispatch, AppState } from 'model'
@@ -83,6 +84,7 @@ const Dashboard = () => {
         </Row>
       </Layout>
       {tabId === TabId.Challenge && <Challenge />}
+      <SecretGift />
     </Fragment>
   )
 }
