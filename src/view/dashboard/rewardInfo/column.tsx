@@ -1,3 +1,6 @@
+import { util } from '@sentre/senhub'
+import { BN } from '@project-serum/anchor'
+
 import { Space, Typography } from 'antd'
 import RewardRatio from 'components/reward/rewardRatio'
 import { RewardAmount } from 'components/reward/rewardAmount'
@@ -24,6 +27,17 @@ export const COLUMNS_REWARD_INFO = [
         </Space>
       )
     },
+  },
+
+  {
+    title: 'REMAINING',
+    dataIndex: 'reservePrize',
+    key: 'reservePrize',
+    render: (reservePrize: BN) => (
+      <Typography.Text>
+        {util.numeric(reservePrize.toNumber()).format('0,0.[0000]')}
+      </Typography.Text>
+    ),
   },
 
   {
