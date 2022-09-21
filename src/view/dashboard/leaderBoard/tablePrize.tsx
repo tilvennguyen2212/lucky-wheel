@@ -10,10 +10,10 @@ import Rank01 from 'static/images/ranking/rank-1.svg'
 import Rank02 from 'static/images/ranking/rank-2.svg'
 import Rank03 from 'static/images/ranking/rank-3.svg'
 
-type RewardAvailabelState = { authority: string; total: number }
+type RewardAvailableState = { authority: string; total: number }
 
 const TablePrize = () => {
-  const [rewards, setRewards] = useState<RewardAvailabelState[]>([])
+  const [rewards, setRewards] = useState<RewardAvailableState[]>([])
   const { calculateTotalRewards, loading } = useTotalReward()
   const walletAddress = useWalletAddress()
 
@@ -37,7 +37,7 @@ const TablePrize = () => {
       render: (index: number) => getRankingIcon(index + 1),
     },
     {
-      title: 'WALLLET ADDRESS',
+      title: 'WALLET ADDRESS',
       dataIndex: 'authority',
       key: 'authority',
       render: (authority: string) => (
@@ -61,6 +61,12 @@ const TablePrize = () => {
   useEffect(() => {
     ;(async () => {
       const rewards = await calculateTotalRewards()
+      console.log(rewards, 'rewards')
+      let res = 0
+      for (const { total } of rewards) {
+        res += total
+      }
+      console.log(res, 'total')
       const filteredRewards = [...rewards].splice(0, LIMIT)
 
       const yourReward = rewards.find(
