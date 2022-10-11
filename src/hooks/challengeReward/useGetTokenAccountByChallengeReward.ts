@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { useCallback } from 'react'
 import { web3 } from '@project-serum/anchor'
+import { splt } from '@sentre/senhub'
 
 import { AppDispatch } from 'model'
 import { getChallengeReward } from 'model/challengeRewards.controller'
@@ -20,7 +21,6 @@ export const useGetTokenAccountByChallengeReward = () => {
           rewardData.mint,
         )
       // Get all token accounts
-      const splt = window.sentre.splt
       const { value } = await splt.connection.getTokenAccountsByOwner(
         challengeRewardTreasurer,
         { programId: splt.spltProgramId },

@@ -30,7 +30,7 @@ const Challenge = () => {
   const widthRatio = isMobile
     ? ITEM_REWARD_MOBILE_WIDTH_RATIO
     : ITEM_REWARD_WIDTH_RATIO
-  const fitWitdh =
+  const fitWidth =
     widthRatio * totalChallenge < screenWidth
       ? '100%'
       : widthRatio * totalChallenge
@@ -39,12 +39,12 @@ const Challenge = () => {
     <Row className="challenge">
       <Col span={24}>
         <Card className={wrapCln}>
-          <Row gutter={[24, 24]} justify="center">
+          <Row gutter={[0, 24]} justify="center">
             <Col className="scroll-challenge" span={24}>
               <Row
                 className="inner-challenge-progress"
                 style={{
-                  width: fitWitdh,
+                  width: fitWidth,
                 }}
               >
                 <Col className="challenge-gifts" style={{ width: '100%' }}>

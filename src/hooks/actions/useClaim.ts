@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react'
 import { web3 } from '@project-serum/anchor'
+import { splt } from '@sentre/senhub'
 
 import { notifyError } from 'helper'
 import { useRewardByCampaign } from 'hooks/reward/useRewardByCampaign'
@@ -16,7 +17,6 @@ export const useClaim = () => {
 
   const getMintReward = useCallback(
     async (rewardAddress: string) => {
-      const splt = window.sentre.splt
       const { mint } = rewards[rewardAddress]
       const { rewardTreasurer } = await window.luckyWheel.deriveRewardPDAs(
         new web3.PublicKey(rewardAddress),

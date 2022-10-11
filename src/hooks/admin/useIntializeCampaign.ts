@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import BN from 'bn.js'
+import { BN } from '@project-serum/anchor'
 
 import { notifyError, notifySuccess } from 'helper'
 

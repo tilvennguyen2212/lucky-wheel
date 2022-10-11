@@ -11,7 +11,7 @@ export const AppLoader: React.FC = ({ children }) => {
 
   useEffect(() => {
     if (loaded) return
-    const provider = getAnchorProvider(rpc, address, window.sentre.wallet)
+    const provider = getAnchorProvider(rpc, address, window.sentre.solana)
     const luckyWheel = new LuckyWheel(provider, configs.sol.programId)
     window.luckyWheel = luckyWheel
 

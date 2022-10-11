@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { DEFAULT_EMPTY_ADDRESS } from '@senswap/sen-js'
 import { BN } from '@project-serum/anchor'
 import {
+  splt,
   useAccounts,
   useMintDecimals,
   useWalletAddress,
@@ -77,9 +78,7 @@ export const useAccountBalanceByMintAddress = (mintAddress: string) => {
     ;(async () => {
       if (!util.isAddress(walletAddress) || !util.isAddress(mintAddress))
         return setAccountAddress('')
-      const {
-        sentre: { splt },
-      } = window
+
       try {
         const address = await splt.deriveAssociatedAddress(
           walletAddress,
